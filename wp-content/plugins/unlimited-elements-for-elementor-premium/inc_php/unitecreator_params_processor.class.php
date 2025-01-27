@@ -1678,7 +1678,8 @@ class UniteCreatorParamsProcessorWork{
 
 		if(empty($value) || is_array($value)){
 			
-			//$stamp = time();
+			$stamp = time();
+			
 			//$data[$name."_stamp"] = $stamp;
 			//$data[$name] = date($formatFullDate, $stamp);
 
@@ -1699,11 +1700,13 @@ class UniteCreatorParamsProcessorWork{
 
 		//numeric - date is stamp
 
-		if(is_numeric($value)){
-
+		if(is_numeric($value) && UniteFunctionsUC::detectDateFormat($value) == ""){
+			
+			$stamp = $value;
+			
 			$data[$name."_stamp"] = $value;
-			$data[$name] = date($formatFullDate, $stamp);
-
+			$data[$name] = s_date($formatFullDate, $stamp);
+	
 			if($isDebug == true){
 				dmp("get time2");
 				dmp($data);
@@ -1711,9 +1714,9 @@ class UniteCreatorParamsProcessorWork{
 
 			return($data);
 		}
-
+		
 		//date is string
-
+		
 		$stamp = UniteFunctionsUC::date2Timestamp($value);
 		
 		$data[$name."_stamp"] = $stamp;
@@ -1727,6 +1730,7 @@ class UniteCreatorParamsProcessorWork{
 		return($data);
 	}
 
+	
 
 	/**
 	 * put hover animation style if needed
@@ -1813,9 +1817,33 @@ class UniteCreatorParamsProcessorWork{
 			case "currency_api":
 			case "weather_api":
 				$data = UniteCreatorAPIIntegrations::getInstance()->addDataToParams($data, $name);
+            break;
+            case "rss_feed":
+                
+            	$arrValues = UniteFunctionsUC::getVal($param, "value");
+            	
+            	$objRss = new UniteCreatorRSS();
+            	
+               	$data = $objRss->getRssFeedData($data, $arrValues, $name);
+                
 			break;
+            case "repeater":
+            	
+            	$arrValues = UniteFunctionsUC::getVal($param, "value");
+				
+            	$debugData = UniteFunctionsUC::getVal($arrValues, "{$name}_repeater_debug_data");
+            	$debugData = UniteFunctionsUC::strToBool($debugData);
+            	            	
+            	$debugMeta = UniteFunctionsUC::getVal($arrValues, "{$name}_repeater_debug_meta");
+            	$debugMeta = UniteFunctionsUC::strToBool($debugMeta);
+            	
+            	$arrRepeaterItems = HelperProviderUC::getRepeaterItems($arrValues, $name, $debugData, $debugMeta);
+				
+            	$data[$name] = $arrRepeaterItems;
+            	$data[$name."_settings"] = $arrValues;
+            	
+            break;
 		}
-
 		return($data);
 	}
 

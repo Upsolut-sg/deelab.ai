@@ -1175,16 +1175,19 @@ class WPvivid
         $task=WPvivid_taskmanager::get_task($task_id);
         if(isset($task['setting']['is_merge']) && $task['setting']['is_merge'] == '1')
         {
-            foreach ($task['jobs'] as $job_info)
+            if(isset($task['jobs']))
             {
-                if($job_info['backup_type'] === 'backup_merge')
+                foreach ($task['jobs'] as $job_info)
                 {
-                    if(isset($job_info['zip_file']) && !empty($job_info['zip_file']))
+                    if($job_info['backup_type'] === 'backup_merge')
                     {
-                        foreach ($job_info['zip_file'] as $zip_file_name => $zip_file_info)
+                        if(isset($job_info['zip_file']) && !empty($job_info['zip_file']))
                         {
-                            if(!$this->check_backup_file_json($zip_file_name)){
-                                $check_res = false;
+                            foreach ($job_info['zip_file'] as $zip_file_name => $zip_file_info)
+                            {
+                                if(!$this->check_backup_file_json($zip_file_name)){
+                                    $check_res = false;
+                                }
                             }
                         }
                     }
@@ -1193,14 +1196,17 @@ class WPvivid
         }
         else
         {
-            foreach ($task['jobs'] as $job_info)
+            if(isset($task['jobs']))
             {
-                if(isset($job_info['zip_file']) && !empty($job_info['zip_file']))
+                foreach ($task['jobs'] as $job_info)
                 {
-                    foreach ($job_info['zip_file'] as $zip_file_name => $zip_file_info)
+                    if(isset($job_info['zip_file']) && !empty($job_info['zip_file']))
                     {
-                        if(!$this->check_backup_file_json($zip_file_name)){
-                            $check_res = false;
+                        foreach ($job_info['zip_file'] as $zip_file_name => $zip_file_info)
+                        {
+                            if(!$this->check_backup_file_json($zip_file_name)){
+                                $check_res = false;
+                            }
                         }
                     }
                 }
@@ -1471,7 +1477,22 @@ class WPvivid
 
     public function wpvivid_analysis_backup($task)
     {
-        if($task['type'] == 'Cron')
+        if($task['type'] == 'Manual')
+        {
+            $need_review=WPvivid_Setting::get_option('wpvivid_need_review');
+            if($need_review=='not')
+            {
+                $review_time=WPvivid_Setting::get_option('wpvivid_review_time', false);
+                if($review_time === false || time() >= $review_time)
+                {
+                    WPvivid_Setting::update_option('wpvivid_need_review','show');
+                    $msg = 'Backup successful! If you\'re happy with WPvivid Backup Plugin, a 5-star rating would mean the world to us and help us make it even better.';
+                    WPvivid_Setting::update_option('wpvivid_review_msg',$msg);
+                    WPvivid_Setting::update_option('wpvivid_review_type', 'manual');
+                }
+            }
+        }
+        else if($task['type'] == 'Cron')
         {
             $cron_backup_count = WPvivid_Setting::get_option('cron_backup_count');
             if(empty($cron_backup_count)){
@@ -1486,8 +1507,9 @@ class WPvivid
                 if($need_review=='not')
                 {
                     WPvivid_Setting::update_option('wpvivid_need_review','show');
-                    $msg = 'Cheers! The schedule feature of WPvivid Backup plugin seems to be running well. If you found WPvivid Backup plugin helpful, a 5-star rating will motivate us to keep improving the plugin quality.';
+                    $msg = 'Cheers, scheduled backups are running smoothly. If you find WPvivid Backup plugin helpful, a 5-star rating would help us continue improving.';
                     WPvivid_Setting::update_option('wpvivid_review_msg',$msg);
+                    WPvivid_Setting::update_option('wpvivid_review_type', 'cron');
                 }
             }
         }
@@ -3673,6 +3695,16 @@ class WPvivid
                 }
             }
 
+            $wp_version_check=$backup_item->check_wp_version();
+            if($wp_version_check)
+            {
+                $ret['wp_version_check']=true;
+            }
+            else
+            {
+                $ret['wp_version_check']=false;
+            }
+
             echo wp_json_encode($ret);
         }
         catch (Exception $error)
@@ -3983,6 +4015,16 @@ class WPvivid
                 {
                     $ret['has_zero_date']=1;
                 }
+            }
+
+            $wp_version_check=$backup_item->check_wp_version();
+            if($wp_version_check)
+            {
+                $ret['wp_version_check']=true;
+            }
+            else
+            {
+                $ret['wp_version_check']=false;
             }
 
             $ret['result']=WPVIVID_SUCCESS;
@@ -5541,6 +5583,7 @@ class WPvivid
         $setting_data['wpvivid_common_setting']['db_connect_method'] = $setting['db_connect_method'];
         $setting_data['wpvivid_common_setting']['retain_local'] = $setting['retain_local'];
         $setting_data['wpvivid_common_setting']['uninstall_clear_folder'] = $setting['uninstall_clear_folder'];
+        $setting_data['wpvivid_common_setting']['backup_symlink_folder'] = $setting['backup_symlink_folder'];
 
         //new
         $setting_data['wpvivid_common_setting']['compress_file_count'] = intval($setting['compress_file_count']);
@@ -7205,7 +7248,21 @@ class WPvivid
                     echo '';
                 } elseif ($review == 'ask-later') {
                     $review_option = 'not';
+                    $review_type = WPvivid_Setting::get_option('wpvivid_review_type', false);
+                    if($review_type === 'manual' || $review_type === 'migration')
+                    {
+                        WPvivid_Setting::update_option('wpvivid_review_time', time()+ 7*24*60*60);
+                    }
                     WPvivid_Setting::update_option('cron_backup_count', 0);
+                    echo '';
+                } elseif ($review == 'dismiss') {
+                    $review_option = 'not';
+                    $review_type = WPvivid_Setting::get_option('wpvivid_review_type', false);
+                    if($review_type === 'manual' || $review_type === 'migration')
+                    {
+                        WPvivid_Setting::update_option('wpvivid_review_time', time()+ 14*24*60*60);
+                        WPvivid_Setting::update_option('cron_backup_count', 0);
+                    }
                     echo '';
                 } else {
                     $review_option = 'not';

@@ -237,28 +237,27 @@ class UniteCreatorElementorIntegrate{
 
 			self::logMemoryUsage("Before Register Widget: ".$name. ", counter: ".self::$counterWidgets);
 
-		    $code = "class {$className} extends UniteCreatorElementorWidget{}";
-		    eval($code);
+			// class_alias('UniteCreatorElementorWidget', $className);
+			$code = "class {$className} extends UniteCreatorElementorWidget{}";
+			// phpcs:ignore Generic.PHP.ForbiddenFunctions.Found
+			eval($code);
+			try{
+				$widget = new $className();
+				$manager = \Elementor\Plugin::instance()->widgets_manager;
 
-		    try{
-
-			    $widget = new $className();
-
-			    $manager = \Elementor\Plugin::instance()->widgets_manager;
-			    
-			    if(method_exists($manager, "register"))
+				if(method_exists($manager, "register"))
 					$manager->register($widget);
-            	else
+				else
 					$manager->register_widget_type($widget);
 
+				self::logMemoryUsage("Register Widget: ".$name.", counter: ".self::$counterWidgets);
 
-	             self::logMemoryUsage("Register Widget: ".$name.", counter: ".self::$counterWidgets);
-
-		    }catch(Exception $e){
-
+			} catch(Exception $e){
+				//dmp($e->getMessage());
 				self::logMemoryUsage("Skip widget register (no memory): ".$name.", counter: ".self::$counterWidgets, true);
 
-		    }
+			}
+
 
 			self::$isWidgetsRegistered = true;
 
@@ -272,9 +271,11 @@ class UniteCreatorElementorIntegrate{
 	 */
 	private function registerWidgetByClassName($className){
 
+		// class_alias('UniteCreatorElementorWidget', $className);
 		$code = "class {$className} extends UniteCreatorElementorWidget{}";
+		// phpcs:ignore Generic.PHP.ForbiddenFunctions.Found
 	    eval($code);
-
+		//class_alias('UniteCreatorElementorWidget', $className);
 		$widget = new $className();
 
 		$manager = \Elementor\Plugin::instance()->widgets_manager;
@@ -670,12 +671,12 @@ class UniteCreatorElementorIntegrate{
 		if($location === "front" || $location === "body_front" || $location === "layout_front")
 			$addClass = " uc-bg-front";
 
-		$addData = "data-location=\"$location\"";
-
 		?>
-		<div class="unlimited-elements-background-overlay<?php echo $addClass?>" data-forid="<?php echo $elementID?>" <?php echo $addData?> style="display:none">
+		<div class="unlimited-elements-background-overlay<?php echo esc_attr($addClass)?>" data-forid="<?php echo esc_attr($elementID)?>" data-location="<?php echo esc_attr($location);?>" style="display:none">
 			<template>
-			<?php echo $html?>
+			<?php 
+			s_echo($html);
+			?>
 			</template>
 		</div>
 		
@@ -844,7 +845,7 @@ class UniteCreatorElementorIntegrate{
 		$objControls->start_controls_section(
 			'section_background_uc',
 			[
-				'label' => __( 'Unlimited Background', 'unlimited_elements' ),
+				'label' => __( 'Unlimited Background', 'unlimited-elements-for-elementor' ),
 				'tab' => "style",
 			]
 		);
@@ -881,7 +882,7 @@ class UniteCreatorElementorIntegrate{
 		$objControls->add_control(
 			'uc_background_location',
 			array(
-				'label' => esc_html__( 'Background Location', 'plugin-name' ),
+				'label' => esc_html__( 'Background Location', 'unlimited-elements-for-elementor' ),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'default' => 'back',
 				'options' => array(
@@ -940,7 +941,7 @@ class UniteCreatorElementorIntegrate{
     	$arrAddons = $this->getArrAddons();
 
     	$objAddons = new UniteCreatorAddons();
-
+	
     	$urlAssets = GlobalsUC::$url_assets;
 
     	$script = "";
@@ -957,6 +958,9 @@ class UniteCreatorElementorIntegrate{
     	$urlAdmin = admin_url();
 
     	$script .= "var g_ucAdminUrl=\"{$urlAdmin}\";\n";
+
+	    if(GlobalsUnlimitedElements::$enableLimitProFunctionality == true)
+	        $script .= "var g_ucEnableLimitProFunctionality=true;\n";
 
 
     	return($script);
@@ -1008,7 +1012,7 @@ class UniteCreatorElementorIntegrate{
 	*/
 	private function putDialogImportLayoutHtml(){
 
-			$dialogTitle = __("Import Unlimited Elements Layout to Elementor",UNLIMITED_ADDONS_TEXTDOMAIN);
+			$dialogTitle = __("Import Unlimited Elements Layout to Elementor","unlimited-elements-for-elementor");
 
 
 			?>
@@ -1017,7 +1021,7 @@ class UniteCreatorElementorIntegrate{
 			<div class="unite-dialog-top"></div>
 
 			<div class="unite-inputs-label">
-				<?php esc_html_e("Select vc layout export file (zip)", UNLIMITED_ADDONS_TEXTDOMAIN)?>:
+				<?php esc_html_e("Select vc layout export file (zip)", "unlimited-elements-for-elementor")?>:
 			</div>
 
 			<div class="unite-inputs-sap-small"></div>
@@ -1031,7 +1035,7 @@ class UniteCreatorElementorIntegrate{
 
 			<div class="unite-inputs-label" >
 				<label for="dialog_import_layouts_file_overwrite">
-					<?php esc_html_e("Overwrite Addons", UNLIMITED_ADDONS_TEXTDOMAIN)?>:
+					<?php esc_html_e("Overwrite Addons", "unlimited-elements-for-elementor")?>:
 				</label>
 				<input type="checkbox" id="dialog_import_layouts_file_overwrite"></input>
 			</div>
@@ -1041,9 +1045,9 @@ class UniteCreatorElementorIntegrate{
 
 			<?php
 				$prefix = "uc_dialog_import_layouts";
-				$buttonTitle = __("Import VC Layout", UNLIMITED_ADDONS_TEXTDOMAIN);
-				$loaderTitle = __("Uploading layout file...", UNLIMITED_ADDONS_TEXTDOMAIN);
-				$successTitle = __("Layout Imported Successfully", UNLIMITED_ADDONS_TEXTDOMAIN);
+				$buttonTitle = __("Import VC Layout", "unlimited-elements-for-elementor");
+				$loaderTitle = __("Uploading layout file...", "unlimited-elements-for-elementor");
+				$successTitle = __("Layout Imported Successfully", "unlimited-elements-for-elementor");
 				HelperHtmlUC::putDialogActions($prefix, $buttonTitle, $loaderTitle, $successTitle);
 			?>
 
@@ -1083,7 +1087,6 @@ class UniteCreatorElementorIntegrate{
     		font-size: 18px;
 		}
 
-
 		</style>
 
 		<div style="display:none">
@@ -1091,8 +1094,8 @@ class UniteCreatorElementorIntegrate{
 			<a id="uc_button_import_layout" href="javascript:void(0)" class="page-title-action"><?php esc_html_e("Import Template With Images", "unlimited-elements-for-elementor")?></a>
 
 			<div id="uc_import_layout_area" style="display:none">
-				<div id="uc_import_layout_area_title"><?php _e( 'Choose an Elementor template .zip file, that you exported using "export with images" button'); ?></div>
-				<form id="uc_form_import_template" method="post" action="<?php echo admin_url( 'admin-ajax.php' ); ?>" enctype="multipart/form-data">
+				<div id="uc_import_layout_area_title"><?php esc_attr_e( 'Choose an Elementor template .zip file, that you exported using "export with images" button',"unlimited-elements-for-elementor"); ?></div>
+				<form id="uc_form_import_template" method="post" action="<?php echo esc_url(admin_url( 'admin-ajax.php' )); ?>" enctype="multipart/form-data">
 					<input type="hidden" name="action" value="unitecreator_elementor_import_template">
 					<input type="hidden" name="nonce" value="<?php echo esc_attr($nonce) ?>">
 					<fieldset>
@@ -1394,64 +1397,124 @@ class UniteCreatorElementorIntegrate{
 	 * check allow pagination for single page pagination
 	 */
 	public function checkAllowWidgetPagination($filterValue, $wp_query){
-
+		
+		$showDebug = false;
+		
+		if($showDebug == true){
+			dmp("Debug check allow pagination function");
+		}
+		
 		$objFilters = new UniteCreatorFiltersProcess();
 		$isAjaxRequest = $objFilters->isFrontAjaxRequest();
 
 		//get post id from request
 		if($isAjaxRequest){
-
+			
+			if($showDebug == true){
+				dmp("ajax request");
+			}
+			
 			$postID = UniteFunctionsUC::getPostGetVariable("layoutid","",UniteFunctionsUC::SANITIZE_KEY);
 			if(empty($postID))
 				return($filterValue);
 
-			if(is_numeric($postID) == false)
+			if(is_numeric($postID) == false){
+				
+				if($showDebug == true){
+					dmp("not numeric - return false");
+					exit();
+				}
+				
 				return(false);
+			}
 
 		}else{
 
 			//get post id from query
-
-			if(is_admin() == true || is_singular() == false)
+			
+			if($showDebug == true){
+				dmp("not ajax");
+			}
+			
+			if(is_admin() == true || is_singular() == false){
+				
+				if($showDebug == true){
+					dmp("ajax - singular - exit: $filterValue");
+					exit();
+				}
+				
 				return($filterValue);
+			}
 
 			if(@is_front_page() == true)
 				return($filterValue);
 
-			if(empty(self::$arrPostsWidgetNames))
+			if(empty(self::$arrPostsWidgetNames)){
+				
+				if($showDebug == true){
+					dmp("no widget names - exit: $filterValue");
+					exit();
+				}
+				
 				return($filterValue);
+			}
 
 			$postID = $wp_query->queried_object_id;
 
 		}
-
+		
 		if(empty($postID))
 			return($filterValue);
 
 		$document = Plugin::$instance->documents->get( $postID );
-
-		if(empty($document))
+		
+		if(empty($document)){
+			
+			if($showDebug == true){
+				dmp("no document - exit: $filterValue");
+				exit();
+			}
+			
 			return($filterValue);
-
+		}
+		
 		$editorData = $document->get_elements_data();
-
-		Plugin::$instance->db->iterate_data($editorData, function( $element ) use ( &$filterValue ) {
-
+		
+		Plugin::$instance->db->iterate_data($editorData, function( $element ) use ( &$filterValue, $showDebug ) {
+						
 			$widgetName = UniteFunctionsUC::getVal($element, "widgetType");
 
 			if(!empty($widgetName)){
-
+				
+				if($showDebug == true){
+					dmp("widget found: $widgetName");
+				}
+				
 				$widgetName = str_replace("ucaddon_", "", $widgetName);
 
 				$isPostWidget = isset(self::$arrPostsWidgetNames[$widgetName]);
 
 				if($isPostWidget){
-
+					
+					if($showDebug == true){
+						dmp("post widet");
+					}
+					
 					$settings = UniteFunctionsUC::getVal($element, "settings");
 
 					$paginationType = UniteFunctionsUC::getVal($settings, "pagination_type");
-
+					
+					if($showDebug == true){
+						dmp("pagination type: ".$paginationType);
+					}
+					
 					if(!empty($paginationType)){
+						
+						if($showDebug == true){
+							dmp("return true");
+						}
+						
+						
 						$filterValue = true;
 						return($filterValue);
 					}//if
@@ -1462,7 +1525,12 @@ class UniteCreatorElementorIntegrate{
 
 		});//iterate
 
-
+		if($showDebug == true){
+			dmp("return value: $filterValue");
+			exit();
+		}
+		
+		
 		return($filterValue);
 	}
 
@@ -1748,7 +1816,7 @@ class UniteCreatorElementorIntegrate{
 		
     	add_action('elementor/frontend/after_register_scripts', array($this, 'onRegisterFrontScripts'), 10);
     	add_action('elementor/editor/after_enqueue_scripts', array($this, 'onEnqueueEditorScripts'), 10);
-
+		
     	if($this->isOldElementorVersion == true)
     		add_action('elementor/controls/controls_registered', array($this, 'onRegisterControls'));
     	else

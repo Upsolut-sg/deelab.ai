@@ -3,9 +3,7 @@
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 
 class GlobalsProviderUC{
-	
-	const ENABLE_FREEMIUS = true;
-		
+			
 	const META_KEY_LAYOUT_DATA = "_unelements_layout_data";
 	const META_KEY_LAYOUT_PARAMS = "_unelements_layout_params";
 	
@@ -36,6 +34,7 @@ class GlobalsProviderUC{
 	public static $lastPostQuery_type = null;
 	public static $lastPostQuery_paginationType = null;
 	public static $skipRunPostQueryOnce = false;
+		
 	public static $lastQueryArgs = null;
 	public static $isUnderAjaxSearch = false;
 	public static $isUnderRenderPostItem = false;

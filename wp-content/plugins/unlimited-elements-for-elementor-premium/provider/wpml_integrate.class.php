@@ -278,10 +278,11 @@ class UniteCreatorWpmlIntegrate{
 				$className = "UE_WPML_INTEGRATION__".$addonName;
 				 
 				if($isWPMLExists == true && class_exists($className) == false){
+					// class_alias('UNITE_CREATOR_WPML_Translation_Module', $className);
 					$code = "class {$className} extends UNITE_CREATOR_WPML_Translation_Module{}";
+					// phpcs:ignore Generic.PHP.ForbiddenFunctions.Found
 					eval($code);
-				}
-				
+				}				
 				$output["integration-class"] = $className;
 				
 			}

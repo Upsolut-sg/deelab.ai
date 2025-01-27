@@ -144,7 +144,7 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 		 */
 		public static function putText($textKey){
 
-			echo self::getText($textKey);
+			echo esc_attr(self::getText($textKey));
 		}
 
 
@@ -339,6 +339,25 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 			return(false);
 		}
 
+		/**
+		 * get kses allowed html
+		 */
+		public static function getKsesAllowedHTML(){
+			
+			$allowedHtml = array(
+			    'br' => array(),
+				'a' => array(
+			        'href'   => array(),
+			        'title'  => array(),
+			        'target' => array(),
+			        'rel'    => array(),
+				),
+				"b"=>array()
+			);					
+			
+			return($allowedHtml);
+		}
+		
 		public static function a_______DEBUG________(){}
 
 
@@ -923,7 +942,7 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 
 		$filepath = $pathCacheImport . $filename;
 
-		$content = @file_get_contents($urlFile);
+		$content = UniteFunctionsUC::fileGetContents($urlFile);
 		if(empty($content))
 			UniteFunctionsUC::throwError("Can't dowonload file from url: $urlFile");
 
@@ -954,7 +973,7 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 		if(file_exists($pathFile) == false)
 			return (null);
 
-		$content = @file_get_contents($pathFile);
+		$content = UniteFunctionsUC::fileGetContents($pathFile);
 
 		return ($content);
 	}
@@ -1531,7 +1550,7 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 		$html = $objOutput->getHtmlBody();
 		$objOutput->processIncludes();
 
-		echo UniteProviderFunctionsUC::escCombinedHtml($html);
+		s_echo($html);
 	}
 
 	/**
@@ -1800,13 +1819,13 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 		$htmlCssIncludes = UniteCreatorOutput::$bufferCssIncludes;
 
 		echo "\n";
-		echo $htmlCssIncludes;
+		s_echo($htmlCssIncludes);
 
 		$css = UniteCreatorOutput::$bufferBodyCss;
 		if(!empty($css)){
 			echo "\n<style type='text/css'> \n";
 			echo "\n/* Unlimited Elements Css */ \n\n";
-			echo $css . "\n";
+			s_echo($css . "\n");
 			echo "</style>\n";
 		}
 
@@ -1833,7 +1852,7 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 			$typeTitle = $objLayouts->getLayoutTypeTitle($layoutType);
 			$message = esc_html__("Template part", "unlimited-elements-for-elementor") . ": " . $typeTitle . esc_html__(" not found. Please create one in template parts page", "unlimited-elements-for-elementor");
 			$html = HelperHtmlUC::getErrorMessageHtml($message);
-			echo UniteProviderFunctionsUC::escCombinedHtml($html);
+			s_echo($html);
 
 			return (false);
 		}
@@ -1883,6 +1902,39 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 				HelperHtmlUC::outputExceptionBox($e, HelperUC::getText("addon_library") . " Error");
 		}
 	}
+		
+	/**
+	 * get active plugin versions
+	 */
+	public static function getActivePluginVersions() {
+		
+		$showDebug = false;
+		
+		$flagElementor = false;
+		$flagGutenberg = false;
+
+		if(defined("UE_ENABLE_ELEMENTOR_SUPPORT"))
+			$flagElementor = true;
+
+		if(defined("UE_ENABLE_GUTENBERG_SUPPORT"))
+			$flagGutenberg = true;
+		
+		//some protection
+		if($flagGutenberg == false)
+			$flagElementor = true;
+		
+		$output = array();
+		$output[GlobalsUC::VERSION_GUTENBERG] = $flagGutenberg;
+		$output[GlobalsUC::VERSION_ELEMENTOR] = $flagElementor;
+		
+		if($showDebug == true){
+			dmp($output);
+			exit();
+		}
+		
+		return $output;
+	}
+	
 
 	/**
 	 * some test function for auto completion. keep empty

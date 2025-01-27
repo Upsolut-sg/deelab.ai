@@ -209,7 +209,7 @@ class OMAPI_Pages {
 		$now          = new DateTime( 'now', new DateTimeZone( 'America/New_York' ) );
 		$thanksgiving = strtotime( 'fourth Thursday of November' );
 		$promo_start  = gmdate( 'Y-m-d 10:00:00', $thanksgiving - ( 3 * DAY_IN_SECONDS ) );
-		$bf_end       = gmdate( 'Y-m-d 23:59:59', strtotime( 'first Wednesday of December' ) );
+		$bf_end       = gmdate( 'Y-m-d 23:59:59', strtotime( 'first Tuesday of December' ) );
 		$is_bf_window = OMAPI_Utils::date_within( $now, $promo_start, $bf_end );
 		$year         = $now->format( 'Y' );
 
@@ -242,6 +242,9 @@ class OMAPI_Pages {
 				'name'      => $is_cm_window
 					? esc_html__( 'Cyber Monday!', 'optin-monster-api' )
 					: esc_html__( 'Black Friday!', 'optin-monster-api' ),
+				'alternate-name' => $is_cm_window
+					? esc_html__( 'Cyber Monday Sale!', 'optin-monster-api' )
+					: esc_html__( 'Black Friday Sale!', 'optin-monster-api' ),
 				'redirect'  => esc_url_raw( $url ),
 				'callback'  => '__return_null',
 				'highlight' => true,

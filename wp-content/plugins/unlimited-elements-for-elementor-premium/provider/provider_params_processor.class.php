@@ -17,8 +17,11 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 	private $itemsImageSize = null;
 	private $advancedQueryDebug = false;
 	private $arrUsersOrder;
+	private $skipPostListQueryRun = false;
+	private $lastValues = null;
+	private $lastName = null;
 
-
+	
 	/**
 	 * add other image thumbs based of the platform
 	 */
@@ -413,7 +416,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 	/**
 	 * show meta debug if needed
 	 */
-	private function showPostsDebyMeta($arrPosts, $value, $name){
+	private function showPostsDebugMeta($arrPosts, $value, $name){
 
 		if(empty($arrPosts))
 			return(false);
@@ -803,7 +806,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 			
 			if(!empty($postLinkAdd))
 				$link = UniteFunctionsUC::addUrlParams($link, $postLinkAdd);
-						
+			
 			$arrData["link"] = $link;
 
 			//link attributes
@@ -835,6 +838,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 					if($isDynamicEnabled == true){
 						$dynamicLinkAddClass = " uc-open-popup";
 						$dynamicLinkAttr = " href='javascrpit:void(0)' data-post-link='{$link}' data-postid='$postID'";
+						$dynamicLinkDivAttr = " data-post-link='{$link}' data-postid='$postID'";
 					}
 					else{
 
@@ -866,10 +870,14 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 						$dynamicLinkAddClass = "";
 						$dynamicLinkAttr = "href='{$dynamicPopupLink}'";
+						$dynamicLinkDivAttr = "";
+						
 					}
 
 					$arrData["dynamic_popup_link_class{$dynamicSuffix}"] = $dynamicLinkAddClass;
 					$arrData["dynamic_popup_link_attributes{$dynamicSuffix}"] = $dynamicLinkAttr;
+					$arrData["dynamic_popup_div_attributes{$dynamicSuffix}"] = $dynamicLinkDivAttr;
+					
 				}
 
 			}
@@ -905,13 +913,17 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 			//put data
 			$strDate = UniteFunctionsUC::getVal($arrPost, "post_date");
 			$arrData["date"] = !empty($strDate)?strtotime($strDate):"";
-
+			
+			//set modified date - if available
+			$arrData["date_modified"] = $arrData["date"];
 			$strDateModified = UniteFunctionsUC::getVal($arrPost, "post_modified");
-			$arrData["date_modified"] = !empty($strDate)?strtotime($strDateModified):"";
-
+			
+			if(!empty($strDateModified)){
+				$arrData["date_modified"] = strtotime($strDateModified);
+			}
+			
 			//add parent id
 			$arrData["parent_id"] = UniteFunctionsUC::getVal($arrPost, "post_parent");
-
 
 			//check woo commmerce data
 			$postType = UniteFunctionsUC::getVal($arrPost, "post_type");
@@ -1226,13 +1238,13 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 			case "this_day":
 
 				if(!empty($metaField)){
-					$afterMeta = date($metaFormat);
-					$beforeMeta = date($metaFormat);
+					$afterMeta = s_date($metaFormat);
+					$beforeMeta = s_date($metaFormat);
 				}else{
 
-					$year = date("Y");
-					$month = date("m");
-					$day = date("d");
+					$year = s_date("Y");
+					$month = s_date("m");
+					$day = s_date("d");
 
 					$arrDateQuery['inclusive'] = true;
 				}
@@ -1255,7 +1267,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 			case "past_from_today":
 
 				if(!empty($metaField)){
-					$beforeMeta = date($metaFormat);
+					$beforeMeta = s_date($metaFormat);
 				}else{
 
 					$before = "tomorrow";
@@ -1267,7 +1279,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 			case "past_from_yesterday":
 
 				if(!empty($metaField)){
-					$beforeMeta = date($metaFormat,strtotime('-1 day'));
+					$beforeMeta = s_date($metaFormat,strtotime('-1 day'));
 				}else{
 
 					$before = "today";
@@ -1300,12 +1312,12 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 				if(!empty($metaField)){
 
-					$afterMeta = date('Ym01');
-					$beforeMeta = date('Ymt');
+					$afterMeta = s_date('Ym01');
+					$beforeMeta = s_date('Ymt');
 
 				}else{
-					$year = date("Y");
-					$month = date("m");
+					$year = s_date("Y");
+					$month = s_date("m");
 				}
 
 			break;
@@ -1313,21 +1325,21 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 				if(!empty($metaField)){
 
-					$afterMeta = date($metaFormat,strtotime('first day of +1 month'));
-					$beforeMeta = date($metaFormat,strtotime('last day of +1 month'));
+					$afterMeta = s_date($metaFormat,strtotime('first day of +1 month'));
+					$beforeMeta = s_date($metaFormat,strtotime('last day of +1 month'));
 				}else{
 
 					$time = strtotime('first day of +1 month');
 
-					$year = date("Y",$time);
-					$month = date("m",$time);
+					$year = s_date("Y",$time);
+					$month = s_date("m",$time);
 				}
 
 			break;
 			case "future":
 
 				if(!empty($metaField)){
-					$afterMeta = date($metaFormat);
+					$afterMeta = s_date($metaFormat);
 				}else{
 
 					$after = "today";
@@ -1340,7 +1352,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 				if(!empty($metaField)){
 
-					$afterMeta = date($metaFormat,strtotime('+1 day'));
+					$afterMeta = s_date($metaFormat,strtotime('+1 day'));
 				}else{
 
 					$after = "today";
@@ -1364,7 +1376,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		if(!empty($metaField)){
 
 			if(!empty($after) && empty($afterMeta)){
-				$afterMeta = date($metaFormat, strtotime($after));
+				$afterMeta = s_date($metaFormat, strtotime($after));
 			}
 
 			if(!empty($afterMeta))
@@ -1375,7 +1387,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
         		);
 
 			if(!empty($before) && empty($beforeMeta))
-				$beforeMeta = date($metaFormat, strtotime($before));
+				$beforeMeta = s_date($metaFormat, strtotime($before));
 
 			if(!empty($beforeMeta))
 				$arrMetaQuery[] = array(
@@ -1418,13 +1430,21 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 	 * get post list data custom from filters
 	 */
 	private function getPostListData_custom($value, $name, $processType, $param, $data, $nameListing = null){
-			    
+		
 		if(empty($value))
 			return(array());
 
 		if(is_array($value) == false)
 			return(array());
-
+		
+		//validate for empty array
+		$purePostType = UniteFunctionsUC::getVal($value, "{$name}_posttype");
+		if($purePostType){
+			$isEmpty = UniteFunctionsUC::isAllArrayItemsEmpty($value);
+			if($isEmpty == true)
+				return(array());
+		}
+		
 		$filters = array();
 
 		$showDebugQuery = UniteFunctionsUC::getVal($value, "{$name}_show_query_debug");
@@ -1488,13 +1508,13 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		$arrMetaQuery = array();
 
 		$getRelatedProducts = false;
-
+		
 		//get post type
 		$postType = UniteFunctionsUC::getVal($value, "{$name}_posttype", "post");
 		if($isForWoo)
 			$postType = "product";
 
-
+		
 		$filters["posttype"] = $postType;
 
 		$post = null;
@@ -1512,7 +1532,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 				$getRelatedProducts = true;
 				$productID = $post->ID;
 
-				if($relatePostsType == "checkout");
+				if($relatePostsType == "checkout")
 					$filters["posttype"] = "product";		//rewrite the post type argument
 
 
@@ -2414,7 +2434,10 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 			$args = UniteFunctionsWPUC::mergeQueryVars($arrQueryBase, $args);
 
 		if($showDebugQuery == true){
-			echo "<div class='uc-debug-query-wrapper'>";	//start debug wrapper
+			
+			$style = HelperHtmlUC::getQueryDebugWrapperStyles();
+			
+			echo("<div class='uc-debug-query-wrapper' style='{$style}'>");	//start debug wrapper
 		}
 			
 		$args = $this->getPostListData_getPostGetFilters_pagination($args, $value, $name, $data, $param);
@@ -2445,7 +2468,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 			if(!empty($arrQueryBase))
 				$argsForDebug = UniteFunctionsWPUC::cleanQueryArgsForDebug($argsForDebug);
 			
-			dmp("Custom Posts. The Query Is:");
+			dmp("<strong>Custom Post. The Query Is:</strong>");
 			dmp($argsForDebug);
 			
 		}
@@ -2470,13 +2493,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 		//check for modify orderby query clauses (for woo)
 		$this->checkModifyQueryClauses($args, $showDebugQuery);
-
-		//skip run
-		if(GlobalsProviderUC::$skipRunPostQueryOnce == true){
-			GlobalsProviderUC::$skipRunPostQueryOnce = false;
-			return(array());
-		}
-		
+				
 		//for debug
 		//UniteFunctionsWPUC::clearFiltersFunctions("posts_where");
 		
@@ -2495,8 +2512,26 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		if($showDebugQuery == true && $debugType == "show_query"){
 			add_action("wp_error_added",array($this,"showWPErrorLog"),10,4);
 		}
+		
+		//skip from the globals variabe
+		if(GlobalsProviderUC::$skipRunPostQueryOnce == true)
+			$this->skipPostListQueryRun = true;
+		
+		
+		$wasSkipRun = false;
 				
-		$query->query($args);
+		if($this->skipPostListQueryRun == false)		
+			$query->query($args);
+		else{
+			
+			//if skipped - set to false for next run time.
+			$this->skipPostListQueryRun = false;
+			
+			if($showDebugQuery == true)
+				dmp("Skip main query run");
+				
+			$wasSkipRun = true;
+		}
 		
 		$objFiltersProcess->afterQueryRun();
 		
@@ -2505,16 +2540,16 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		//custom posts debug
 
 		if($showDebugQuery == true && $debugType == "show_query"){
-
+						
 			remove_action("wp_error_added",array($this,"showWPErrorLog"));
 			
 			$originalQueryVars = $query->query_vars;
 			$originalQueryVars = UniteFunctionsWPUC::cleanQueryArgsForDebug($originalQueryVars);
 			
-			dmp("The Query Request Is:");
+			dmp("<strong>The Query Request Is:</strong>");
 			dmp($query->request);
 
-			dmp("The final query vars:");
+			dmp("<strong>The Final Query Vars:</strong>");
 			dmp($originalQueryVars);
 
 			$this->showPostsDebugCallbacks($isForWoo);
@@ -2602,20 +2637,32 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 		}
 
-
 		HelperUC::addDebug("posts found: ".count($arrPosts));
 
 		if($showDebugQuery == true){
-
-			dmp("Found Posts: ".count($arrPosts));
-
-			echo "</div>";
+			
+			if($wasSkipRun == false)
+				dmp("Found Posts: ".count($arrPosts));
+			
 		}
         
+		//filter results
+		
+		$filters = array();
+		$value["uc_posts_name"] = $name;
+
+		$arrPostsFromFilter = UniteProviderFunctionsUC::applyFilters("uc_filter_posts_list", $arrPosts, $value, $filters);
+		
+		if(!empty($arrPostsFromFilter))
+			$arrPosts = $arrPostsFromFilter;
+		
+		if($showDebugQuery == true){
+			
+			echo "</div> <!-- end debug query -->";
+		}
 		
 		//show debug meta if needed
-		$this->showPostsDebyMeta($arrPosts, $value, $name);
-
+		$this->showPostsDebugMeta($arrPosts, $value, $name);
         
 		return($arrPosts);
 	}
@@ -2674,22 +2721,30 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 	}
 
 	/**
-	 * save last query and page
+	 * save last query and page - for pagination widget
 	 */
 	private function saveLastQueryAndPage($query, $type, $initialOffset = null){
 
-
-		/* debug
-			dmp("save query");
-			dmp($query->query);
-			dmp($this->addon->getName());
-		*/
-		
-		
 		//don't save under dynamic template loop - not allow paging or filter there.
 		if(GlobalsProviderUC::$isUnderDynamicTemplateLoop == true)
 			return(false);
 		
+		//some protection manual query in last widget, take the working one
+		//under ajax - no need for those checks
+			
+		if(GlobalsProviderUC::$isUnderAjax == false && $type == GlobalsProviderUC::QUERY_TYPE_MANUAL && GlobalsProviderUC::$lastPostQuery_type != GlobalsProviderUC::QUERY_TYPE_MANUAL)
+			return(false);
+		
+		//skip if no pagination set in widget
+		
+		$paginationType = UniteFunctionsUC::getVal($this->lastValues, $this->lastName."_pagination_type");
+		$isAjax = UniteFunctionsUC::getVal($this->lastValues, $this->lastName."_isajax");
+		$isAjax = UniteFunctionsUC::strToBool($isAjax);
+		
+		if(GlobalsProviderUC::$isUnderAjax == false && $isAjax == false && empty($paginationType))
+			return(false);
+					
+			
 		GlobalsProviderUC::$lastPostQuery = $query;
 		GlobalsProviderUC::$lastPostQuery_page = 1;
 		GlobalsProviderUC::$lastPostQuery_type = $type;
@@ -2714,7 +2769,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 			return(false);
 
 		$page = ceil($offset / $perPage)+1;
-
+		
 		if(!empty($page))
 			GlobalsProviderUC::$lastPostQuery_page = $page;
 
@@ -2751,13 +2806,9 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		
 		//check ajax search
 
-		$options = $this->addon->getOptions();
-
-		$special = UniteFunctionsUC::getVal($options, "special");
-
-		if($special == "ajax_search")
+		$isAjaxSearch = $this->addon->isAjaxSearch();
+		if($isAjaxSearch == true)
 			return(true);
-
 
 		return(false);
 	}
@@ -2850,8 +2901,10 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 			$postType = UniteFunctionsUC::getVal($currentQueryVars, "post_type");
 			if($postType == "product")
 				$isForWoo = true;
-
-			echo "<div class='uc-debug-query-wrapper'>";	//start debug wrapper
+			
+			$style = HelperHtmlUC::getQueryDebugWrapperStyles();
+			
+			echo "<div class='uc-debug-query-wrapper' style='{$style}'>";	//start debug wrapper
 
 			dmp("Current Posts. The Query Is:");
 
@@ -2890,25 +2943,13 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 			//skip run
 			GlobalsProviderUC::$lastQueryArgs = $wp_query->query_vars;
 
-			if(GlobalsProviderUC::$skipRunPostQueryOnce == true){
-				GlobalsProviderUC::$skipRunPostQueryOnce = false;
-				return(array());
-			}
-
 			$query = new WP_Query( $currentQueryVars );
 
 		}
 
 
-		//skip run
-		if(GlobalsProviderUC::$skipRunPostQueryOnce == true){
-			GlobalsProviderUC::$skipRunPostQueryOnce = false;
-			return(array());
-		}
-
-
 		HelperUC::addDebug("Query Vars", $currentQueryVars);
-
+	
 		//save last query
 		$this->saveLastQueryAndPage($query, GlobalsProviderUC::QUERY_TYPE_CURRENT);
 		
@@ -3006,6 +3047,12 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		if(self::SHOW_DEBUG_QUERY == true)
 			$debugType = "show_query";
 		
+		if(GlobalsUC::$showQueryDebugByUrl == true){
+			$showDebugQuery = true;
+			$this->advancedQueryDebug = true;
+			$debugType = "show_query";
+		}
+			
 		if(empty($postIDs)){
 
 			if($showDebugQuery == true){
@@ -3055,11 +3102,31 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 		GlobalsProviderUC::$lastQueryArgs = $args;
 
-		$query = new WP_Query($args);
+		$wasQuerySkipRun = false;
 
+		add_action("pre_get_posts", array($this,"clearTaxQueryForGetPostListData_manualSelection"), 1, 1);
+		
+		if($this->skipPostListQueryRun == false)
+			$query = new WP_Query($args);
+		else{
+			
+			$query = new WP_Query();
+			
+			//skip false for next time
+			$this->skipPostListQueryRun = false;
+			
+			$wasQuerySkipRun = true;
+			
+			if($showDebugQuery == true){
+				dmp("Query skip run!");
+			}
+			
+		}
 
+		remove_action('pre_get_posts', array($this,"clearTaxQueryForGetPostListData_manualSelection"), 1);
+		
 		if($showDebugQuery == true && $debugType == "show_query"){
-
+			
 			$originalQueryVars = $query->query_vars;
 			$originalQueryVars = UniteFunctionsWPUC::cleanQueryArgsForDebug($originalQueryVars);
 
@@ -3085,7 +3152,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 		//save last query
 		$this->saveLastQueryAndPage($query,GlobalsProviderUC::QUERY_TYPE_MANUAL);
-
+		
 		HelperUC::addDebug("posts found: ".count($arrPosts));
 
 		if($showDebugQuery == true){
@@ -3093,7 +3160,6 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		}
 
 		//handle avoid duplicates - save post ids
-
 
 		$this->arrCurrentPostIDs = array();
 
@@ -3115,6 +3181,15 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 
 	/**
+	 * remove tax query from manual query
+	 */
+	public function clearTaxQueryForGetPostListData_manualSelection($query) {
+		if (isset($query->query_vars['tax_query']))
+			unset($query->query_vars['tax_query']);
+	}
+
+
+	/**
 	 * get the ue templates data
 	 */
 	private function getPostListData_ueTemplates($value, $name, $data){
@@ -3131,8 +3206,11 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		if(empty($strTemplatesIDs)){
 
 			if($showDebugQuery == true){
-				echo "<div class='uc-debug-query-wrapper'>";	//start debug wrapper
-
+				
+				$style = HelperHtmlUC::getQueryDebugWrapperStyles();
+				
+				echo "<div class='uc-debug-query-wrapper' style='{$style}'>";	//start debug wrapper
+				
 				dmp("UE Templates. No template id's found, no query");
 
 				dmp($value);
@@ -3154,7 +3232,10 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		$arrPosts = get_posts($args);
 
 		if($showDebugQuery == true){
-			echo "<div class='uc-debug-query-wrapper'>";	//start debug wrapper
+
+			$style = HelperHtmlUC::getQueryDebugWrapperStyles();
+			
+			echo "<div class='uc-debug-query-wrapper' style='{$style}'>";	//start debug wrapper
 
 			dmp("UE Templates. The Query Is:");
 
@@ -3172,11 +3253,24 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 	 * get post list data
 	 */
 	public function getPostListData($value, $name, $processType, $param, $data){
-
+		
 		if($processType != self::PROCESS_TYPE_OUTPUT && $processType != self::PROCESS_TYPE_OUTPUT_BACK)
 			return($data);
+		
+		$this->lastValues = $value;
+		$this->lastName = $name;
+		
+		//skip get data for ajax search as it puts
+		
+		$isAjaxSearch = $this->addon->isAjaxSearch();
+		
+		if($isAjaxSearch == true && UniteCreatorFiltersProcess::$isUnderAjax == false && GlobalsProviderUC::$isInsideEditor == false){
+			
+			$this->skipPostListQueryRun = true;			
+		}
 
-
+		// ---
+		
 		HelperUC::addDebug("getPostList values", $value);
 		HelperUC::addDebug("getPostList param", $param);
 
@@ -3188,14 +3282,16 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		$nameListing = UniteFunctionsUC::getVal($param, "name_listing");
 
 		if($useForListing == false)
-			$nameListing = null;
-
+			$this->lastName = null;
+		else
+			$this->lastName = $nameListing;
+		
+		
 		if(self::SHOW_DEBUG_POSTLIST_QUERIES == true)
 			HelperProviderUC::startDebugQueries();
 
-
 		$arrPosts = array();
-
+		
 		switch($source){
 			case "ue_templates":
 
@@ -3213,18 +3309,9 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 			break;
 			default:		//custom
-
+			
 				$arrPosts = $this->getPostListData_custom($value, $name, $processType, $param, $data, $nameListing);
 				
-				$filters = array();
-				$value["uc_posts_name"] = $name;
-				
-				$arrPostsFromFilter = UniteProviderFunctionsUC::applyFilters("uc_filter_posts_list", $arrPosts, $value, $filters);
-				
-				if(!empty($arrPostsFromFilter))
-					$arrPosts = $arrPostsFromFilter;
-				
-
 			break;
 		}
 		
@@ -3256,11 +3343,10 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		if($useCategory == true && $useForListing == false)
 			UniteFunctionsWPUC::cachePostsTermsQueries($arrPosts);
 
-
 		$arrPostAdditions = HelperProviderUC::getPostDataAdditions($useCustomFields, $useCategory);
 
 		HelperUC::addDebug("post additions", $arrPostAdditions);
-
+		
 
 		//image sizes
 		$showImageSizes = UniteFunctionsUC::getVal($param, "show_image_sizes");
@@ -3299,7 +3385,8 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 			$data = $objFilters->addWidgetFilterableVariables($data, $this->addon, $this->arrCurrentPostIDs);
 		}
-
+		
+		
 		$arrData = array();
 		$arrPostIDs = array();
 
@@ -3336,6 +3423,11 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 			HelperProviderUC::printDebugQueries(true);
 		}
+		
+		$showPostListDebug = HelperUC::hasPermissionsFromQuery("ucpostlistdebug");
+		
+		if($showPostListDebug == true)
+			HelperProviderUC::showPostsDebug($arrPosts,true);
 		
 		//turn off the query debug flag
 		GlobalsProviderUC::$showPostsQueryDebug = false;
@@ -4651,6 +4743,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		$taxonomy =  UniteFunctionsUC::getVal($value, $name."_taxonomy","category");
 
 		$orderBy =  UniteFunctionsUC::getVal($value, $name."_orderby","name");
+
 		$orderDir =  UniteFunctionsUC::getVal($value, $name."_orderdir","ASC");
 
 		$hideEmpty = UniteFunctionsUC::getVal($value, $name."_hideempty");
@@ -4662,16 +4755,17 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		$showDebug = UniteFunctionsUC::getVal($value, $name."_show_query_debug");
 		$showDebug = UniteFunctionsUC::strToBool($showDebug);
 		
-		if(GlobalsUC::$showQueryDebugByUrl == true){
-			$showDebug = true;
-			$this->advancedQueryDebug = true;
-		}
-
 
 		$queryDebugType = "";
 		if($showDebug == true)
 			$queryDebugType = UniteFunctionsUC::getVal($value, $name."_query_debug_type");
 
+		if(GlobalsUC::$showQueryDebugByUrl == true){
+			$showDebug = true;
+			$queryDebugType = "show_query";
+		}
+			
+			
 		$maxTerms = UniteFunctionsUC::getVal($value, $name."_maxterms");
 		$maxTerms = (int)$maxTerms;
 		if(empty($maxTerms))
@@ -4888,8 +4982,14 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 				$args["order"] = $orderDir;
 			}
-			
+
+
+			if($orderBy == "rand"){
+				add_filter( 'terms_clauses', array($this, "randomOrderTaxonomyTerms"), 1, 1);
+			}
+
 		}
+
 
 		//exclude
 		if(!empty($arrExcludeIDs)){
@@ -4992,10 +5092,25 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 		$arrTerms = UniteFunctionsWPUC::getTermsObjectsData($arrTermsObjects, $taxonomy);
 		
 		$arrTerms = $this->modifyArrTermsForOutput($arrTerms, $taxonomy, $useCustomFields, $postType);
-		
+
 			
 		return($arrTerms);
 	}
+
+
+
+	/**
+	 * filter order random taxonomy terms
+	 */
+	public function randomOrderTaxonomyTerms($clauses) {
+
+		$clauses["orderby"] = "ORDER BY RAND()";
+		
+		remove_filter( 'terms_clauses', array($this, "randomOrderTaxonomyTerms"), 1, 1);
+		
+		return $clauses;
+	}
+
 
 
 	protected function z_______________USERS____________(){}
@@ -5246,8 +5361,7 @@ class UniteCreatorParamsProcessor extends UniteCreatorParamsProcessorWork{
 
 		if(!empty($depth) && is_numeric($depth))
 			$args["depth"] = $depth;
-
-
+		
 		$args["menu"] = $menuID;
 
 		$arrKeysToAdd = array(

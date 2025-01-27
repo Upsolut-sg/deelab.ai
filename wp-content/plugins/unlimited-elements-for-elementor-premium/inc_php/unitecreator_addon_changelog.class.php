@@ -61,6 +61,7 @@ class UniteCreatorAddonChangelog{
 
 			return $addon->getTitle();
 		}catch(Exception $exception){
+			// translators: %s is exception fallback
 			return sprintf(__("%s (deleted)", "unlimited-elements-for-elementor"), $fallback);
 		}
 	}
@@ -120,7 +121,9 @@ class UniteCreatorAddonChangelog{
 			$sql .= " LIMIT " . intval($limit);
 		}
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$sql = $wpdb->prepare($sql, array($addonId));
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results($sql, ARRAY_A);
 		$changelogs = $this->prepareChangelogs($results);
 
@@ -151,7 +154,9 @@ class UniteCreatorAddonChangelog{
 			ORDER BY created_at DESC
 		";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$sql = $wpdb->prepare($sql, $ids);
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results($sql, ARRAY_A);
 		$items = $this->prepareChangelogs($results);
 

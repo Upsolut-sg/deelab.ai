@@ -25,7 +25,7 @@ class UniteHelperBaseUC extends HtmlOutputBaseUC{
 		
 			if(gettype($arrData) == "string")
 				$arrData = array("data"=>$arrData);
-	
+			
 			$response = array_merge($response,$arrData);
 		}
 						
@@ -39,8 +39,7 @@ class UniteHelperBaseUC extends HtmlOutputBaseUC{
 			
 			$content = ob_get_contents();
 			ob_end_clean();
-			
-			echo $content;
+			s_echo($content);
 		}
 		
 		$isJsonOutput = UniteFunctionsUC::getGetVar("json","",UniteFunctionsUC::SANITIZE_KEY);
@@ -49,8 +48,7 @@ class UniteHelperBaseUC extends HtmlOutputBaseUC{
 		if($isJsonOutput == true)
 			header('Content-Type: application/json');
 		
-		
-		echo UniteProviderFunctionsUC::escCombinedHtml($json);
+		s_echo($json);
 		exit();
 	}
 	
@@ -71,7 +69,7 @@ class UniteHelperBaseUC extends HtmlOutputBaseUC{
 	 * echo json ajax response
 	 */
 	public static function ajaxResponseError($message,$arrData = null){
-	
+				
 		self::ajaxResponse(false,$message,$arrData,true);
 	}
 	

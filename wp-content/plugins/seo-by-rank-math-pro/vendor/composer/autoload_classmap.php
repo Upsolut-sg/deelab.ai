@@ -55,6 +55,7 @@ return array(
     'RankMathPro\\Installer' => $baseDir . '/includes/class-installer.php',
     'RankMathPro\\Local_Seo\\Address' => $baseDir . '/includes/modules/local-seo/shortcodes/class-address.php',
     'RankMathPro\\Local_Seo\\Admin' => $baseDir . '/includes/modules/local-seo/class-admin.php',
+    'RankMathPro\\Local_Seo\\Block_Local_Business' => $baseDir . '/includes/modules/local-seo/class-block-local-business.php',
     'RankMathPro\\Local_Seo\\Frontend' => $baseDir . '/includes/modules/local-seo/class-frontend.php',
     'RankMathPro\\Local_Seo\\KML_File' => $baseDir . '/includes/modules/local-seo/class-kml-file.php',
     'RankMathPro\\Local_Seo\\Local_Seo' => $baseDir . '/includes/modules/local-seo/class-local-seo.php',

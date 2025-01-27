@@ -154,13 +154,15 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 			$name = UniteFunctionsUC::getVal($param, "name");
 			if(empty($name))
 				UniteFunctionsUC::throwError("Empty param name found");
-
+			
 			if(isset($arrNames[$name])){
+				
 				$message = "Duplicate $type attribute name found: <b> $name </b>";
 				if(in_array($name, array("link", "image", "thumb", "title", "enable_link")))
 					$message .= ". <br> The <b>$name</b> param is included in the image base params";
-
+	
 				UniteFunctionsUC::throwError($message);
+				
 			}
 
 			//check for elementor taken name
@@ -244,8 +246,7 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 				UniteFunctionsUC::throwError("Widget with ID: {$id} not found");
 			}
 		}
-		
-		
+
 		$this->initByDBRecord($record);
 		
 	}
@@ -407,12 +408,12 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 		if(is_object($data))
 			return UniteFunctionsUC::convertStdClassToArray($data);
 
-		$content = @json_decode($data);
-
+		$content = @json_decode($data, true);
+		
 		if(empty($content))
 			return ($data);
-
-		return UniteFunctionsUC::convertStdClassToArray($content);
+		
+		return $content;
 	}
 
 	/**
@@ -595,6 +596,7 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 		$this->type = UniteFunctionsUC::getVal($record, "addontype");
 		$this->updateHash = UniteFunctionsUC::getVal($record, "test_slot1");
 
+
 		if(is_string($this->updateHash) == false || strlen($this->updateHash) > 60)
 			$this->updateHash = "";
 
@@ -658,7 +660,7 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 
 			$jsonIncludes = UniteFunctionsUC::getVal($record, "includes");
 			if(!empty($jsonIncludes))
-				$arrIncludes = json_decode($jsonIncludes);
+				$arrIncludes = json_decode($jsonIncludes, true);
 		}
 
 		$this->options = $this->initAddonOptions($this->options);
@@ -689,8 +691,7 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 
 		//parse includes
 		if(!empty($arrIncludes)){
-			$arrIncludes = UniteFunctionsUC::convertStdClassToArray($arrIncludes);
-
+			
 			$this->includesJS = UniteFunctionsUC::getVal($arrIncludes, "js", array());
 			$this->includesJSLib = UniteFunctionsUC::getVal($arrIncludes, "jslib", array());
 			$this->includesCSS = UniteFunctionsUC::getVal($arrIncludes, "css", array());
@@ -709,14 +710,6 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 		$this->setValuesFromDefaultData();
 	}
 
-	/**
-	 * init base widgets, for output or config output
-	 */
-	public function initBaseWidgets(){
-		
-		$objBaseWidgets = new UniteCreatorBaseWidgets();
-		$objBaseWidgets->initAddon($this);
-	}
 	
 	protected function a_________GETTERS_________(){
 	}
@@ -1061,7 +1054,7 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 		if(empty($iconPath) === true)
 			return null;
 
-		$iconContents = file_get_contents($iconPath);
+		$iconContents = UniteFunctionsUC::fileGetContents($iconPath);
 
 		return $iconContents;
 	}
@@ -1121,7 +1114,19 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 
 		return ($this->params);
 	}
-
+	
+	
+	/**
+	 * get array of params values with the defaults
+	 */
+	public function getParamsValues(){
+		
+		$arrValues = $this->getProcessedMainParamsValues(UniteCreatorParamsProcessor::PROCESS_TYPE_CONFIG);
+		
+		return ($arrValues);
+	}
+	
+	
 	/**
 	 * get array of default values assoc
 	 */
@@ -1748,6 +1753,22 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 	}
 
 	/**
+	 * check if pro param exists
+	 */
+	public function isParamProExists(){
+
+		$arrParams = $this->params;
+
+		foreach ($arrParams as $subArrParams) {
+			if (!empty($subArrParams['is_pro'] ) || !empty($subArrParams['pro_options'])) {
+				return (true);
+			}
+		}
+
+		return (false);
+	}
+
+	/**
 	 * check if param type exists
 	 */
 	public function isParamTypeExists($type){
@@ -1927,6 +1948,19 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 	}
 
 	
+	/**
+	 * return if the addon is ajax search
+	 */
+	public function isAjaxSearch(){
+		
+		$options = $this->getOptions();
+		$special = UniteFunctionsUC::getVal($options, "special");
+		
+		$isAjaxSearch = ($special === "ajax_search");
+		
+		return $isAjaxSearch;
+	}
+	
 	private function a_______GET__INCLUDES_____(){
 	}
 
@@ -2070,9 +2104,7 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 	public function getHtmlConfig($putMode = false, $isOutputSidebar = false, $options = array()){
 		
 		$this->validateInited();
-		
-		$this->initBaseWidgets();
-		
+				
 		//check if need to add background extra settings for gutenberg editor
 		
 		$isGutenbergEditorBG = $this->isBGForGutenbergEditor();
@@ -2884,6 +2916,7 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 		//save hash on test_slot1 for further compare
 		$hash = md5(json_encode($arr));
 
+
 		$arr["test_slot1"] = $hash;
 
 		return ($arr);
@@ -3408,16 +3441,15 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 		$fieldName = "test_slot" . $num;
 		$jsonData = UniteFunctionsUC::getVal($this->data, $fieldName);
 
+
 		if(empty($jsonData))
 			return (null);
 
 		if(!empty($jsonData)){
-			$arrData = @json_decode($jsonData);
+			$arrData = @json_decode($jsonData, true);
 			if(empty($arrData))
 				$arrData = array();
 		}
-
-		$arrData = UniteFunctionsUC::convertStdClassToArray($arrData);
 
 		return ($arrData);
 	}
@@ -3589,6 +3621,7 @@ class UniteCreatorAddonWork extends UniteElementsBaseUC{
 
 		$items = UniteFunctionsUC::getVal($arrData, "items");
 		$fonts = UniteFunctionsUC::getVal($arrData, "fonts");
+
 
 		//if(!empty($config))
 		//$this->setParamsValues($config);

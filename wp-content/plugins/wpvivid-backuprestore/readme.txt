@@ -2,9 +2,9 @@
 Contributors: wpvivid
 Tags: duplicate, clone, migrate, staging, backup
 Requires at least: 4.5
-Tested up to: 6.7.0
+Tested up to: 6.7.1
 Requires PHP: 5.3
-Stable tag: 0.9.109
+Stable tag: 0.9.112
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -97,6 +97,17 @@ Yes, absolutely. Whenever you need help, start a thread on the [support forum](h
 Yes, we do. Here are the guides for [migrating your site to a new host](https://wpvivid.com/get-started-transfer-site.html), [creating a manual backup](https://wpvivid.com/get-started-create-a-manual-backup.html), [restoring your site from a backup](https://wpvivid.com/get-started-restore-site.html), and more on [our docs page](https://wpvivid.com/documents).
 
 == Changelog ==
+= 0.9.112 =
+- Fixed: Backup status could not be properly caught on LocalWP sites with Nginx server.
+- Optimized the plugin code.
+= 0.9.111 =
+- Fixed: Backups to SFTP would fail on sites of PHP 8.2.26-nmm1 and 8.3.14-nmm1.
+- Optimized the plugin code.
+= 0.9.110 =
+- Added an option to include symlink folders in a backup.
+- Fixed: Could not connect to SFTP on sites of PHP 8.2.26 and 8.3.14.
+- Fixed: Quick Snapshot popup would appear upon each page loading.
+- Successfully tested with WordPress 6.7.1.
 = 0.9.109 =
 - Fixed a warning that would appear with WordPress 6.7.0.
 - Optimized the plugin code.
@@ -632,8 +643,7 @@ Yes, we do. Here are the guides for [migrating your site to a new host](https://
 - Initial release of the plugin. Now you see it.
 
 == Upgrade Notice ==
-Latest version 0.9.109:
-= 0.9.109 =
-- Fixed a warning that would appear with WordPress 6.7.0.
+Latest version 0.9.112:
+= 0.9.112 =
+- Fixed: Backup status could not be properly caught on LocalWP sites with Nginx server.
 - Optimized the plugin code.
-- Successfully tested with WordPress 6.7.0.

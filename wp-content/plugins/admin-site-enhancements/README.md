@@ -4,8 +4,8 @@ Contributors: qriouslad
 Donate link: https://bowo.io/asenha-sp-rdm  
 Tags: enhancements, tweaks, optimizations, tools  
 Requires at least: 4.6  
-Tested up to: 6.7  
-Stable tag: 7.5.3  
+Tested up to: 6.7.1  
+Stable tag: 7.6.8  
 Requires PHP: 5.6  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -18,7 +18,7 @@ Duplicate post, post order, image resize, email via SMTP, admin menu editor, cus
 
 Admin and Site Enhancements (ASE) helps you to **easily enhance** various admin workflows and site aspects while **replacing multiple plugins** doing it.
 
-**Pro version** with Lifetime Deal (LTD) is available at [www.wpase.com](https://www.wpase.com/rdme-to-web). **Currently on YEAR END SALE, 20% discount**.
+**Pro version** with Lifetime Deal (LTD) is available at [www.wpase.com](https://www.wpase.com/rdme-to-web).
 
 Here's a quick walkthrough of ASE Free at v7.1.5 by Jakson.
 
@@ -42,14 +42,14 @@ _"ASE is an amazing plugin! **Time and money saver**. Thank you!"_ ~[Iulian Baci
 
 ### FEATURES & MODULES
 
-**64 modules** in total:  
-**54 free modules** (26 has Pro features) | **10 Pro modules**
+**65 modules** in total:  
+**55 free modules** (28 has Pro features) | **10 Pro modules**
 
 [**See all features >>**](https://www.wpase.com/features/)
 
 ### Content Management
 
-* **[[ASE Pro](https://www.wpase.com/rdme-to-web)] Custom Content Types**. Conveniently register and edit custom post types (CPT), custom taxonomies, custom field groups and options pages that integrates with Bricks, Breakdance, Oxygen and Elementor. This is an alternative for ACF Pro, Meta Box, Toolset, Pods or JetEngine.
+* **[[ASE Pro](https://www.wpase.com/rdme-to-web)] Custom Content Types**. Conveniently register and edit custom post types (CPT), custom taxonomies, custom field groups and options pages that integrates with Bricks, Breakdance, Oxygen and Elementor, and also compatible with Gutenberg and various block themes and plugins. This is an alternative for ACF Pro, Meta Box, Toolset, Pods or JetEngine.
 * **Content Duplication**. One-click duplication of pages, posts and CPTs. [ASE Pro](https://www.wpase.com/rdme-to-web) enables duplication only for certain user roles and post types, and adds location option for duplication link.
 * **Content Order**. Enable custom ordering of various post types that are hierarchical or support page attributes, in wp-admin. [ASE Pro](https://www.wpase.com/rdme-to-web) enables ordering of post types that are non-hierarchical and does not support page attributes, including media / attachments. It also enable toggling taxonomy terms and / or excerpt on the ordering page and applying the custom order on the frontend including for adjacent posts navigation.
 * **[[ASE Pro](https://www.wpase.com/rdme-to-web)] Terms Order**. Enable custom ordering of terms from various taxonomies in wp-admin and on the frontend.
@@ -85,19 +85,20 @@ _"ASE is an amazing plugin! **Time and money saver**. Thank you!"_ ~[Iulian Baci
   
 * **Custom Admin Footer Text**: Customize the text you see on the footer of wp-admin pages. [ASE Pro](https://www.wpase.com/rdme-to-web) enables media upload / insertion.
 
-### Log In / Log Out
+### Log In/Out & Register
 
 * **Change Login URL**. Make the login URL more memorable and secure by customizing it. [ASE Pro](https://www.wpase.com/rdme-to-web) adds compatibility with login process in WooCommerce pages, i.e. account and checkout, and custom 404 redirect on default login URLs.
 * **Login ID Type**. Restrict login ID to username or email address only.
 * **[[ASE Pro](https://www.wpase.com/rdme-to-web)] Login Page Customizer**. Easily customize the design of the login page.
 * **Site Identity on Login Page**. Use the site icon and URL to replace the default WordPress logo with link to wordpress.org on the login page.
 * **Log In/Out Menu**. Enable log in, log out and dynamic log in/out menu item for addition to any menu.
+* **Registration Column**. Show users registration date. [ASE Pro](https://www.wpase.com/rdme-to-web) makes the column sortable.
 * **Last Login Column**. Log when users on the site last logged in and display the date and time in the users list table. [ASE Pro](https://www.wpase.com/rdme-to-web) makes the column sortable.
 * **Redirect After Login / Logout**. Set custom redirect URL for all or some user roles after login / logout. [ASE Pro](https://www.wpase.com/rdme-to-web) adds an option to set separate redirect URL for each role.
 
 ### Custom Code
 
-* **[[ASE Pro](https://www.wpase.com/rdme-to-web)] Code Snippets Manager**. Conveniently add and manage CSS / SCSS, JS, HTML and PHP code snippets to modify your site's content, design, behaviour and functionalities
+* **[[ASE Pro](https://www.wpase.com/rdme-to-web)] Code Snippets Manager**. Conveniently add and manage CSS / SCSS, JS, HTML and PHP code snippets to modify your site's content, design, behaviour and functionalities.
 * **Custom Admin CSS**.
 * **Custom Frontend CSS**.
 * **Insert &lt;head&gt;, &lt;body&gt; and &lt;footer&gt; Code**. Easily insert &lt;meta&gt;, &lt;link&gt;, &lt;script&gt; and &lt;style&gt; tags for tracking, analytics, etc.
@@ -129,7 +130,7 @@ _"ASE is an amazing plugin! **Time and money saver**. Thank you!"_ ~[Iulian Baci
 
 ### Utilities
 
-* **Email Delivery**. Set custom sender name and email. Optionally use external SMTP service to ensure notification and transactional emails from your site are being delivered to inboxes. [ASE Pro](https://www.wpase.com/rdme-to-web) adds the option to specify a custom reply-to name and email, Bcc address(es) and the option to log email delivery.
+* **Email Delivery**. Set custom sender name and email. Optionally use external SMTP service to ensure notification and transactional emails from your site are being delivered to inboxes. [ASE Pro](https://www.wpase.com/rdme-to-web) adds the option to specify a custom reply-to name and email, Bcc address(es), disable authentication and the option to log email delivery.
 * **[[ASE Pro](https://www.wpase.com/rdme-to-web)] Local User Avatar**. Enable usage of any image from WordPress Media Library as user avatars.
 * **Multiple User Roles**. Enable assignment of multiple roles during user account creation and editing.
 * **Image Sizes Panel**. Display a panel showing and linking to all available sizes when viewing an image in the media library. [ASE Pro](https://www.wpase.com/rdme-to-web) adds a convenient button to copy the image URL on click.
@@ -144,7 +145,7 @@ _"ASE is an amazing plugin! **Time and money saver**. Thank you!"_ ~[Iulian Baci
 
 ### ASE Pro
 
-**Lifetime Deal (LTD)** is available at [www.wpase.com](https://www.wpase.com/rdme-to-web). **Currently on YEAR END SALE, 20% discount**.
+**Lifetime Deal (LTD)** is available at [www.wpase.com](https://www.wpase.com/rdme-to-web).
 
 ## Screenshots
 
@@ -189,30 +190,33 @@ ASE does not officially support multisite. Please use at your own risk. That sai
 
 ## Changelog
 
-**Admin and Site Enhancements (ASE) v1.0.0** was released on October 17, 2022. Since then, there have been **75 _major_ releases** (e.g. 1.1.0 ) and **122 _minor_ releases** (e.g. 4.9.1). 
+**Admin and Site Enhancements (ASE) v1.0.0** was released on October 17, 2022. Since then, there have been **76 _major_ releases** (e.g. 1.1.0 ) and **134 _minor_ releases** (e.g. 4.9.1). 
 
 Each **_major release_** usually corresponds with the addition of one new module/feature. Each module/feature usually is the equivalent of one (or more) single-purpose plugin. Each **_minor release_** usually contain one or more bugfix or improvements to existing modules/features.
 
-[**Upgrade to ASE Pro**](https://www.wpase.com/chnlg-to-web). **Currently on YEAR END SALE, 20% discount**. Lifetime Deal (LTD) available.
+[**Upgrade to ASE Pro**](https://www.wpase.com/chnlg-to-web). Lifetime Deal (LTD) available.
 
-### 7.5.3 (2024.11.18) - ASE Free and Pro
+### 7.6.8 (2025.01.27) - ASE Free and Pro
 
-* **[IMPROVED in Free and Pro] Utilities >> Maintenance Mode**: make sure the site icon is included in the maintenance page. This should ensure browser tabs also displays the site icon. Props to [@tanasi](https://wordpress.org/support/users/tanasi/) for [reporting](https://wordpress.org/support/topic/favicon-missing-when-plugin-active/#post-18017882) the issue.
+* **[IMPROVED in Pro] Email Delivery >> Email Log**: make sure info on attachments in email delivery is properly logged, and also displayed when viewing the details of entries in the email log.
 
-* **[FIXED in Pro] Admin Interface >> Admin Columns Manager**: 
-  * Fixed fatal error in a certain scenario. Props to Francois G. for reporting the issue.
-  * Fixed number of views being duplicated in the Views column of posts listing tables from Independent Analytics plugin. Props to Andreas K. for reporting the issue.
+* **[FIXED in Free and Pro] Optimizations >> Image Upload Control**: fix PHP warning/error that occurs in a certain scenario. Props to [DJABHipHop](https://wordpress.org/support/users/pressthemes1/) for [reporting this](https://wordpress.org/support/topic/undefined-variable-converted_to_jpgplugin-admin-and-site-enhancements-ase/) with the error log entry.
+
+* **[FIXED in Free and Pro] Admin Interface >> Various Admin UI Enhancements >> Display Active Plugins First**: fix PHP warnings in PHP 8.3. Props to Bjorn S. for reporting this.
+
+* **[FIXED in Free and Pro] Security >> Email Address Obfuscator**: fix an issue where the obfuscated email address where there are hyphens in the domain name, will show a word in the domain name being reversed when viewed in iOS Safari browser. Props to Thorsten S. for reporting the issue.
+
+* **[FIXED in Pro] Custom Code >> Code Snippets Manager**: 
+  * **fix layout issue** on frontend conditional's select2 input when a second select2 CSS is loaded by another plugin.
+  * **fix for missing Code Snippets menu** in a certain scenario (roots.io Trellis setup). Props to Tim P. for reporting the issue in detail and facilitating the troubleshooting process.
+  * **fix for "Single page/post/CPT" conditional** not properly loading the searchable list and allowing for selection of post(s). Props to Kilian H. for reporting the issue.
   
-* **[FIXED in Pro] Content Management >> Custom Content Types >> Custom Field Group**:
-  * **Fixed Oxygen builder integration** issue where the ASE Field selection button is not shown, or it's shown but not all ASE fields were listed upon clicking it.
-  * **Add grid view option for gallery field** in Oxygen builder.
+* **[FIXED in Pro] Pro version activation** when the free version is still active will now correctly show a message with a link back to the plugins page on a sub-folder WP install. Props to Florian G. for reporting the issue, where the link was missing the /sub-folder/ in the link.
 
-* **[YEAR END SALE]** [**Get 20% discount**](https://www.wpase.com/chnlg-to-web) by the end of the year on new Pro license purchase and upgrades.
-
-* **[TRANSLATION in Free and Pro]** ASE is now being translated into 28 languages:
+* **[TRANSLATION in Free and Pro]** ASE is now being translated into 29 languages:
   * **Added new/improved translation** for:
-    * Free: updated Arabic, Polish, Slovak, Albanian.
-    * Pro: updated Arabic, Hungarian.
+    * Free: updated French, Hungarian, Albanian, Swedish, Vietnamese, Chinese (Taiwan)
+    * Pro: updated Polish, Portuguese (Brazil), Vietnamese
   * **More strings have been internationalized**. @Translators, please visit the respective project pages for the Free and Pro versions to translate the new strings, if you havent' done so already.
   * **Interested to help translate or improve the translation?** Please go to [https://translate.wpase.com](https://translate.wpase.com) for more info.
   * **Chinese (China)**: ASE Free and Pro (completed). Props to [@bricksvip](https://profiles.wordpress.org/bricksvip/) et al.
@@ -238,9 +242,10 @@ Each **_major release_** usually corresponds with the addition of one new module
   * **Arabic**: ASE Free (completed) | ASE Pro (completed). Props to [Mohammed J.](https://profiles.wordpress.org/ih4xz/), Yaser M., et al.
   * **Romanian**: ASE Free (completed) | ASE Pro (partial). Props to [Dan C.](https://profiles.wordpress.org/dancaragea/), [@ravishi](https://profiles.wordpress.org/ravishi/) et al.
   * **Turkish**: ASE Free (completed). Props to [@saeead](https://wordpress.org/support/users/saeead/), [@serdaroztrk](https://profiles.wordpress.org/serdaroztrk/) et al.
+  * **Chinese (Taiwan)**: ASE Free (completed). Props to [@gordon168](https://profiles.wordpress.org/gordon168/) and [Hedula](https://profiles.wordpress.org/hedula/).
+  * **Spanish (Chile)**: ASE Free (completed). Props to [@srgio](https://profiles.wordpress.org/srgio/).
   * **Serbian**: ASE Free (partial). Props to [Igor E.](https://wordpress.org/support/users/igorel/).
   * **Albanian**: ASE Free (partial). Props to [@algertpateqi](https://profiles.wordpress.org/algertpateqi/).
-  * **Chinese (Taiwan)**: ASE Free (partial). Props to [Hedula](https://profiles.wordpress.org/hedula/).
   * **Persian**: ASE Free (completed). Props to [@saeead](https://profiles.wordpress.org/saeead/) et al.
   * **Russian**: ASE Free (completed). Props to [@sergey369](https://profiles.wordpress.org/sergey369/), [@pfgr](https://profiles.wordpress.org/pfgr/) et al.
   
