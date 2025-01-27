@@ -1,0 +1,78 @@
+<?php
+
+/*
+Plugin Name: Unlimited Elements for Elementor (Premium)
+Plugin URI: http://unlimited-elements.com
+Description: Unlimited Elements Pro - Huge Widgets Pack for Elementor Page Builder, with html/css/js widget creator and editor
+Author: Unlimited Elements
+Version: 1.5.129
+Update URI: https://api.freemius.com
+Author URI: http://unlimited-elements.com
+Text Domain: unlimited-elements-for-elementor
+Domain Path: /languages
+
+* Tested up to: 6.7
+* Elementor tested up to: 3.25.7
+* Elementor Pro tested up to: 3.25.3
+*/
+if ( !defined( "UNLIMITED_ELEMENTS_INC" ) ) {
+    define( "UNLIMITED_ELEMENTS_INC", true );
+}
+if ( !function_exists( 'uefe_fs' ) ) {
+    // Create a helper function for easy SDK access.
+    function uefe_fs() {
+        global $uefe_fs;
+        if ( !isset( $uefe_fs ) ) {
+            // Include Freemius SDK.
+            require_once dirname( __FILE__ ) . '/provider/freemius/start.php';
+            $uefe_fs = fs_dynamic_init( array(
+                'id'              => '4036',
+                'slug'            => 'unlimited-elements-for-elementor',
+                'premium_slug'    => 'unlimited-elements-pro',
+                'type'            => 'plugin',
+                'public_key'      => 'pk_719fa791fb45bf1896e3916eca491',
+                'is_premium'      => true,
+                'premium_suffix'  => '(Pro)',
+                'has_addons'      => false,
+                'has_paid_plans'  => true,
+                'has_affiliation' => false,
+                'menu'            => array(
+                    'slug'        => 'unlimitedelements',
+                    'support'     => false,
+                    'affiliation' => false,
+                    'contact'     => false,
+                ),
+                'is_live'         => true,
+            ) );
+        }
+        return $uefe_fs;
+    }
+
+    // Init Freemius.
+    uefe_fs();
+    // Signal that SDK was initiated.
+    do_action( 'uefe_fs_loaded' );
+}
+$mainFilepath = __FILE__;
+$currentFolder = dirname( $mainFilepath );
+$pathProvider = $currentFolder . "/provider/";
+try {
+    if ( class_exists( "GlobalsUC" ) ) {
+        define( "UC_BOTH_VERSIONS_ACTIVE", true );
+    } else {
+        $pathAltLoader = $pathProvider . "provider_alt_loader.php";
+        if ( file_exists( $pathAltLoader ) ) {
+            require $pathAltLoader;
+        } else {
+            require_once $currentFolder . '/includes.php';
+            require_once GlobalsUC::$pathProvider . "core/provider_main_file.php";
+        }
+    }
+} catch ( Exception $e ) {
+    $message = $e->getMessage();
+    $trace = $e->getTraceAsString();
+    echo "<br>";
+    echo esc_html( $message );
+    echo "<pre>";
+    print_r( $trace );
+}
