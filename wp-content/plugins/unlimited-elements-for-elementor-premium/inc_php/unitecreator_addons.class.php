@@ -139,8 +139,10 @@ class UniteCreatorAddons extends UniteElementsBaseUC{
 
 		$response = $this->db->fetch(GlobalsUc::$table_addons, $where, $order);
 
+
 		return ($response);
 	}
+
 
 	/**
 	 * get addons list with name / title
@@ -712,10 +714,6 @@ class UniteCreatorAddons extends UniteElementsBaseUC{
 			else
 				$objAddon->initByAlias($addonName, $addonType);
 		}
-
-		//init base widget if for output
-		if($isForOutput == true)
-			$objAddon->initBaseWidgets();
 		
 		$elementorSettings = UniteFunctionsUC::getVal($addonData, "elementor_settings");
 
@@ -1257,8 +1255,7 @@ class UniteCreatorAddons extends UniteElementsBaseUC{
 	public function initAddonByData($data){
 				
 		if(is_string($data)){
-			$data = json_decode($data);
-			$data = UniteFunctionsUC::convertStdClassToArray($data);
+			$data = json_decode($data, true);
 		}
 
 		$addonID = UniteFunctionsUC::getVal($data, "id");
@@ -1315,7 +1312,7 @@ class UniteCreatorAddons extends UniteElementsBaseUC{
 
 			$errorMessage = HelperUC::getHtmlErrorMessage($message, GlobalsUC::$SHOW_TRACE_FRONT);
 
-			echo UniteProviderFunctionsUC::escCombinedHtml($errorMessage);
+			s_echo ($errorMessage);
 		}
 
 		exit();
@@ -1371,7 +1368,10 @@ class UniteCreatorAddons extends UniteElementsBaseUC{
 		$isCombine = UniteFunctionsUC::getVal($data, "combine");
 		$isCombine = UniteFunctionsUC::strToBool($isCombine);
 
+
 		$data = $objAddon->getTestData($slotNum);
+
+
 
 		if($isCombine === true){
 			$config = UniteFunctionsUC::getVal($data, "config", array());

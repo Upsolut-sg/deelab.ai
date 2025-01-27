@@ -132,8 +132,10 @@ if ($settings['grid_style'] == 'post-block-style-overlay') {
                             echo '<div class="eael-entry-footer">';
 
                                 if($settings['eael_show_avatar'] === 'yes') {
+                                    $author_id = get_the_author_meta('ID');
+                                    $author_name = get_the_author_meta( 'nicename', $author_id  );
                                     echo '<div class="eael-author-avatar">
-                                        <a href="' . esc_url( get_author_posts_url(get_the_author_meta('ID')) ) . '">' . get_avatar(get_the_author_meta('ID'), 96) . '</a>
+                                        <a href="' . esc_url( get_author_posts_url($author_id ) ) . '" aria-label="' . esc_attr( $author_name ) . '">' . get_avatar($author_id, 96) . '</a>
                                     </div>';
                                 }
                                 
@@ -301,8 +303,10 @@ if ($settings['grid_style'] == 'post-block-style-overlay') {
                     echo '<div class="eael-entry-footer">';
 
                         if($settings['eael_show_avatar'] === 'yes') {
+                            $author_id = get_the_author_meta('ID');
+                            $author_name = get_the_author_meta( 'nicename', $author_id  );
                             echo '<div class="eael-author-avatar">
-                                <a href="' . esc_url( get_author_posts_url(get_the_author_meta('ID')) ) . '">' . get_avatar(get_the_author_meta('ID'), 96) . '</a>
+                                <a href="' . esc_url( get_author_posts_url($author_id ) ) . '" aria-label="' . esc_attr( $author_name ) . '">' . get_avatar($author_id, 96) . '</a>
                             </div>';
                         }
                        

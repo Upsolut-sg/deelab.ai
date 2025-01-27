@@ -1301,17 +1301,20 @@
 .theme-buddyboss-theme .woocommerce.eael-woo-product-slider ul.products li.product .product-details-wrap {
   padding-left: 10px;
 }
-.theme-buddyboss-theme #content .elementor-widget-container .preset-2 .eael-product-slider {
+.theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-1 .eael-product-slider,
+.theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-2 .eael-product-slider,
+.theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-3 .eael-product-slider,
+.theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-4 .eael-product-slider {
   width: 100%;
 }
-.theme-buddyboss-theme #content .elementor-widget-container .preset-1 .eael-woo-product-slider li.product, .theme-buddyboss-theme #content .elementor-widget-container .preset-2 .eael-woo-product-slider li.product {
+.theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-1 .eael-woo-product-slider li.product, .theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-2 .eael-woo-product-slider li.product {
   background: transparent;
 }
-.theme-buddyboss-theme #content .elementor-widget-container .preset-1 .eael-woo-product-slider li.product .button.add_to_cart_button, .theme-buddyboss-theme #content .elementor-widget-container .preset-2 .eael-woo-product-slider li.product .button.add_to_cart_button {
+.theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-1 .eael-woo-product-slider li.product .button.add_to_cart_button, .theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-2 .eael-woo-product-slider li.product .button.add_to_cart_button {
   width: 55px;
   border-radius: 5px;
 }
-.theme-buddyboss-theme #content .elementor-widget-container .preset-1 .eael-woo-product-slider li.product a.added_to_cart, .theme-buddyboss-theme #content .elementor-widget-container .preset-2 .eael-woo-product-slider li.product a.added_to_cart {
+.theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-1 .eael-woo-product-slider li.product a.added_to_cart, .theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-2 .eael-woo-product-slider li.product a.added_to_cart {
   width: 55px;
   line-height: 0;
   font-size: 0;
@@ -1319,16 +1322,16 @@
   border-radius: 3px;
   margin: 3px;
 }
-.theme-buddyboss-theme #content .elementor-widget-container .preset-3 .eael-woo-product-slider li.product, .theme-buddyboss-theme #content .elementor-widget-container .preset-4 .eael-woo-product-slider li.product {
+.theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-3 .eael-woo-product-slider li.product, .theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-4 .eael-woo-product-slider li.product {
   background: transparent;
 }
-.theme-buddyboss-theme #content .elementor-widget-container .preset-3 .eael-woo-product-slider li.product .button.add_to_cart_button, .theme-buddyboss-theme #content .elementor-widget-container .preset-4 .eael-woo-product-slider li.product .button.add_to_cart_button {
+.theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-3 .eael-woo-product-slider li.product .button.add_to_cart_button, .theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-4 .eael-woo-product-slider li.product .button.add_to_cart_button {
   width: auto;
   float: left;
   border-radius: 30px;
   border: none;
 }
-.theme-buddyboss-theme #content .elementor-widget-container .preset-3 .eael-woo-product-slider li.product a.added_to_cart, .theme-buddyboss-theme #content .elementor-widget-container .preset-4 .eael-woo-product-slider li.product a.added_to_cart {
+.theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-3 .eael-woo-product-slider li.product a.added_to_cart, .theme-buddyboss-theme #content .elementor-widget-eael-woo-product-slider .preset-4 .eael-woo-product-slider li.product a.added_to_cart {
   width: auto;
   float: left;
   border-radius: 30px;

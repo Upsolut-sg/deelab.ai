@@ -21,7 +21,6 @@ if (!defined('ABSPATH')) {
 
 class Advanced_Menu extends Widget_Base
 {
-
     protected $_has_template_content = false;
 
     public function get_name()
@@ -63,6 +62,10 @@ class Advanced_Menu extends Widget_Base
             'ea',
             'essential addons',
         ];
+    }
+
+    public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
     }
 
     public function get_custom_help_url()

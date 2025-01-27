@@ -4,6 +4,9 @@ class HelperProviderUC{
 
 	private static $numQueriesStart = null;
 
+	private function _______SETTINGS_________(){} 
+
+	/*** Freemius ***/	
 	
 	/**
 	 * is activated by freemius
@@ -34,6 +37,8 @@ class HelperProviderUC{
 
 		return $url;
 	}
+
+	/*** End Freemius ***/	
 
 	/**
 	 * get sort filter default values
@@ -475,7 +480,793 @@ class HelperProviderUC{
 
 		return($objSettings);
 	}
+	
+	private function _______GOOGLE_SHEETS_SETTINGS_AND_DATA_________(){}
+	
+	
+	/**
+	 * add google sheets repeater settings
+	 */
+	public static function addGoogleSheetsRepeaterSettings($objSettings, $name, $condition){
+		
+		$objIntegrations = UniteCreatorAPIIntegrations::getInstance();
+		
+		$arrFields = $objIntegrations->getGoogleSheetsSettingsFields();
+		
+		$objSettings = self::addSettingsFields($objSettings, $arrFields, $name,$condition);
+		
+		return($objSettings);
+	}
+	
+	/**
+	 * get google sheets data
+	 */
+	public static function getRepeaterItems_sheets($arrValues, $name, $showDebugData){
+		
+		$objIntegrations = new UniteCreatorAPIIntegrations();
+		
+		if($showDebugData == true)
+			dmp("Getting data from google sheet.");
+		
+		$arrItems = $objIntegrations->getGoogleSheetsData($arrValues, $name);
+		
+		return($arrItems);
+	}
+	
+	private function _______CSV_SETTINGS_AND_DATA_________(){}
+	
+	/**
+	 * add json and csv repeater settings
+	 */
+	public static function addJsonCsvRepeaterSettings($objSettings, $name, $condition){
+		
+		//-------------- csv location ----------------
 
+		$params = array();
+		$params["origtype"] = UniteCreatorDialogParam::PARAM_DROPDOWN;
+		$params["elementor_condition"] = $condition;
+
+		$text = __("JSON or CSV Location", "unlimited-elements-for-elementor");
+
+		$arrLocations = array();
+		$arrLocations["textarea"] = __("Dynamic Textarea", "unlimited-elements-for-elementor");
+		$arrLocations["url"] = __("Url", "unlimited-elements-for-elementor");
+
+		$arrLocations = array_flip($arrLocations);
+
+		$objSettings->addSelect($name."_json_csv_location", $arrLocations, $text, "textarea", $params);
+
+		//-------------- dynamic field ----------------
+
+		$conditionField = $condition;
+		$conditionField[$name."_json_csv_location"] = "textarea";
+
+		$params = array();
+		$params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTAREA;
+		$params["elementor_condition"] = $conditionField;
+		$params["description"] = __("Put some JSON data or CSV data of array with the items, or choose from dynamic field", "unlimited-elements-for-elementor");
+		$params["add_dynamic"] = true;
+
+		$text = __("JSON or CSV Items Data", "unlimited-elements-for-elementor");
+
+		$objSettings->addTextBox($name."_json_csv_dynamic_field", "", $text, $params);
+
+		//-------------- csv url ----------------
+
+		$conditionUrl = $condition;
+		$conditionUrl[$name."_json_csv_location"] = "url";
+
+		$params = array();
+		$params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTFIELD;
+		$params["elementor_condition"] = $conditionUrl;
+		$params["description"] = __("Enter url of the the file or webhook. inside or outside of the website", "unlimited-elements-for-elementor");
+		$params["placeholder"] = "Example: https://yoursite.com/yourfile.json";
+		$params["add_dynamic"] = true;
+		$params["label_block"] = true;
+
+		$text = __("Url with the JSON or CSV", "unlimited-elements-for-elementor");
+		
+		$objSettings->addTextBox($name."_json_csv_url", "", $text, $params);
+		
+		//-------------- main key ----------------
+		
+		$params = array();
+		$params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTFIELD;
+		$params["elementor_condition"] = $condition;
+		$params["description"] = __("Optional. Enter the main array key where the actual data is located. Also paths like item.subitem can be used.", "unlimited-elements-for-elementor");
+		$params["placeholder"] = "";
+		$params["add_dynamic"] = true;
+		$params["label_block"] = false;
+
+		$text = __("Main Array Key", "unlimited-elements-for-elementor");
+		
+		$objSettings->addTextBox($name."_json_csv_mainkey", "", $text, $params);
+		
+		return($objSettings);
+	}
+	
+	/**
+	 * get repeater items - from json
+	 */
+	public static function getRepeaterItems_json($arrValues, $name, $showDebugData = false, $showDebugContent = false){
+		
+		$contentLocation = UniteFunctionsUC::getVal($arrValues, $name."_json_csv_location");
+
+		if($contentLocation == "url"){
+
+			$url = UniteFunctionsUC::getVal($arrValues, $name."_json_csv_url");
+
+			if(empty($url)){
+
+				if($showDebugData)
+					dmp("no url found for json csv");
+
+				return(null);
+			}
+			
+			$dynamicFieldValue = HelperUC::$operations->getUrlContents($url, $showDebugData);
+			
+		}else{
+			$dynamicFieldValue = UniteFunctionsUC::getVal($arrValues, $name."_json_csv_dynamic_field");
+		}
+
+		if(empty($dynamicFieldValue)){
+
+			if($showDebugData)
+				dmp("no data given in the dynamic field");
+
+			return(null);
+		}
+
+		//try json
+
+		$arrData = UniteFunctionsUC::maybeJsonDecode($dynamicFieldValue);
+		
+		//debug JSON
+
+		if($showDebugData == true && is_array($arrData)){
+
+			dmp("JSON data found ");
+			//dmp($arrData);
+			
+			dmp("------------------------------");
+		}
+
+		//if not, try csv
+		if(is_array($arrData) == false){
+			$arrData = UniteFunctionsUC::maybeCsvDecode($arrData);
+
+			//debug CSV
+	
+			if($showDebugData == true && is_array($arrData)){
+	
+				dmp("CSV data found ");
+				dmp("------------------------------");
+				
+				//dmp($arrData);
+			}
+			
+		}
+		
+		$arrDataOriginal = $arrData;
+		
+		//get by main key
+		$mainKey = UniteFunctionsUC::detectArrayMainKey($arrData);
+		
+		if(!empty($mainKey) && isset($arrData[$mainKey]) && is_array($arrData[$mainKey])){
+			$arrData = UniteFunctionsUC::getVal($arrData, $mainKey);
+		}
+				
+		//debug content
+		
+		if($showDebugContent == true){
+			
+			if(!empty($mainKey))
+				dmp("Main key detected: <b>$mainKey</b>");
+			
+			$arrDataShow = UniteFunctionsUC::modifyDataArrayForShow($arrDataOriginal);
+			
+			dmp("Original Data Found: ");
+			
+			HelperHtmlUC::putHtmlDataDebugBox($arrDataShow);
+		}
+
+		if(is_array($arrData) == false){
+
+			if($showDebugData == true){
+				dmp("No CSV or JSON data found. The input is: ");
+				echo "<div style='background-color:lightgray'>";
+				dmp(htmlspecialchars($dynamicFieldValue));
+				echo "</div>";
+				dmp("------------------------------");
+			}
+
+			return(null);
+		}
+
+		//trim by main key
+		
+		$dataMainKey = UniteFunctionsUC::getVal($arrValues, $name."_json_csv_mainkey");
+		
+		if(!empty($dataMainKey)){
+			$arrData = UniteFunctionsUC::getArrayValueByPath($arrData, $dataMainKey);
+			
+			if(empty($arrData) && $showDebugData == true)
+				dmp("data by main key: <b>$dataMainKey</b> not found");
+			
+		}
+		
+		if($showDebugData == true && is_array($arrData) && !empty($dataMainKey)){
+			dmp("get the array data from the key: {$dataMainKey}");
+		}
+		
+		return($arrData);
+	}
+	
+	
+	private function _______REPEATER_SETTINGS_AND_DATA_________(){}
+	
+	/**
+	 * get demo repeater items
+	 */
+	public static function getDemoRepeaterItems(){
+	    // Define demo items
+	    $demoItems = array(
+	        array(
+	            'Column1' => 'Data 1A',
+	            'Column2' => 'Data 2A',
+	            'Column3' => 'Data 3A',
+	            'Column4' => 'Data 4A',
+	        ),
+	        array(
+	            'Column1' => 'Data 1B',
+	            'Column2' => 'Data 2B',
+	            'Column3' => 'Data 3B',
+	            'Column4' => 'Data 4B',
+	        ),
+	        array(
+	            'Column1' => 'Data 1C',
+	            'Column2' => 'Data 2C',
+	            'Column3' => 'Data 3C',
+	            'Column4' => 'Data 4C',
+	        ),
+	    );
+	
+	    // Return the demo items
+	    return $demoItems;
+	}
+	
+	/**
+	 * add repeater settings
+	 */
+	public static function addRepeaterSettings($objSettings, $name, $condition = null, $addDebug = false, $addSource = false){
+		
+		$conditionDebugData = $condition;
+		$conditionDebugMeta = $condition;
+		
+		if($addSource == true){
+			
+			// ------- repeater source
+			
+			$params = array();
+			$params["origtype"] = UniteCreatorDialogParam::PARAM_DROPDOWN;
+	
+			$arrType = array();
+			$arrType["meta"] = __("Meta Fields", "unlimited-elements-for-elementor");
+			$arrType["json"] = __("JSON / CSV", "unlimited-elements-for-elementor");
+			$arrType["sheets"] = __("Google Sheets", "unlimited-elements-for-elementor");
+			
+			$arrType = array_flip($arrType);
+			
+			$objSettings->addSelect($name."_repeater_source", $arrType, __("Repeater Source", "unlimited-elements-for-elementor"), "meta", $params);
+			
+			// ------- hr 
+			
+			$params = array();
+			$params["origtype"] = UniteCreatorDialogParam::PARAM_HR;
+			
+			$objSettings->addHr($name."_after_repeater_source", $params);
+			
+			$condition = array($name."_repeater_source"=>"meta");
+			
+			$conditionDebugData = null;
+			$conditionDebugMeta = $condition;
+
+			//------- json / csv
+			
+			$conditionJson = array($name."_repeater_source"=>"json");
+			
+			$objSettings = self::addJsonCsvRepeaterSettings($objSettings, $name, $conditionJson);
+			
+			//------- google sheets 
+			
+			$conditionSheets = array($name."_repeater_source"=>"sheets");
+			
+			$objSettings = self::addGoogleSheetsRepeaterSettings($objSettings, $name, $conditionSheets);
+			
+		}
+		
+		
+		$isAcfExists = UniteCreatorAcfIntegrate::isAcfActive();
+
+		//-------------- repeater meta name ----------------
+
+		$params = array();
+		$params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTFIELD;
+		
+		if(!empty($condition))
+			$params["elementor_condition"] = $condition;
+	
+		if($isAcfExists == false)
+			$params["description"] = __("Choose meta field name it should be some array at the output", "unlimited-elements-for-elementor");
+		else
+			$params["description"] = __("Choose ACF field name. Repeater, Media, or types with items array output", "unlimited-elements-for-elementor");
+
+
+		if($isAcfExists == false)
+			$text = __("Meta Field Name", "unlimited-elements-for-elementor");
+		else
+			$text = __("ACF Field Name", "unlimited-elements-for-elementor");
+
+		$objSettings->addTextBox($name."_repeater_name", "", $text, $params);
+
+		// --- fields location -----------
+
+		$params = array();
+		$params["origtype"] = UniteCreatorDialogParam::PARAM_DROPDOWN;
+		
+		if(!empty($condition))
+			$params["elementor_condition"] = $condition;
+
+		if($isAcfExists == false)
+			$text = __("Meta Field Location", "unlimited-elements-for-elementor");
+		else
+			$text = __("ACF Field Location", "unlimited-elements-for-elementor");
+
+		$arrLocations = array();
+		$arrLocations["current_post"] = __("Current Post", "unlimited-elements-for-elementor");
+		$arrLocations["parent_post"] = __("Parent Post", "unlimited-elements-for-elementor");
+		$arrLocations["selected_post"] = __("Select Post", "unlimited-elements-for-elementor");
+		$arrLocations["current_term"] = __("Current Term", "unlimited-elements-for-elementor");
+		$arrLocations["parent_term"] = __("Parent Term", "unlimited-elements-for-elementor");
+		$arrLocations["current_user"] = __("Current User", "unlimited-elements-for-elementor");
+
+		$arrLocations = array_flip($arrLocations);
+		
+		$objSettings->addSelect($name."_repeater_location", $arrLocations, $text, "current_post", $params);
+
+		// --- location post select -----------
+
+		if($isAcfExists == false)
+			$text = __("Meta Field From Post", "unlimited-elements-for-elementor");
+		else
+			$text = __("ACF Field From Post", "unlimited-elements-for-elementor");
+
+		$conditionRepeaterPost = $condition;
+		
+		if(empty($conditionRepeaterPost))
+			$conditionRepeaterPost = array();
+		
+		$conditionRepeaterPost[$name."_repeater_location"] = "selected_post";
+
+		$objSettings->addPostIDSelect($name."_repeater_post", $text, $conditionRepeaterPost, "single");
+		
+		if($addDebug == false)
+			return(false);
+
+		// ----- ADD DEBUG OPTIONS
+			
+		$params = array();
+		$params["origtype"] = UniteCreatorDialogParam::PARAM_HR;
+			
+		$objSettings->addHr($name."_repeater_before_debug", $params);
+		
+		$params = array();
+		$params["origtype"] = UniteCreatorDialogParam::PARAM_RADIOBOOLEAN;
+		
+		if(!empty($conditionDebugData))
+			$params["elementor_condition"] = $conditionDebugData;
+		
+		$objSettings->addRadioBoolean($name."_repeater_debug_data", __("Show Debug Data", "unlimited-elements-for-elementor"), false,"Yes", "No", $params);
+		
+		if(!empty($conditionDebugMeta))
+			$params["elementor_condition"] = $conditionDebugMeta;
+		
+		$objSettings->addRadioBoolean($name."_repeater_debug_meta", __("Show Debug Meta", "unlimited-elements-for-elementor"), false,"Yes", "No", $params);
+		
+	}
+	
+	/**
+	 * print debug values
+	 */
+	private static function getRepeaterItems_printDebugValues($arrRepeaterItems){
+				
+		if(empty($arrRepeaterItems)){
+			HelperHtmlUC::putHtmlDataDebugBox("Empty Response. No Repeater Items Found");
+			return(false);
+		}
+
+		if(is_array($arrRepeaterItems) == false){
+			HelperHtmlUC::putHtmlDataDebugBox("not array response");
+			return(false);
+		}
+			
+		$numItems = count($arrRepeaterItems);
+		
+		dmp("Final Response: <b style='color:blue;'>$numItems</b> Repeater Items:");
+				
+		$arrRepeaterItems = UniteFunctionsUC::modifyDataArrayForShow($arrRepeaterItems);
+		
+		HelperHtmlUC::putHtmlDataDebugBox($arrRepeaterItems);
+		
+	}
+	
+	/**
+	 * get repeater data
+	 */
+	public static function getRepeaterItems($arrValues, $name, $showDebugData = false, $showDebugMeta = false){
+		
+		if(empty($arrValues))
+			return(false);
+		
+		//get from another sources
+		
+		$repeaterSource = UniteFunctionsUC::getVal($arrValues, "{$name}_repeater_source");
+		
+		switch($repeaterSource){
+			case "json":
+				
+				$arrRepeaterItems = self::getRepeaterItems_json($arrValues, $name, $showDebugData, $showDebugData);
+				
+				if($showDebugData == true)
+					self::getRepeaterItems_printDebugValues($arrRepeaterItems);
+				
+				return($arrRepeaterItems);
+			break;
+			case "sheets":
+				
+				$arrRepeaterItems = self::getRepeaterItems_sheets($arrValues, $name, $showDebugData);
+				
+				if($showDebugData == true)
+					self::getRepeaterItems_printDebugValues($arrRepeaterItems);
+				
+				return($arrRepeaterItems);
+			break;
+		}
+				
+			
+		$repeaterName = UniteFunctionsUC::getVal($arrValues, "{$name}_repeater_name");
+
+		$location = UniteFunctionsUC::getVal($arrValues, "{$name}_repeater_location");
+		
+		$arrRepeaterItems = array();
+
+		$postID = null;
+		$post = null;
+		$termID = null;
+		$userID = null;
+		
+		
+		switch($location){
+			case "selected_post":
+
+				$repeaterPostID = UniteFunctionsUC::getVal($arrValues, "{$name}_repeater_post");
+
+				if(empty($repeaterPostID) || is_numeric($repeaterPostID) == 0){
+
+					if($showDebugData == true)
+						dmp("wrong post id $repeaterPostID");
+	
+					return(null);
+				}
+
+				$postID = $repeaterPostID;
+
+				$post = get_post($postID);
+
+				if(empty($post)){
+
+					if($showDebugData == true)
+						dmp("post with id: $postID not found");
+
+					return(null);
+				}
+
+			break;
+			case "current_post":
+
+				$post = get_post();
+
+				if(empty($post)){
+
+					if($showDebugData == true)
+						dmp("get data from current post - no current post found");
+
+					return(null);
+				}
+
+				$postID = $post->ID;
+
+			break;
+			case "parent_post":
+
+				$post = get_post_parent();
+
+				if(empty($post)){
+
+					if($showDebugData == true)
+						dmp("get data from parent post - no parent post found");
+
+					return(null);
+				}
+
+				$postID = $post->ID;
+
+			break;
+			case "current_term":
+
+				$termID = UniteFunctionsWPUC::getCurrentTermID();
+
+				if(empty($termID)){
+
+					if($showDebugData == true)
+						dmp("get data from current term - no current term found. try to load from some category archive page.");
+
+					return(null);
+				}
+
+			break;
+			case "parent_term":
+
+				$termID = UniteFunctionsWPUC::getCurrentTermID();
+
+				if(empty($termID)){
+
+					if($showDebugData == true)
+						dmp("get parent term - no current term found. try to load from some category archive page.");
+
+					return(null);
+				}
+
+				$termID = wp_get_term_taxonomy_parent_id($termID);
+
+				if(empty($termID)){
+
+					if($showDebugData == true)
+						dmp("get parent term - no parent term found from term id: $termID. check this term if it has parent.");
+
+					return(null);
+				}
+
+			break;
+			case "current_user":
+
+				$userID = get_current_user_id();
+
+				if(empty($userID)){
+
+					if($showDebugData == true)
+						dmp("get current user no logged in user found.");
+
+					return(null);
+				}
+
+			break;
+			default:
+				dmp("repeater location not found!");
+				dmp("repeater - get data from location: $location");
+			break;
+		}
+		
+		
+		$arrCustomFields = array();
+		
+		//---- load from post
+
+		if(!empty($postID)){
+
+			$arrCustomFields = UniteFunctionsWPUC::getPostCustomFields($postID, false);
+		}
+
+		//------ load from term
+
+		if(!empty($termID)){
+
+			$arrCustomFields = UniteFunctionsWPUC::getTermCustomFields($termID, false);
+		}
+
+		if(!empty($userID))
+			$arrCustomFields = UniteFunctionsWPUC::getUserCustomFields($userID, false);
+					
+		
+		//show debug meta text
+
+		if($showDebugMeta == true){
+
+			if(!empty($postID)){
+
+				$text = "Post <b>".$post->post_title." ($postID)</b>";
+
+				HelperUC::$operations->putCustomFieldsArrayDebug($arrCustomFields, $text);
+			}
+
+			if(!empty($termID)){
+
+				$text = "Term <b>".$term->name." ($termID)</b>";
+
+				HelperUC::$operations->putCustomFieldsArrayDebug($arrCustomFields, $text);
+			}
+
+			if(!empty($userID)){
+
+				$text = "User <b>".$user["name"]." ($userID)</b>";
+
+				HelperUC::$operations->putCustomFieldsArrayDebug($arrCustomFields, $text);
+			}
+
+
+			if(empty($repeaterName)){
+
+				dmp("items from repeater: please enter repeater name");
+				return(array());
+			}
+
+		}
+		
+		
+		if($showDebugData == true){
+			
+			dmp("<b>Custom Fields Found!</b>");
+			
+			$arrShow = UniteFunctionsUC::modifyDataArrayForShow($arrCustomFields);
+			
+			dmp($arrShow);
+		}
+		
+		
+		//get the items
+
+		$arrRepeaterItems = UniteFunctionsUC::getVal($arrCustomFields, $repeaterName);
+		
+		//show debug data text
+
+		if($showDebugData == true){
+
+			$text = "Getting meta data from field: <b>$repeaterName</b> from <b>$location</b>";
+			
+			switch($location){
+				case "parent_post":
+				case "selected_post":
+				case "current_post":
+						$text .= ", <b>".$post->post_title."</b>";
+				break;
+				case "current_term":
+				case "parent_term":
+
+					$term = get_term($termID);
+
+					$text .= ", <b>".$term->name."</b>";
+				break;
+				case "current_user":
+
+					$user = UniteFunctionsWPUC::getUserData($userID);
+
+					$userName = UniteFunctionsUC::getVal($user, "name");
+
+					$text .= ", <b>".$userName."</b>";
+
+				break;
+			}
+
+			dmp($text);
+		}
+
+
+		//get the data from repeater
+
+		if(empty($arrRepeaterItems) && !empty($postID) ){
+			
+			$previewID = UniteFunctionsUC::getGetVar("preview_id","",UniteFunctionsUC::SANITIZE_TEXT_FIELD);
+
+			if(!empty($previewID)){
+				dmp("preview data from repeater: you are under elementor preview, the output may be wrong. Please open the post without the preview");
+			}
+			
+		}
+
+		//try to get the array type: field_array (output from acf)
+		
+		if(is_array($arrRepeaterItems) == false && !empty($arrRepeaterItems)){
+			
+			$arrRepeaterItems = UniteFunctionsUC::getVal($arrCustomFields, "{$repeaterName}_array");
+			
+			if(empty($arrRepeaterItems))
+				return(array());
+			
+			$arrRepeaterItems = UniteFunctionsUC::arrayToArrAssocItems($arrRepeaterItems,"title");
+			
+			return($arrRepeaterItems);
+		}
+		
+		
+		//get demo data
+		if(empty($arrRepeaterItems) && GlobalsProviderUC::$isInsideEditor == true){
+			
+			if($showDebugData == true)
+				dmp("No repeater items found. Getting demo items in editor only");
+			
+			$arrRepeaterItems = self::getDemoRepeaterItems();
+		}
+				
+		if($showDebugData == true)
+			self::getRepeaterItems_printDebugValues($arrRepeaterItems);
+		
+		
+		return($arrRepeaterItems);
+	}
+	
+	private function _______SETTINGS_FIELDS_________(){}
+	
+	/**
+	 * add settings fields
+	 */
+	public static function addSettingsFields($settingsManager, $fields, $name, $condition = null){
+		
+		foreach($fields as $field){
+			
+			$params = array();
+			$params["origtype"] = $field["type"];
+			$params["description"] = UniteFunctionsUC::getVal($field, "desc");
+			$params["label_block"] = UniteFunctionsUC::getVal($field, "label_block", false);
+			
+			if(isset($field["placeholder"])) {
+                $params["placeholder"] = $field["placeholder"];
+            }
+
+			if(!empty($condition))
+				$params["elementor_condition"] = $condition;
+
+            if (isset($field['conditions'])) {
+                foreach($field['conditions'] as $condition_key => $field_condition){
+                    $params["elementor_condition"][$name . "_" . $condition_key] = $field_condition;
+                }
+            }
+				
+			$paramName = $name . "_" . $field["id"];
+			$paramDefault = isset($field["default"]) ? $field["default"] : "";
+			
+			switch($field["type"]){
+				case UniteCreatorDialogParam::PARAM_STATIC_TEXT:
+					$settingsManager->addStaticText($field["text"], $paramName, $params);
+				break;
+				case UniteCreatorDialogParam::PARAM_TEXTAREA:
+					$params["add_dynamic"] = true;
+					$settingsManager->addTextArea($paramName, $paramDefault, $field["text"], $params);
+				break;
+				case UniteCreatorDialogParam::PARAM_TEXTFIELD:
+					
+					$params["add_dynamic"] = true;
+					
+					$settingsManager->addTextBox($paramName, $paramDefault, $field["text"], $params);
+				break;
+				case UniteCreatorDialogParam::PARAM_DROPDOWN:
+					$params["add_dynamic"] = true;
+					$settingsManager->addSelect($paramName, array_flip($field["options"]), $field["text"], $paramDefault, $params);
+				break;
+                case UniteCreatorDialogParam::PARAM_RADIOBOOLEAN:
+                    $settingsManager->addRadioBoolean($paramName, $field["text"], $paramDefault, "Yes", "No", $params);
+                break;
+				default:
+					UniteFunctionsUC::throwError(__FUNCTION__ . " Error: Field type \"{$field["type"]}\" is not implemented");
+			}
+		}
+
+		return $settingsManager;
+	}
+	
+	
+	private function _______OTHERS_________(){}
+	
 
 	/**
 	 * check if layout editor plugin exists, or exists addons for it
@@ -503,7 +1294,7 @@ class HelperProviderUC{
 		load_plugin_textdomain("unlimited-elements-for-elementor", false, GlobalsUC::$pathWPLanguages);
 		
 		UniteCreatorWooIntegrate::initActions();
-		
+				
 	}
 
 	/**
@@ -616,8 +1407,8 @@ class HelperProviderUC{
 
 	        echo "<style type='text/css' id='unlimited-elements-styles'>";
 
-	        foreach ($arrStyles as $style){
-	            echo UniteProviderFunctionsUC::escCombinedHtml($style)."\n";
+	        foreach ($arrStyles as $style) {
+				s_echo( $style . "\n");
 	        }
 
 	        echo "</style>\n";
@@ -645,7 +1436,7 @@ class HelperProviderUC{
 			$arrHtml = UniteProviderFunctionsUC::getInlineHtml();
 			if(!empty($arrHtml)){
 				foreach($arrHtml as $html){
-					echo UniteProviderFunctionsUC::escCombinedHtml($html);
+					s_echo($html);
 				}
 			}
 
@@ -662,7 +1453,7 @@ class HelperProviderUC{
 			$version = UNLIMITED_ELEMENTS_VERSION;
 
 			if(!empty($arrScrips)){
-				echo "\n<!--   Unlimited Elements $version Scripts --> \n";
+				s_echo( "\n<!--   Unlimited Elements $version Scripts --> \n" );
 
 				$arrScriptsOutput = array();
 				$arrModulesOutput = array();
@@ -686,8 +1477,7 @@ class HelperProviderUC{
 						echo "<script type='text/javascript' id='unlimited-elements-scripts'>\n";
 
 							foreach ($arrScriptsOutput as $script){
-
-								echo $script."\n";
+								s_echo($script."\n");
 							}
 
 						echo "</script>\n";
@@ -696,9 +1486,9 @@ class HelperProviderUC{
 
 						foreach ($arrScriptsOutput as $handle => $script){
 
-							echo "\n<script type='text/javascript' id='{$handle}'>\n";
-
-							echo $script."\n";
+							s_echo( "\n<script type='text/javascript' id='{$handle}'>\n");
+							
+							s_echo($script."\n");
 
 							echo "</script>\n";
 						}
@@ -715,7 +1505,7 @@ class HelperProviderUC{
 					foreach($arrModulesOutput as $script){
 
 						echo "<script type='module'>\n";
-						echo $script."\n";
+						s_echo($script."\n");
 						echo "</script>\n";
 
 					}
@@ -832,6 +1622,18 @@ class HelperProviderUC{
 		return $isChangelogEnabled;
 	}
 
+
+	/**
+	 * check if addon changelog is enabled
+	 */
+	public static function isAddonChangelogImportDisabled(){
+
+		$isChangelogImportDisabled = HelperProviderCoreUC_EL::getGeneralSetting("disable_import_changelog");
+		$isChangelogImportDisabled = UniteFunctionsUC::strToBool($isChangelogImportDisabled);
+
+		return $isChangelogImportDisabled;
+	}
+
 	/**
 	 * verify if addon changelog is enabled, use it before ajax actions
 	 */
@@ -883,9 +1685,6 @@ class HelperProviderUC{
 	 * check if form entries are enabled
 	 */
 	public static function isFormEntriesEnabled(){
-
-		if(GlobalsUnlimitedElements::$enableForms == false)
-			return(false);
 
 		$isEntriesEnabled = HelperProviderCoreUC_EL::getGeneralSetting("enable_form_entries");
 		$isEntriesEnabled = UniteFunctionsUC::strToBool($isEntriesEnabled);
@@ -973,7 +1772,13 @@ class HelperProviderUC{
 					$object = $function[0];
 					$method = $function[1];
 					
-					$className = get_class($object);
+					if(is_string($object))
+						$className = $object;
+					else
+					if(is_object($object))
+						$className = get_class($object);
+					else
+						$className = "";
 					
 					dmp("{$count}. "."{$className}->{$method}()");
 				}
@@ -1058,7 +1863,7 @@ class HelperProviderUC{
 			if(strpos($sql, "wp_postmeta") !== false)
 				$color = "red";
 
-			echo("<div style='padding:10px;border-bottom:1px solid lightgray;color:$color'> $numQuery: {$sql} </div>");
+			s_echo( "<div style='padding:10px;border-bottom:1px solid lightgray;color:$color'> $numQuery: {$sql} </div>");
 
 			if($showTrace){
 				echo "<div>";
@@ -1133,9 +1938,9 @@ class HelperProviderUC{
 	/**
 	 * show posts debug
 	 */
-	public static function showPostsDebug($arrPosts){
+	public static function showPostsDebug($arrPosts,$includePostObject = false){
 		
-		HelperUC::$operations->putPostsFullDebug($arrPosts);
+		HelperUC::$operations->putPostsFullDebug($arrPosts, $includePostObject);
 	}
 	
 	/**
@@ -1160,6 +1965,17 @@ class HelperProviderUC{
 			
 			dmp($htmlFields);
 		}
+		
+	}
+	
+	/**
+	 * show current post meta debug
+	 */
+	public static function showCurrentPostMetaDebug(){
+		
+		$post = get_post();
+		
+		HelperUC::$operations->putPostCustomFieldsDebug($post->ID);
 		
 	}
 	

@@ -67,6 +67,10 @@ class Static_Product extends Widget_Base
         return false;
     }
 
+    public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
     public function get_custom_help_url()
     {
         return 'https://essential-addons.com/elementor/docs/static-product/';
@@ -996,7 +1000,7 @@ class Static_Product extends Widget_Base
             [
                 'label'     => esc_html__('Content', 'essential-addons-elementor'),
                 'type'      => Controls_Manager::COLOR,
-                'default'   => '#7a7a7a',
+                'default'   => '#383838',
                 'selectors' => [
                     '{{WRAPPER}} .eael-static-product-details > p' => 'color: {{VALUE}};',
                 ],

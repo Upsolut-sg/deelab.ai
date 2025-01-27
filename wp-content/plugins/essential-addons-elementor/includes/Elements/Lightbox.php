@@ -66,6 +66,10 @@ class Lightbox extends Widget_Base
         return $is_dynamic_content;
     }
 
+	public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
 	public function get_custom_help_url()
 	{
 		return 'https://essential-addons.com/elementor/docs/lightbox-modal/';
@@ -316,10 +320,12 @@ class Lightbox extends Widget_Base
 		$this->add_control(
 			'eael_primary_templates',
 			[
-				'label'     => __('Choose Template', 'essential-addons-elementor'),
-				'type'      => Controls_Manager::SELECT,
-				'options'   => Helper::get_elementor_templates(),
-				'condition' => [
+				'label'       => __( 'Choose Template', 'essential-addons-elementor' ),
+				'type'        => 'eael-select2',
+				'source_name' => 'post_type',
+				'source_type' => 'elementor_library',
+				'label_block' => true,
+				'condition'   => [
 					'eael_lightbox_type' => 'lightbox_type_template',
 				],
 			]
@@ -2093,7 +2099,8 @@ class Lightbox extends Widget_Base
 					printf('<img src="%1$s" alt="%2$s">', esc_url($popup_image['url']), esc_attr(get_post_meta($popup_image['id'], '_wp_attachment_image_alt', true)));
 				} elseif ('lightbox_type_content' == ($settings['eael_lightbox_type'])) {
                     echo '<div class="eael-lightbox-content">';
-                      echo do_shortcode($settings['eael_lightbox_type_content']);
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo $this->parse_text_editor( $settings['eael_lightbox_type_content'] );
                     echo '</div>';
 				} elseif ('lightbox_type_template' == $settings['eael_lightbox_type']) {
 
@@ -2102,10 +2109,13 @@ class Lightbox extends Widget_Base
 						if ( ! is_array( $settings['eael_primary_templates'] ) ) {
 							$settings['eael_primary_templates'] = apply_filters( 'wpml_object_id', $settings['eael_primary_templates'], 'wp_template', true );
 						}
+
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						echo Plugin::$instance->frontend->get_builder_content( $settings['eael_primary_templates'], true );
 					}
 				} else if ('lightbox_type_custom_html' == $settings['eael_lightbox_type']) {
-					echo wp_kses( $settings['custom_html'], Helper::eael_allowed_icon_tags() );
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo $this->parse_text_editor( $settings['custom_html'] );
 				}
 				?>
 

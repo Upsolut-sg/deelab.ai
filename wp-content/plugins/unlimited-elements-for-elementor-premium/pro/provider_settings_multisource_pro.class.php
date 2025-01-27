@@ -262,7 +262,7 @@ class UniteCreatorSettingsMultisourcePro{
 		$arrSource[self::TYPE_TERMS] = __("Terms", "unlimited-elements-for-elementor");
 		$arrSource[self::TYPE_USERS] = __("Users", "unlimited-elements-for-elementor");
 		$arrSource[self::TYPE_MENU] = __("Menu", "unlimited-elements-for-elementor");
-		//$arrSource[self::TYPE_RSS] = __("RSS", "unlimited-elements-for-elementor");
+        $arrSource[self::TYPE_RSS] = __("RSS", "unlimited-elements-for-elementor");
 
 		$hasInstagram = HelperProviderCoreUC_EL::isInstagramSetUp();
 
@@ -338,9 +338,9 @@ class UniteCreatorSettingsMultisourcePro{
 
 		$this->addMultisourceConnectors_instagram($name, $arrIncludedAttributes);
 
-	        //rss
+        //rss
 
-	        $this->addMultisourceConnectors_rss($name, $arrIncludedAttributes);
+        $this->addMultisourceConnectors_rss($name, $arrIncludedAttributes);
 
 		//api
 
@@ -384,6 +384,7 @@ class UniteCreatorSettingsMultisourcePro{
 
 		$arrDebugType = array();
 		$arrDebugType["input"] = __("Input Data", "unlimited-elements-for-elementor");
+		$arrDebugType["original_input"] = __("Original Input Data", "unlimited-elements-for-elementor");
 		$arrDebugType["output"] = __("Input Settings", "unlimited-elements-for-elementor");
 		$arrDebugType["input_output"] = __("Data And Settings", "unlimited-elements-for-elementor");
 
@@ -393,7 +394,7 @@ class UniteCreatorSettingsMultisourcePro{
 
 
 		//--------- debug meta - for objects----------
-
+	
 		$conditionMeta = array($name."_source"=>array(self::TYPE_POSTS, self::TYPE_TERMS, self::TYPE_USERS, self::TYPE_MENU, self::TYPE_REPEATER));
 
 
@@ -427,7 +428,7 @@ class UniteCreatorSettingsMultisourcePro{
 
 			if(isset($arrIncludedAttributes[$name]) == false)
 				continue;
-
+	
 			$arrParamsNew[] = $param;
 		}
 
@@ -547,7 +548,7 @@ class UniteCreatorSettingsMultisourcePro{
 			$fieldsName = $name . "_api";
 			$fieldsCondition = array_merge($condition, array($apiTypeParamName => $type));
 
-			$integrationsManager->addSettingsFields($this->settings, $fields, $fieldsName, $fieldsCondition);
+			HelperProviderUC::addSettingsFields($this->settings, $fields, $fieldsName, $fieldsCondition);
 		}
 
 		// title source select
@@ -569,71 +570,16 @@ class UniteCreatorSettingsMultisourcePro{
 	 */
 	private function addMultisourceConnectors_repeater($name, $arrIncludedAttributes){
 
-		$isAcfExists = UniteCreatorAcfIntegrate::isAcfActive();
-
 		$paramsItems = $this->objAddon->getParamsItems();
 
 		$paramsItems = $this->filterParamItemsByIncludedAttributes($paramsItems, $arrIncludedAttributes);
 
 		if(empty($paramsItems))
 			return(false);
-
+		
 		$condition = array($name."_source"=>"repeater");
-
-		//-------------- repeater meta name ----------------
-
-		$params = array();
-		$params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTFIELD;
-		$params["elementor_condition"] = $condition;
-
-		if($isAcfExists == false)
-			$params["description"] = __("Choose meta field name it should be some array at the output", "unlimited-elements-for-elementor");
-		else
-			$params["description"] = __("Choose ACF field name. Repeater, Media, or types with items array output", "unlimited-elements-for-elementor");
-
-
-		if($isAcfExists == false)
-			$text = __("Meta Field Name", "unlimited-elements-for-elementor");
-		else
-			$text = __("ACF Field Name", "unlimited-elements-for-elementor");
-
-		$this->settings->addTextBox($name."_repeater_name", "", $text, $params);
-
-		// --- fields location -----------
-
-		$params = array();
-		$params["origtype"] = UniteCreatorDialogParam::PARAM_DROPDOWN;
-		$params["elementor_condition"] = $condition;
-
-		if($isAcfExists == false)
-			$text = __("Meta Field Location", "unlimited-elements-for-elementor");
-		else
-			$text = __("ACF Field Location", "unlimited-elements-for-elementor");
-
-		$arrLocations = array();
-		$arrLocations["current_post"] = __("Current Post", "unlimited-elements-for-elementor");
-		$arrLocations["parent_post"] = __("Parent Post", "unlimited-elements-for-elementor");
-		$arrLocations["selected_post"] = __("Select Post", "unlimited-elements-for-elementor");
-		$arrLocations["current_term"] = __("Current Term", "unlimited-elements-for-elementor");
-		$arrLocations["parent_term"] = __("Parent Term", "unlimited-elements-for-elementor");
-		$arrLocations["current_user"] = __("Current User", "unlimited-elements-for-elementor");
-
-		$arrLocations = array_flip($arrLocations);
-
-		$this->settings->addSelect($name."_repeater_location", $arrLocations, $text, "current_post", $params);
-
-		// --- location post select -----------
-
-		if($isAcfExists == false)
-			$text = __("Meta Field From Post", "unlimited-elements-for-elementor");
-		else
-			$text = __("ACF Field From Post", "unlimited-elements-for-elementor");
-
-		$conditionRepeaterPost = $condition;
-		$conditionRepeaterPost[$name."_repeater_location"] = "selected_post";
-
-		$this->settings->addPostIDSelect($name."_repeater_post", $text, $conditionRepeaterPost, "single");
-
+		
+		HelperProviderUC::addRepeaterSettings($this->settings, $name, $condition);
 
 		//--------- h3 before meta ----------
 
@@ -650,7 +596,6 @@ class UniteCreatorSettingsMultisourcePro{
 		$titleParam["title"] = "Title";
 
 		$this->putParamConnector_regular($name, $titleParam, $condition, self::TYPE_REPEATER);
-
 
 		// --- items source select
 
@@ -695,69 +640,8 @@ class UniteCreatorSettingsMultisourcePro{
 
 		$condition = array($name."_source"=>"json_csv");
 
-		//-------------- csv location ----------------
-
-		$params = array();
-		$params["origtype"] = UniteCreatorDialogParam::PARAM_DROPDOWN;
-		$params["elementor_condition"] = $condition;
-
-		$text = __("JSON or CSV Location", "unlimited-elements-for-elementor");
-
-		$arrLocations = array();
-		$arrLocations["textarea"] = __("Dynamic Textarea", "unlimited-elements-for-elementor");
-		$arrLocations["url"] = __("Url", "unlimited-elements-for-elementor");
-
-		$arrLocations = array_flip($arrLocations);
-
-		$this->settings->addSelect($name."_json_csv_location", $arrLocations, $text, "textarea", $params);
-
-		//-------------- dynamic field ----------------
-
-		$conditionField = $condition;
-		$conditionField[$name."_json_csv_location"] = "textarea";
-
-		$params = array();
-		$params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTAREA;
-		$params["elementor_condition"] = $conditionField;
-		$params["description"] = __("Put some JSON data or CSV data of array with the items, or choose from dynamic field", "unlimited-elements-for-elementor");
-		$params["add_dynamic"] = true;
-
-		$text = __("JSON or CSV Items Data", "unlimited-elements-for-elementor");
-
-		$this->settings->addTextBox($name."_json_csv_dynamic_field", "", $text, $params);
-
-		//-------------- csv url ----------------
-
-		$conditionUrl = $condition;
-		$conditionUrl[$name."_json_csv_location"] = "url";
-
-		$params = array();
-		$params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTFIELD;
-		$params["elementor_condition"] = $conditionUrl;
-		$params["description"] = __("Enter url of the the file or webhook. inside or outside of the website", "unlimited-elements-for-elementor");
-		$params["placeholder"] = "Example: https://yoursite.com/yourfile.json";
-		$params["add_dynamic"] = true;
-		$params["label_block"] = true;
-
-		$text = __("Url with the JSON or CSV", "unlimited-elements-for-elementor");
-		
-		$this->settings->addTextBox($name."_json_csv_url", "", $text, $params);
-		
-		//-------------- main key ----------------
-		
-		$params = array();
-		$params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTFIELD;
-		$params["elementor_condition"] = $condition;
-		$params["description"] = __("Optional. Enter the main array key where the actual data is located. Also paths like item.subitem can be used.", "unlimited-elements-for-elementor");
-		$params["placeholder"] = "";
-		$params["add_dynamic"] = true;
-		$params["label_block"] = false;
-
-		$text = __("Main Array Key", "unlimited-elements-for-elementor");
-		
-		$this->settings->addTextBox($name."_json_csv_mainkey", "", $text, $params);
-		
-
+		HelperProviderUC::addJsonCsvRepeaterSettings($this->settings, $name, $condition);
+	
 		//--------- h3 before connectors ----------
 
 		$params = array();
@@ -790,49 +674,13 @@ class UniteCreatorSettingsMultisourcePro{
 
         $condition = array($name."_source" => "rss");
 
-        //-------------- csv url ----------------
-
-        $params = array();
-        $params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTFIELD;
-        $params["elementor_condition"] = $condition;
-        $params["description"] = __("Enter some RSS service url", "unlimited-elements-for-elementor");
-        $params["placeholder"] = "Example: https://yoursite.com/rss";
-        $params["add_dynamic"] = true;
-        $params["label_block"] = true;
-		
-        $text = __("RSS URL", "unlimited-elements-for-elementor");
-
-        $this->settings->addTextBox($name."_rss_url", "", $text, $params);
-
-        //-------------- main key ----------------
-
-        $params = array();
-        $params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTFIELD;
-        $params["elementor_condition"] = $condition;
-        $params["description"] = __("Optional. Enter the main array key where the actual data is located. Also paths like item.subitem can be used.", "unlimited-elements-for-elementor");
-        $params["placeholder"] = "";
-        $params["add_dynamic"] = true;
-        $params["label_block"] = false;
-
-        $text = __("Main Array Key", "unlimited-elements-for-elementor");
-
-        $this->settings->addTextBox($name."_rss_mainkey", "", $text, $params);
-
-        //-------------- items limits ----------------
-
-        $params = array();
-        $params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTFIELD;
-        $params["elementor_condition"] = $condition;
-        $params["description"] = __("Optional. You can specify the maximum number of items: from 1 to 50., Use 0 for all", "unlimited-elements-for-elementor");
-        $params["placeholder"] = "0";
-        $params["default"] = "0";
-        $params["add_dynamic"] = true;
-        $params["label_block"] = false;
-
-        $text = __("Items Limit", "unlimited-elements-for-elementor");
-
-        $this->settings->addTextBox($name."_rss_items_limit", "", $text, $params);
-
+        $integrationsManager = UniteCreatorAPIIntegrations::getInstance();
+            	
+        $objRss = new UniteCreatorRSS();
+        
+        $fields = $objRss->getRssFields();
+        
+        $this->settings = HelperProviderUC::addSettingsFields($this->settings, $fields, $name, $condition);
 
         //--------- h3 before connectors ----------
 

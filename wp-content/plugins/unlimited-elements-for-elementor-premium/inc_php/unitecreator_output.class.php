@@ -415,7 +415,7 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 					
 					if($isModule == true)
 						$htmlType = "module";
-
+					// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript	
 					$html .= self::TAB2."<script type='{$htmlType}' src='{$url}'></script>".self::BR;
 					break;
 				case "css":
@@ -424,11 +424,13 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 					$isDelayedScript = apply_filters("unlimited_element_is_style_delayed", $cssID);
 
 					if($isDelayedScript === true){
+						// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
 						$styleHtml = "<link id='{$cssID}' data-debloat-delay='' data-href='{$url}' type='text/css' rel='stylesheet' media='all' >";
 
 						$html .= self::TAB2.$styleHtml.self::BR;
 					}
 					else
+						// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
 						$html .= self::TAB2."<link id='{$cssID}' href='{$url}' type='text/css' rel='stylesheet' >".self::BR;
 
 					break;
@@ -800,6 +802,39 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 
 		return $style;
 	}
+
+
+
+	private function processParamCSSSelector_textStroke($param, $selectors){
+
+		$value = UniteFunctionsUC::getVal($param, "value");
+		$width = UniteFunctionsUC::getVal($value, "width");
+		$color = UniteFunctionsUC::getVal($value, "color");
+
+		// Prepare CSS for stroke width
+		$width = $this->prepareCSSSelectorSliderCSS(self::SELECTOR_VALUE_PLACEHOLDER, $width);
+
+		$css = "";
+
+		// If both width and color are available, apply the text stroke
+		if($width !== "" && $color !== ""){
+			$selectorValue = HelperHtmlUC::getCSSSelectorValueByParam(UniteCreatorDialogParam::PARAM_TEXTSTROKE);
+
+			$css = $this->processCSSSelectorReplaces($selectorValue, array(
+				"{{width}}" => $width,
+				"{{color}}" => $color,
+			));
+		}
+
+		// Combine the selectors and prepare the style
+		$selector = $this->combineCSSSelectors($selectors);
+		$style = $this->prepareCSSSelectorStyle($selector, $css);
+
+		return $style;
+	}
+
+
+
 
 	/**
 	 * process css selector of box shadow param
@@ -1207,6 +1242,9 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 			case UniteCreatorDialogParam::PARAM_TEXTSHADOW:
 				$style = $this->processParamCSSSelector_textShadow($param, $selectors);
 			break;
+			case UniteCreatorDialogParam::PARAM_TEXTSTROKE:
+				$style = $this->processParamCSSSelector_textStroke($param, $selectors);
+			break;
 			case UniteCreatorDialogParam::PARAM_BOXSHADOW:
 				$style = $this->processParamCSSSelector_boxShadow($param, $selectors);
 			break;
@@ -1358,6 +1396,7 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 
 		//get head html
 		$htmlHead .= self::TAB2."<title>{$title}</title>".self::BR;
+		// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
 		$htmlHead .= self::TAB2."<link rel='stylesheet' href='{$urlPreviewCss}' type='text/css'>".self::BR;
 		$htmlHead .= $htmlInlcudesCss;
 
@@ -1403,16 +1442,13 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 	public function putPreviewHtml(){
 
 		$output = $this->getPreviewHtml();
-
-		echo UniteProviderFunctionsUC::escCombinedHtml($output["head"]);
+		s_echo($output["head"]);
 
 		//$this->putPreviewHtml_headerAdd();
-
-		echo UniteProviderFunctionsUC::escCombinedHtml($output["after_head"]);
+		s_echo($output["after_head"]);
 
 		$this->putPreviewHtml_footerAdd();
-
-		echo UniteProviderFunctionsUC::escCombinedHtml($output["end"]);
+		s_echo($output["end"]);
 	}
 
 	private function a________DYNAMIC___________(){}
@@ -1535,9 +1571,9 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 	 * put debug data html
 	 */
 	private function putDebugDataHtml_default($arrData, $arrItemData){
-
+		
 		$isShowData = $this->debugDataType != "items_only";
-
+	
 		$html = "";
 
 		if($isShowData == true){
@@ -1576,7 +1612,7 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 	 * modify debug array
 	 */
 	private function modifyDebugArray($arrDebug){
-
+		
 		if(is_array($arrDebug) == false)
 			$arrDebug = (array)$arrDebug;
 
@@ -1623,7 +1659,7 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 		}
 
 		$arrPost = $this->modifyDebugArray($post);
-
+		
 		$html = dmpGet("<b> ------- Post  ------- </b>");
 
 		$html .= dmpGet($arrPost);
@@ -1768,7 +1804,7 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 
 		//get data from listing
 		$paramListing = $this->addon->getListingParamForOutput();
-
+		
 		if(!empty($paramListing) && $this->itemsType == "template"){
 
 			$arrItemData = $this->putDebugDataHtml_getItemsFromListing($paramListing, $arrData);
@@ -1777,9 +1813,9 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 		switch($this->debugDataType){
 			case "post_titles":
 			case "post_meta":
-
+			
 				$html .= $this->putDebugDataHtml_posts($arrItemData);
-
+			
 			break;
 			case "current_post_data":
 

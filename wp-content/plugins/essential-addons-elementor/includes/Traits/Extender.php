@@ -287,7 +287,7 @@ trait Extender
                 <?php
                 $html = '<div class="eael-progressbar-box-inner-content">
                         ' . ($settings['progress_bar_title'] ? sprintf('<%1$s class="%2$s">', Helper::eael_validate_html_tag( $settings['progress_bar_title_html_tag'] ), 'eael-progressbar-title') . esc_html($settings['progress_bar_title']) . sprintf('</%1$s>', esc_html($settings['progress_bar_title_html_tag'])) : '') . '
-                        ' . ($settings['progress_bar_show_count'] === 'yes' ? '<span class="eael-progressbar-count-wrap"><span class="eael-progressbar-count">0</span><span class="postfix">' . esc_html__('%', 'essential-addons-for-elementor') . '</span></span>' : '') . '
+                        ' . ($settings['progress_bar_show_count'] === 'yes' ? '<span class="eael-progressbar-count-wrap"><span class="eael-progressbar-count">0</span><span class="postfix">' . esc_html__('%', 'essential-addons-elementor') . '</span></span>' : '') . '
                     </div>';
                     echo wp_kses( $html, Helper::eael_allowed_tags() );
                 ?>
@@ -588,10 +588,10 @@ trait Extender
         ]);
 
         $obj->add_control('use_gradient_background', [
-            'label' => __('Use Gradient Background', 'essential-addons-for-elementor'),
+            'label' => __('Use Gradient Background', 'essential-addons-elementor'),
             'type' => Controls_Manager::SWITCHER,
-            'label_on' => __('Show', 'essential-addons-for-elementor'),
-            'label_off' => __('Hide', 'essential-addons-for-elementor'),
+            'label_on' => __('Show', 'essential-addons-elementor'),
+            'label_off' => __('Hide', 'essential-addons-elementor'),
             'return_value' => 'yes',
             'default' => '',
         ]);
@@ -914,15 +914,15 @@ trait Extender
         $obj->end_controls_section();
     }
 
-    public function add_pricing_table_pro_styles($settings, $obj, $pricing, $button_link, $nofollow, $featured_class)
+    public function add_pricing_table_pro_styles($settings, $obj, $pricing, $button_url, $featured_class)
     {
         $settings = $obj->get_settings();
         $widget_id = $obj->get_id();
         $inline_style = ($settings['eael_pricing_table_featured_styles'] === 'ribbon-4' && 'yes' === $settings['eael_pricing_table_featured'] ? true : false);
         $obj->add_render_attribute('eael_pricing_button_' . $widget_id, [ 'class' => [ 'eael-pricing-button' ] ]);
         
-        if( isset( $settings['eael_pricing_table_btn_link']['url'] ) && $button_link !==  $settings['eael_pricing_table_btn_link']['url'] ){
-            $settings['eael_pricing_table_btn_link']['url'] = $button_link;
+        if( isset( $settings['eael_pricing_table_btn_link']['url'] ) && $button_url !==  $settings['eael_pricing_table_btn_link']['url'] ){
+            $settings['eael_pricing_table_btn_link']['url'] = $button_url;
         }
         if ( ! empty( $settings['eael_pricing_table_btn_link']['url'] ) ) {
             $obj->add_link_attributes( 'eael_pricing_button_' . $widget_id, $settings['eael_pricing_table_btn_link'] );
@@ -1401,7 +1401,7 @@ trait Extender
         ]);
 
         $wb->add_control('ea_adv_data_table_source_remote_connect', [
-            'label' => __('Connect DB', 'essential-addons-for-elementor'),
+            'label' => __('Connect DB', 'essential-addons-elementor'),
             'type' => Controls_Manager::BUTTON,
             'text' => __('Connect', 'essential-addons-elementor'),
             'event' => 'ea:advTable:connect',
@@ -1412,7 +1412,7 @@ trait Extender
         ]);
 
         $wb->add_control('ea_adv_data_table_source_remote_disconnect', [
-            'label' => __('Disconnect DB', 'essential-addons-for-elementor'),
+            'label' => __('Disconnect DB', 'essential-addons-elementor'),
             'type' => Controls_Manager::BUTTON,
             'text' => __('Disconnect', 'essential-addons-elementor'),
             'event' => 'ea:advTable:disconnect',
@@ -1520,7 +1520,7 @@ trait Extender
         } else {
             $wb->add_control('ea_adv_data_table_tablepress_required', [
                 'type' => Controls_Manager::RAW_HTML,
-                'raw' => __('<strong>TablePress</strong> is not installed/activated on your site. Please install and activate <a href="plugin-install.php?s=TablePress&tab=search&type=term" target="_blank">TablePress</a> first.', 'essential-addons-for-elementor'),
+                'raw' => __('<strong>TablePress</strong> is not installed/activated on your site. Please install and activate <a href="plugin-install.php?s=TablePress&tab=search&type=term" target="_blank">TablePress</a> first.', 'essential-addons-elementor'),
                 'content_classes' => 'eael-warning',
                 'condition' => [
                     'ea_adv_data_table_source' => 'tablepress',
@@ -1533,25 +1533,25 @@ trait Extender
     {
         if (apply_filters('eael/is_plugin_active', 'eventON/eventon.php')) {
             $obj->start_controls_section('eael_event_calendar_eventon_section', [
-                'label' => __('EventON', 'essential-addons-for-elementor'),
+                'label' => __('EventON', 'essential-addons-elementor'),
                 'condition' => [
                     'eael_event_calendar_type' => 'eventon',
                 ],
             ]);
 
             $obj->add_control('eael_eventon_calendar_fetch', [
-                'label' => __('Get Events', 'essential-addons-for-elementor'),
+                'label' => __('Get Events', 'essential-addons-elementor'),
                 'type' => Controls_Manager::SELECT,
                 'label_block' => true,
                 'default' => ['all'],
                 'options' => [
-                    'all' => __('All', 'essential-addons-for-elementor'),
-                    'date_range' => __('Date Range', 'essential-addons-for-elementor'),
+                    'all' => __('All', 'essential-addons-elementor'),
+                    'date_range' => __('Date Range', 'essential-addons-elementor'),
                 ],
             ]);
 
             $obj->add_control('eael_eventon_calendar_start_date', [
-                'label' => __('Start Date', 'essential-addons-for-elementor'),
+                'label' => __('Start Date', 'essential-addons-elementor'),
                 'type' => Controls_Manager::DATE_TIME,
                 'default' => date('Y-m-d H:i', current_time('timestamp', 0)),
                 'condition' => [
@@ -1560,7 +1560,7 @@ trait Extender
             ]);
 
             $obj->add_control('eael_eventon_calendar_end_date', [
-                'label' => __('End Date', 'essential-addons-for-elementor'),
+                'label' => __('End Date', 'essential-addons-elementor'),
                 'type' => Controls_Manager::DATE_TIME,
                 'default' => date('Y-m-d H:i', strtotime("+6 months", current_time('timestamp', 0))),
                 'condition' => [
@@ -1569,7 +1569,7 @@ trait Extender
             ]);
 
             $obj->add_control('eael_eventon_calendar_post_tag', [
-                'label' => __('Event Tag', 'essential-addons-for-elementor'),
+                'label' => __('Event Tag', 'essential-addons-elementor'),
                 'type' => Controls_Manager::SELECT2,
                 'multiple' => true,
                 'label_block' => true,
@@ -1600,7 +1600,7 @@ trait Extender
             }
 
             $obj->add_control('eael_eventon_calendar_event_location', [
-                'label' => __('Event Location', 'essential-addons-for-elementor'),
+                'label' => __('Event Location', 'essential-addons-elementor'),
                 'type' => Controls_Manager::SELECT2,
                 'multiple' => true,
                 'label_block' => true,
@@ -1612,7 +1612,7 @@ trait Extender
             ]);
 
             $obj->add_control('eael_eventon_calendar_event_organizer', [
-                'label' => __('Event Organizer', 'essential-addons-for-elementor'),
+                'label' => __('Event Organizer', 'essential-addons-elementor'),
                 'type' => Controls_Manager::SELECT2,
                 'multiple' => true,
                 'label_block' => true,
@@ -1624,7 +1624,7 @@ trait Extender
             ]);
 
             $obj->add_control('eael_eventon_calendar_max_result', [
-                'label' => __('Max Result', 'essential-addons-for-elementor'),
+                'label' => __('Max Result', 'essential-addons-elementor'),
                 'type' => Controls_Manager::NUMBER,
                 'min' => 1,
                 'default' => 100,
@@ -1639,7 +1639,7 @@ trait Extender
         if (!apply_filters('eael/is_plugin_active', 'eventon-lite/eventon.php')) {
             $obj->add_control('eael_eventon_warning_text', [
                 'type' => Controls_Manager::RAW_HTML,
-                'raw' => __('<strong>EventON</strong> is not installed/activated on your site. Please install and activate <a href="https://wordpress.org/plugins/eventon-lite/" target="_blank">EventON</a> first.', 'essential-addons-for-elementor'),
+                'raw' => __('<strong>EventON</strong> is not installed/activated on your site. Please install and activate <a href="https://wordpress.org/plugins/eventon-lite/" target="_blank">EventON</a> first.', 'essential-addons-elementor'),
                 'content_classes' => 'eael-warning',
                 'condition' => [
                     'eael_event_calendar_type' => 'eventon',
@@ -2110,7 +2110,7 @@ trait Extender
 		        $featured    = get_post_meta( $event_id, '_featured', true );
 
 		        $end = date( $date_format, ( $event['event_end_unix'] + 86400 ) );
-		        if ( get_post_meta( $event_id, 'evcal_allday', true ) === 'no' ) {
+		        if ( get_post_meta( $event_id, 'evcal_allday', true ) === 'no' || !( isset( $event['event_pmv']['_time_ext_type'] ) && in_array( 'dl', $event['event_pmv']['_time_ext_type'] ) ) ) {
 			        $date_format .= ' H:i';
 			        $all_day     = '';
 			        $end         = date( $date_format, $event['event_end_unix'] );
@@ -2127,7 +2127,7 @@ trait Extender
 
 		        $data[] = [
 			        'id'               => $event_id,
-			        'title'            => ! empty( $event['event_title'] ) ? html_entity_decode( $event['event_title'], ENT_QUOTES ) : __( 'No Title', 'essential-addons-for-elementor' ),
+			        'title'            => ! empty( $event['event_title'] ) ? html_entity_decode( $event['event_title'], ENT_QUOTES ) : __( 'No Title', 'essential-addons-elementor' ),
 			        'description'      => $content = get_post_field( 'post_content', $event_id ),
 			        'start'            => $start,
 			        'end'              => $end,
@@ -2426,7 +2426,7 @@ trait Extender
         ]);
 
         $obj->add_responsive_control('ea_woo_checkout_tabs_bottom_gap', [
-            'label' => esc_html__('Bottom Gap', 'essential-addons-for-elementor'),
+            'label' => esc_html__('Bottom Gap', 'essential-addons-elementor'),
             'type' => Controls_Manager::SLIDER,
             'range' => [
                 'px' => [
@@ -2659,10 +2659,10 @@ trait Extender
             'selector' => '{{WRAPPER}} .steps-buttons button',
         ]);
         $obj->start_controls_tabs('ea_woo_checkout_steps_btn_tabs');
-        $obj->start_controls_tab('ea_woo_checkout_steps_btn_tab_normal', ['label' => __('Normal', 'essential-addons-for-elementor')]);
+        $obj->start_controls_tab('ea_woo_checkout_steps_btn_tab_normal', ['label' => __('Normal', 'essential-addons-elementor')]);
 
         $obj->add_control('ea_woo_checkout_steps_btn_bg_color', [
-            'label' => __('Background Color', 'essential-addons-for-elementor'),
+            'label' => __('Background Color', 'essential-addons-elementor'),
             'type' => Controls_Manager::COLOR,
             'default' => '#7866ff',
             'selectors' => [
@@ -2672,7 +2672,7 @@ trait Extender
         ]);
 
         $obj->add_control('ea_woo_checkout_steps_btn_color', [
-            'label' => __('Color', 'essential-addons-for-elementor'),
+            'label' => __('Color', 'essential-addons-elementor'),
             'type' => Controls_Manager::COLOR,
             'default' => '#ffffff',
             'selectors' => [
@@ -2689,10 +2689,10 @@ trait Extender
 
         $obj->end_controls_tab();
 
-        $obj->start_controls_tab('ea_woo_checkout_steps_btn_tab_hover', ['label' => __('Hover', 'essential-addons-for-elementor')]);
+        $obj->start_controls_tab('ea_woo_checkout_steps_btn_tab_hover', ['label' => __('Hover', 'essential-addons-elementor')]);
 
         $obj->add_control('ea_woo_checkout_steps_btn_bg_color_hover', [
-            'label' => __('Background Color', 'essential-addons-for-elementor'),
+            'label' => __('Background Color', 'essential-addons-elementor'),
             'type' => Controls_Manager::COLOR,
             'default' => '#7866ff',
             'selectors' => [
@@ -2702,7 +2702,7 @@ trait Extender
         ]);
 
         $obj->add_control('ea_woo_checkout_steps_btn_color_hover', [
-            'label' => __('Color', 'essential-addons-for-elementor'),
+            'label' => __('Color', 'essential-addons-elementor'),
             'type' => Controls_Manager::COLOR,
             'default' => '#ffffff',
             'selectors' => [
@@ -2712,7 +2712,7 @@ trait Extender
         ]);
 
         $obj->add_control('ea_woo_checkout_steps_btn_border_color_hover', [
-            'label' => __('Border Color', 'essential-addons-for-elementor'),
+            'label' => __('Border Color', 'essential-addons-elementor'),
             'type' => Controls_Manager::COLOR,
             'selectors' => [
                 '{{WRAPPER}} .ea-woo-checkout .steps-buttons button:hover,
@@ -2727,7 +2727,7 @@ trait Extender
         $obj->end_controls_tabs();
 
         $obj->add_control('ea_woo_checkout_steps_btn_border_radius', [
-            'label' => __('Border Radius', 'essential-addons-for-elementor'),
+            'label' => __('Border Radius', 'essential-addons-elementor'),
             'type' => Controls_Manager::DIMENSIONS,
             'size_units' => [
                 'px',
@@ -3454,7 +3454,7 @@ if ($btn_text) {
 	 */
 	public function lr_init_style_social_controls( Login_Register $lr ) {
 		$lr->start_controls_section( 'section_style_social_login', [
-			'label'      => __( 'Social Login Style', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Social Login Style', 'essential-addons-elementor' ),
 			'tab'        => Controls_Manager::TAB_STYLE,
 			'conditions' => [
 				'relation' => 'or',
@@ -3472,15 +3472,15 @@ if ($btn_text) {
 		] );
 		$container = "{{WRAPPER}} .lr-social-login-container";
 		$lr->add_control( 'eael_sl_pot', [
-			'label'        => __( 'Social Container', 'essential-addons-for-elementor' ),
+			'label'        => __( 'Social Container', 'essential-addons-elementor' ),
 			'type'         => Controls_Manager::POPOVER_TOGGLE,
-			'label_off'    => __( 'Default', 'essential-addons-for-elementor' ),
-			'label_on'     => __( 'Custom', 'essential-addons-for-elementor' ),
+			'label_off'    => __( 'Default', 'essential-addons-elementor' ),
+			'label_on'     => __( 'Custom', 'essential-addons-elementor' ),
 			'return_value' => 'yes',
 		] );
 		$lr->start_popover();
 		$lr->add_responsive_control( "eael_sl_wrap_width", [
-			'label'      => esc_html__( 'Width', 'essential-addons-for-elementor' ),
+			'label'      => esc_html__( 'Width', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::SLIDER,
 			'size_units' => [
 				'px',
@@ -3510,7 +3510,7 @@ if ($btn_text) {
 		] );
 
 		$lr->add_responsive_control( "eael_sl_wrap_height", [
-			'label'      => esc_html__( 'Height', 'essential-addons-for-elementor' ),
+			'label'      => esc_html__( 'Height', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::SLIDER,
 			'size_units' => [
 				'px',
@@ -3536,7 +3536,7 @@ if ($btn_text) {
 		] );
 
 		$lr->add_responsive_control( "eael_sl_wrap_margin", [
-			'label'      => __( 'Margin', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Margin', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -3551,7 +3551,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_responsive_control( "eael_sl_wrap_padding", [
-			'label'      => __( 'Padding', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Padding', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -3573,7 +3573,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_control( "eael_sl_wrap_border_radius", [
-			'label'      => __( 'Border Radius', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Border Radius', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -3588,7 +3588,7 @@ if ($btn_text) {
 			'separator'  => 'after',
 		] );
 		$lr->add_control( "eael_sl_wrap_text_color", [
-			'label'     => __( 'Text Color', 'essential-addons-for-elementor' ),
+			'label'     => __( 'Text Color', 'essential-addons-elementor' ),
 			'type'      => Controls_Manager::COLOR,
 			'selectors' => [
 				$container => 'color: {{VALUE}};',
@@ -3600,7 +3600,7 @@ if ($btn_text) {
 		] );
 		$lr->add_group_control( Group_Control_Background::get_type(), [
 			'name'      => "eael_sl_wrap_bg_color",
-			'label'     => __( 'Background Color', 'essential-addons-for-elementor' ),
+			'label'     => __( 'Background Color', 'essential-addons-elementor' ),
 			'types'     => [
 				'classic',
 				'gradient',
@@ -3613,11 +3613,11 @@ if ($btn_text) {
 		$lr->end_popover();
 
 		$lr->add_responsive_control( "eael_sl_btn_display_type", [
-			'label'     => __( 'Display Button as', 'essential-addons-for-elementor' ),
+			'label'     => __( 'Display Button as', 'essential-addons-elementor' ),
 			'type'      => Controls_Manager::SELECT,
 			'options'   => [
-				'row'    => __( 'Inline', 'essential-addons-for-elementor' ),
-				'column' => __( 'Block', 'essential-addons-for-elementor' ),
+				'row'    => __( 'Inline', 'essential-addons-elementor' ),
+				'column' => __( 'Block', 'essential-addons-elementor' ),
 			],
 			'default'   => 'row',
 			'selectors' => [
@@ -3853,10 +3853,10 @@ if ($btn_text) {
 		$condition_name = 'facebook' === $btn_type ? 'enable_fb_login' : "enable_{$btn_type}_login";
 
 		$lr->add_control( "eael_sl_{$btn_type}_btn_pot", [
-			'label'        => sprintf( __( '%s Button', 'essential-addons-for-elementor' ), ucfirst( $btn_type ) ),
+			'label'        => sprintf( __( '%s Button', 'essential-addons-elementor' ), ucfirst( $btn_type ) ),
 			'type'         => Controls_Manager::POPOVER_TOGGLE,
-			'label_off'    => __( 'Default', 'essential-addons-for-elementor' ),
-			'label_on'     => __( 'Custom', 'essential-addons-for-elementor' ),
+			'label_off'    => __( 'Default', 'essential-addons-elementor' ),
+			'label_on'     => __( 'Custom', 'essential-addons-elementor' ),
 			'return_value' => 'yes',
 			'separator'    => 'before',
 			'condition'    => [ $condition_name => 'yes' ],
@@ -3872,7 +3872,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_responsive_control( "eael_sl_{$btn_type}_btn_width", [
-			'label'      => esc_html__( 'Button Width', 'essential-addons-for-elementor' ),
+			'label'      => esc_html__( 'Button Width', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::SLIDER,
 			'size_units' => [
 				'px',
@@ -3901,7 +3901,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_responsive_control( "eael_sl_{$btn_type}_btn_height", [
-			'label'      => esc_html__( 'Button Height', 'essential-addons-for-elementor' ),
+			'label'      => esc_html__( 'Button Height', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::SLIDER,
 			'size_units' => [
 				'px',
@@ -3926,7 +3926,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_responsive_control( "eael_sl_{$btn_type}_btn_margin", [
-			'label'      => __( 'Margin', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Margin', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -3941,7 +3941,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_responsive_control( "eael_sl_{$btn_type}_btn_padding", [
-			'label'      => __( 'Padding', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Padding', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -3963,7 +3963,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_control( "eael_sl_{$btn_type}_btn_border_radius", [
-			'label'      => __( 'Border Radius', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Border Radius', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -3978,7 +3978,7 @@ if ($btn_text) {
 			'separator'  => 'after',
 		] );
 		$lr->add_control( "eael_sl_{$btn_type}_btn_text_color", [
-			'label'     => __( 'Text Color', 'essential-addons-for-elementor' ),
+			'label'     => __( 'Text Color', 'essential-addons-elementor' ),
 			'type'      => Controls_Manager::COLOR,
 			'selectors' => [
 				$btn_class => 'color: {{VALUE}};',
@@ -3990,7 +3990,7 @@ if ($btn_text) {
 		] );
 		$lr->add_group_control( Group_Control_Background::get_type(), [
 			'name'      => "eael_sl_{$btn_type}_btn_bg_color",
-			'label'     => __( 'Background Color', 'essential-addons-for-elementor' ),
+			'label'     => __( 'Background Color', 'essential-addons-elementor' ),
 			'types'     => [
 				'classic',
 				'gradient',
@@ -4004,21 +4004,21 @@ if ($btn_text) {
 		$lr->end_popover();
 		$lr->add_group_control( Group_Control_Typography::get_type(), [
 			'name'     => "eael_sl_{$btn_type}_btn_typo",
-			'label'    => sprintf( __( '%s Button Typography', 'essential-addons-for-elementor' ), ucfirst( $btn_type ) ),
+			'label'    => sprintf( __( '%s Button Typography', 'essential-addons-elementor' ), ucfirst( $btn_type ) ),
 			'selector' => $btn_class,
 		] );
 
 		// Button icon
 		$lr->add_control( "eael_sl_{$btn_type}_icon_pot", [
-			'label'        => sprintf( __( '%s  Button Icon', 'essential-addons-for-elementor' ), ucfirst( $btn_type ) ),
+			'label'        => sprintf( __( '%s  Button Icon', 'essential-addons-elementor' ), ucfirst( $btn_type ) ),
 			'type'         => Controls_Manager::POPOVER_TOGGLE,
-			'label_off'    => __( 'Default', 'essential-addons-for-elementor' ),
-			'label_on'     => __( 'Custom', 'essential-addons-for-elementor' ),
+			'label_off'    => __( 'Default', 'essential-addons-elementor' ),
+			'label_on'     => __( 'Custom', 'essential-addons-elementor' ),
 			'return_value' => 'yes',
 		] );
 		$lr->start_popover();
 		$lr->add_responsive_control( "eael_sl_{$btn_type}_icon_width", [
-			'label'      => esc_html__( 'Icon Width', 'essential-addons-for-elementor' ),
+			'label'      => esc_html__( 'Icon Width', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::SLIDER,
 			'size_units' => [
 				'px',
@@ -4047,7 +4047,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_responsive_control( "eael_sl_{$btn_type}_icon_height", [
-			'label'      => esc_html__( 'Icon Height', 'essential-addons-for-elementor' ),
+			'label'      => esc_html__( 'Icon Height', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::SLIDER,
 			'size_units' => [
 				'px',
@@ -4076,7 +4076,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_responsive_control( "eael_sl_{$btn_type}_icon_margin", [
-			'label'      => __( 'Margin', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Margin', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -4091,7 +4091,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_responsive_control( "eael_sl_{$btn_type}_icon_padding", [
-			'label'      => __( 'Padding', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Padding', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -4107,7 +4107,7 @@ if ($btn_text) {
 		] );
 		$lr->add_group_control( Group_Control_Background::get_type(), [
 			'name'      => "eael_sl_{$btn_type}_icon_bg_color",
-			'label'     => __( 'Background Color', 'essential-addons-for-elementor' ),
+			'label'     => __( 'Background Color', 'essential-addons-elementor' ),
 			'types'     => [
 				'classic',
 				'gradient',
@@ -4125,7 +4125,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_control( "eael_sl_{$btn_type}_icon_border_radius", [
-			'label'      => __( 'Border Radius', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Border Radius', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -4150,10 +4150,10 @@ if ($btn_text) {
 		$sep_text  = '{{WRAPPER}} .lr-social-login-container .lr-separator p';
 		$sep_hr    = '{{WRAPPER}} .lr-social-login-container .lr-separator hr';
 		$lr->add_control( 'eael_sl_sep_pot', [
-			'label'        => __( 'Separator', 'essential-addons-for-elementor' ),
+			'label'        => __( 'Separator', 'essential-addons-elementor' ),
 			'type'         => Controls_Manager::POPOVER_TOGGLE,
-			'label_off'    => __( 'Default', 'essential-addons-for-elementor' ),
-			'label_on'     => __( 'Custom', 'essential-addons-for-elementor' ),
+			'label_off'    => __( 'Default', 'essential-addons-elementor' ),
+			'label_on'     => __( 'Custom', 'essential-addons-elementor' ),
 			'return_value' => 'yes',
 			'separator'    => 'before',
 			'condition'    => [
@@ -4162,7 +4162,7 @@ if ($btn_text) {
 		] );
 		$lr->start_popover();
 		$lr->add_responsive_control( "eael_sl_sep_width", [
-			'label'      => esc_html__( 'Divider Width', 'essential-addons-for-elementor' ),
+			'label'      => esc_html__( 'Divider Width', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::SLIDER,
 			'size_units' => [
 				'px',
@@ -4193,7 +4193,7 @@ if ($btn_text) {
 		] );
 
 		$lr->add_responsive_control( "eael_sl_sep_height", [
-			'label'      => esc_html__( 'Divider Height', 'essential-addons-for-elementor' ),
+			'label'      => esc_html__( 'Divider Height', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::SLIDER,
 			'size_units' => [
 				'px',
@@ -4220,7 +4220,7 @@ if ($btn_text) {
 		] );
 
 		$lr->add_responsive_control( "eael_sl_sep_margin", [
-			'label'      => __( 'Margin', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Margin', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -4236,7 +4236,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_responsive_control( "eael_sl_sep_padding", [
-			'label'      => __( 'Padding', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Padding', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -4260,7 +4260,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_control( "eael_sl_sep_border_radius", [
-			'label'      => __( 'Border Radius', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Border Radius', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -4276,7 +4276,7 @@ if ($btn_text) {
 			'separator'  => 'after',
 		] );
 		$lr->add_control( "eael_sl_sep_text_color", [
-			'label'     => __( 'Color', 'essential-addons-for-elementor' ),
+			'label'     => __( 'Color', 'essential-addons-elementor' ),
 			'type'      => Controls_Manager::COLOR,
 			'selectors' => [
 				$sep_text => 'color: {{VALUE}};',
@@ -4289,7 +4289,7 @@ if ($btn_text) {
 		] );
 		$lr->add_group_control( Group_Control_Background::get_type(), [
 			'name'      => "eael_sl_sep_bg_color",
-			'label'     => __( 'Background Color', 'essential-addons-for-elementor' ),
+			'label'     => __( 'Background Color', 'essential-addons-elementor' ),
 			'types'     => [
 				'classic',
 				'gradient',
@@ -4302,7 +4302,7 @@ if ($btn_text) {
 		$lr->end_popover();
 		$lr->add_group_control( Group_Control_Typography::get_type(), [
 			'name'      => "eael_sl_sep_typo",
-			'label'     => __( 'Separator Typography', 'essential-addons-for-elementor' ),
+			'label'     => __( 'Separator Typography', 'essential-addons-elementor' ),
 			'selector'  => $sep_text,
 			'condition' => [
 				'separator_type' => 'text',
@@ -4569,7 +4569,7 @@ if ($btn_text) {
 	 */
 	public function lr_init_style_pass_strength_controls( Login_Register $lr ) {
 		$lr->start_controls_section( 'section_style_pass_strength', [
-			'label' => __( 'Password Strength', 'essential-addons-for-elementor' ),
+			'label' => __( 'Password Strength', 'essential-addons-elementor' ),
 			'tab'   => Controls_Manager::TAB_STYLE,
 			//'condition' => [
 			//	'show_pass_strength' => 'yes',
@@ -4580,7 +4580,7 @@ if ($btn_text) {
 		$meter             = "{{WRAPPER}} .eael-pass-meter";
 		$hint             = "{{WRAPPER}} .eael-pass-hint";
 		$lr->add_responsive_control( "eael_ps_wrap_width", [
-			'label'      => esc_html__( 'Width', 'essential-addons-for-elementor' ),
+			'label'      => esc_html__( 'Width', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::SLIDER,
 			'size_units' => [
 				'px',
@@ -4606,7 +4606,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_responsive_control( "eael_ps_wrap_height", [
-			'label'      => esc_html__( 'Height', 'essential-addons-for-elementor' ),
+			'label'      => esc_html__( 'Height', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::SLIDER,
 			'size_units' => [
 				'px',
@@ -4628,7 +4628,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_responsive_control( "eael_ps_wrap_margin", [
-			'label'      => __( 'Box Margin', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Box Margin', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -4641,7 +4641,7 @@ if ($btn_text) {
 		] );
 
 		$lr->add_responsive_control( "eael_ps_wrap_padding", [
-			'label'      => __( 'Box Padding', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Box Padding', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -4654,7 +4654,7 @@ if ($btn_text) {
 			'separator'  => 'after',
 		] );
 		$lr->add_responsive_control( "eael_ps_meter_margin", [
-			'label'      => __( 'Meter Margin', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Meter Margin', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -4666,7 +4666,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_responsive_control( "eael_ps_text_margin", [
-			'label'      => __( 'Strength Text Margin', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Strength Text Margin', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -4678,7 +4678,7 @@ if ($btn_text) {
 			],
 		] );
 		$lr->add_responsive_control( "eael_ps_hint_margin", [
-			'label'      => __( 'Password Hint Margin', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Password Hint Margin', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -4712,7 +4712,7 @@ if ($btn_text) {
 			'selector' => $notice_container,
 		] );
 		$lr->add_control( "eael_ps_wrap_border_radius", [
-			'label'      => __( 'Border Radius', 'essential-addons-for-elementor' ),
+			'label'      => __( 'Border Radius', 'essential-addons-elementor' ),
 			'type'       => Controls_Manager::DIMENSIONS,
 			'size_units' => [
 				'px',
@@ -4779,7 +4779,7 @@ if ($btn_text) {
 		] );
 		$lr->add_group_control( Group_Control_Background::get_type(), [
 			'name'     => "eael_ps_wrap_bg_color",
-			'label'    => __( 'Background Color', 'essential-addons-for-elementor' ),
+			'label'    => __( 'Background Color', 'essential-addons-elementor' ),
 			'types'    => [
 				'classic',
 				'gradient',
@@ -4787,19 +4787,19 @@ if ($btn_text) {
 			'selector' => $notice_container,
 		] );
 		$lr->add_responsive_control( 'eael_ps_align', [
-			'label'     => __( 'Alignment', 'essential-addons-for-elementor' ),
+			'label'     => __( 'Alignment', 'essential-addons-elementor' ),
 			'type'      => Controls_Manager::CHOOSE,
 			'options'   => [
 				'left'   => [
-					'title' => __( 'Left', 'essential-addons-for-elementor' ),
+					'title' => __( 'Left', 'essential-addons-elementor' ),
 					'icon'  => 'eicon-text-align-left',
 				],
 				'center' => [
-					'title' => __( 'Center', 'essential-addons-for-elementor' ),
+					'title' => __( 'Center', 'essential-addons-elementor' ),
 					'icon'  => 'eicon-text-align-center',
 				],
 				'right'  => [
-					'title' => __( 'Right', 'essential-addons-for-elementor' ),
+					'title' => __( 'Right', 'essential-addons-elementor' ),
 					'icon'  => 'eicon-text-align-right',
 				],
 			],
@@ -4952,7 +4952,7 @@ if ($btn_text) {
 		    'important_note',
 		    [
 			    'type'            => Controls_Manager::RAW_HTML,
-			    'raw'             => __( '<strong>Short Description</strong> is only applicable for List Layout.', 'essential-addons-for-elementor' ),
+			    'raw'             => __( '<strong>Short Description</strong> is only applicable for List Layout.', 'essential-addons-elementor' ),
 			    'content_classes' => 'eael-warning',
 			    'condition'   => [
 				    'item_key' => 'description',
@@ -4976,11 +4976,11 @@ if ($btn_text) {
 	    $element->add_control(
 		    'enable_eael_layout_custom_ordering',
 		    [
-			    'label'        => esc_html__( 'Content Custom Ordering', 'essential-addons-for-elementor' ),
+			    'label'        => esc_html__( 'Content Custom Ordering', 'essential-addons-elementor' ),
 			    'type'         => Controls_Manager::SWITCHER,
-			    'label_on'     => esc_html__( 'Yes', 'essential-addons-for-elementor' ),
-			    'label_off'    => esc_html__( 'No', 'essential-addons-for-elementor' ),
-			    'description'  => esc_html__( 'This option allows you to reorder Title, Price, Ratings and Sold Count position.', 'essential-addons-for-elementor' ),
+			    'label_on'     => esc_html__( 'Yes', 'essential-addons-elementor' ),
+			    'label_off'    => esc_html__( 'No', 'essential-addons-elementor' ),
+			    'description'  => esc_html__( 'This option allows you to reorder Title, Price, Ratings and Sold Count position.', 'essential-addons-elementor' ),
 			    'return_value' => 'yes',
 			    'default'      => '',
 			    'separator'    => 'before',
@@ -5004,33 +5004,33 @@ if ($btn_text) {
 
         $default_value = [
 	        [
-		        'title'    => esc_html__( 'Title', 'essential-addons-for-elementor' ),
+		        'title'    => esc_html__( 'Title', 'essential-addons-elementor' ),
 		        'item_key' => 'title',
 	        ],
 	        [
-		        'title'    => esc_html__( 'Price', 'essential-addons-for-elementor' ),
+		        'title'    => esc_html__( 'Price', 'essential-addons-elementor' ),
 		        'item_key' => 'price',
 	        ],
 	        [
-		        'title'    => esc_html__( 'Ratings', 'essential-addons-for-elementor' ),
+		        'title'    => esc_html__( 'Ratings', 'essential-addons-elementor' ),
 		        'item_key' => 'ratings',
 	        ],
 	        [
-		        'title'    => esc_html__( 'Sold Count', 'essential-addons-for-elementor' ),
+		        'title'    => esc_html__( 'Sold Count', 'essential-addons-elementor' ),
 		        'item_key' => 'sold_count',
 	        ],
         ];
 
         if ( $element->get_name() === 'eicon-woocommerce' ){
             $default_value[] = [
-	            'title'    => esc_html__( 'Description', 'essential-addons-for-elementor' ),
+	            'title'    => esc_html__( 'Description', 'essential-addons-elementor' ),
 	            'item_key' => 'description',
             ];
 
             $element->add_control(
                 'eael_layout_contents_ordering',
                 [
-                    'label'       => esc_html__( 'Content Ordering', 'essential-addons-for-elementor' ),
+                    'label'       => esc_html__( 'Content Ordering', 'essential-addons-elementor' ),
                     'type'        => Controls_Manager::REPEATER,
                     'fields'      => $repeater->get_controls(),
                     'default'     => $default_value,
@@ -5045,7 +5045,7 @@ if ($btn_text) {
             $element->add_control(
                 'eael_layout_contents_ordering',
                 [
-                    'label'       => esc_html__( 'Content Ordering', 'essential-addons-for-elementor' ),
+                    'label'       => esc_html__( 'Content Ordering', 'essential-addons-elementor' ),
                     'type'        => Controls_Manager::REPEATER,
                     'fields'      => $repeater->get_controls(),
                     'default'     => $default_value,
@@ -5070,13 +5070,13 @@ if ($btn_text) {
 	    $element->add_control(
 		    'eael_product_rating_type',
 		    [
-			    'label'     => esc_html__( 'Type', 'essential-addons-for-elementor' ),
+			    'label'     => esc_html__( 'Type', 'essential-addons-elementor' ),
 			    'type'      => Controls_Manager::SELECT,
 			    'default'   => 'stars',
 			    'options'   => [
-				    'stars'        => esc_html__( '&#10029;&#10029;&#10029;&#10029;&#10027;', 'essential-addons-for-elementor' ),
-				    'stars-number' => esc_html__( '&#10029; 4.7', 'essential-addons-for-elementor' ),
-				    'number'       => esc_html__( '4.7/5', 'essential-addons-for-elementor' ),
+				    'stars'        => esc_html__( '&#10029;&#10029;&#10029;&#10029;&#10027;', 'essential-addons-elementor' ),
+				    'stars-number' => esc_html__( '&#10029; 4.7', 'essential-addons-elementor' ),
+				    'number'       => esc_html__( '4.7/5', 'essential-addons-elementor' ),
 			    ],
 			    'conditions' => [
 				    'relation' => 'or',
@@ -5120,7 +5120,7 @@ if ($btn_text) {
         if ( 'eicon-woocommerce' === $widget_name ) {
             $element->add_control(
                 'eael_product_sold_count', [
-                    'label'        => esc_html__( 'Show Sold Count?', 'essential-addons-for-elementor-lite' ),
+                    'label'        => esc_html__( 'Show Sold Count?', 'essential-addons-elementor' ),
                     'type'         => Controls_Manager::SWITCHER,
                     'return_value' => 'yes',
                     'default'      => '',
@@ -5132,7 +5132,7 @@ if ($btn_text) {
         } else {
             $element->add_control(
                 'eael_product_sold_count', [
-                    'label'        => esc_html__( 'Show Sold Count?', 'essential-addons-for-elementor-lite' ),
+                    'label'        => esc_html__( 'Show Sold Count?', 'essential-addons-elementor' ),
                     'type'         => Controls_Manager::SWITCHER,
                     'return_value' => 'yes',
                     'default'      => '',
@@ -5143,13 +5143,13 @@ if ($btn_text) {
 	    $element->add_control(
 		    'eael_product_sold_count_type',
 		    [
-			    'label'     => esc_html__( 'Type', 'essential-addons-for-elementor' ),
+			    'label'     => esc_html__( 'Type', 'essential-addons-elementor' ),
 			    'type'      => Controls_Manager::SELECT,
 			    'default'   => 'number',
 			    'options'   => [
-				    'number'     => esc_html__( 'Only Count', 'essential-addons-for-elementor' ),
-				    'bar-number' => esc_html__( 'Count with Progress Bar', 'essential-addons-for-elementor' ),
-				    'bar'        => esc_html__( 'Only Progress Bar', 'essential-addons-for-elementor' ),
+				    'number'     => esc_html__( 'Only Count', 'essential-addons-elementor' ),
+				    'bar-number' => esc_html__( 'Count with Progress Bar', 'essential-addons-elementor' ),
+				    'bar'        => esc_html__( 'Only Progress Bar', 'essential-addons-elementor' ),
 			    ],
 			    'condition' => [
 				    'eael_product_sold_count' => 'yes',
@@ -5160,7 +5160,7 @@ if ($btn_text) {
 	    $element->add_control(
 		    'eael_product_sold_count_bar_width',
 		    [
-			    'label'       => esc_html__( 'Width', 'essential-addons-for-elementor' ),
+			    'label'       => esc_html__( 'Width', 'essential-addons-elementor' ),
 			    'type'        => Controls_Manager::SLIDER,
 			    'size_units'  => [ '%' ],
 			    'range'       => [
@@ -5177,14 +5177,14 @@ if ($btn_text) {
 				    'eael_product_sold_count' => 'yes',
 				    'eael_product_sold_count_type!' => 'number',
 			    ],
-			    'description' => esc_html__( 'This width applied in progress bar for those products which stocks are not managed', 'essential-addons-for-elementor' ),
+			    'description' => esc_html__( 'This width applied in progress bar for those products which stocks are not managed', 'essential-addons-elementor' ),
 		    ]
 	    );
 
 	    $element->add_control(
 		    'eael_product_sold_count_bar_height',
 		    [
-			    'label'      => esc_html__( 'Height', 'essential-addons-for-elementor' ),
+			    'label'      => esc_html__( 'Height', 'essential-addons-elementor' ),
 			    'type'       => Controls_Manager::SLIDER,
 			    'size_units' => [ '%' ],
 			    'range'      => [
@@ -5210,7 +5210,7 @@ if ($btn_text) {
 	    $element->add_control(
 		    'eael_product_sold_count_text',
 		    [
-			    'label'       => esc_html__( 'Text', 'essential-addons-for-elementor' ),
+			    'label'       => esc_html__( 'Text', 'essential-addons-elementor' ),
 			    'type'        => Controls_Manager::TEXTAREA,
 			    'default'     => '[sold_count] Sold',
 			    'condition'   => [
@@ -5220,26 +5220,26 @@ if ($btn_text) {
                 'ai' => [
                         'active' => false
                 ],
-			    'description' => __( '<strong>[sold_count]</strong> Will be replaced with actual amount.', 'essential-addons-for-elementor' ),
+			    'description' => __( '<strong>[sold_count]</strong> Will be replaced with actual amount.', 'essential-addons-elementor' ),
 		    ]
 	    );
 
 	    $element->add_control(
 		    'eael_product_sold_count_text_align',
 		    [
-			    'label'     => esc_html__( 'Alignment', 'essential-addons-for-elementor' ),
+			    'label'     => esc_html__( 'Alignment', 'essential-addons-elementor' ),
 			    'type'      => Controls_Manager::CHOOSE,
 			    'options'   => [
 				    'left'   => [
-					    'title' => esc_html__( 'Left', 'essential-addons-for-elementor' ),
+					    'title' => esc_html__( 'Left', 'essential-addons-elementor' ),
 					    'icon'  => 'eicon-text-align-left',
 				    ],
 				    'center' => [
-					    'title' => esc_html__( 'Center', 'essential-addons-for-elementor' ),
+					    'title' => esc_html__( 'Center', 'essential-addons-elementor' ),
 					    'icon'  => 'eicon-text-align-center',
 				    ],
 				    'right'  => [
-					    'title' => esc_html__( 'Right', 'essential-addons-for-elementor' ),
+					    'title' => esc_html__( 'Right', 'essential-addons-elementor' ),
 					    'icon'  => 'eicon-text-align-right',
 				    ],
 			    ],
@@ -5270,7 +5270,7 @@ if ($btn_text) {
 	    $element->add_control(
 		    'eael_product_sold_count_heading',
 		    [
-			    'label'     => __( 'Product Sold Count', 'essential-addons-for-elementor' ),
+			    'label'     => __( 'Product Sold Count', 'essential-addons-elementor' ),
 			    'type'      => Controls_Manager::HEADING,
 			    'condition' => [
 				    'eael_product_sold_count'       => 'yes',
@@ -5282,7 +5282,7 @@ if ($btn_text) {
 	    $element->add_control(
 		    'eael_product_sold_count_color',
 		    [
-			    'label'     => esc_html__( 'Color', 'essential-addons-for-elementor' ),
+			    'label'     => esc_html__( 'Color', 'essential-addons-elementor' ),
 			    'type'      => Controls_Manager::COLOR,
 			    'default'   => '#272727',
 			    'selectors' => [
@@ -5313,7 +5313,7 @@ if ($btn_text) {
 	    $element->start_controls_section(
 		    'eael_product_sold_count_bar_style_section',
 		    [
-			    'label'     => esc_html__( 'Sold Count Progress Bar', 'essential-addons-for-elementor' ),
+			    'label'     => esc_html__( 'Sold Count Progress Bar', 'essential-addons-elementor' ),
 			    'tab'       => Controls_Manager::TAB_STYLE,
 			    'condition' => [
 				    'eael_product_sold_count'       => 'yes',
@@ -5331,7 +5331,7 @@ if ($btn_text) {
 			    'selector'       => '{{WRAPPER}} .woocommerce ul.products .product .eael-product-sold-count-progress-bar-wrapper',
 			    'fields_options' => [
 				    'background' => [
-					    'label' => esc_html__( 'Background', 'essential-addons-for-elementor' ),
+					    'label' => esc_html__( 'Background', 'essential-addons-elementor' ),
 				    ]
 			    ]
 		    ]
@@ -5347,7 +5347,7 @@ if ($btn_text) {
 			    'selector'       => '{{WRAPPER}} .woocommerce ul.products .product .eael-product-sold-count-progress-bar',
 			    'fields_options' => [
 				    'background' => [
-					    'label' => esc_html__( 'Progress Bar', 'essential-addons-for-elementor' ),
+					    'label' => esc_html__( 'Progress Bar', 'essential-addons-elementor' ),
 				    ]
 			    ]
 		    ]
@@ -5356,7 +5356,7 @@ if ($btn_text) {
 	    $element->add_control(
 		    'eael_product_sold_count_bar_border_radius',
 		    [
-			    'label'      => esc_html__( 'Border Radius', 'essential-addons-for-elementor' ),
+			    'label'      => esc_html__( 'Border Radius', 'essential-addons-elementor' ),
 			    'type'       => \Elementor\Controls_Manager::DIMENSIONS,
 			    'size_units' => [ 'px', '%' ],
 			    'separator'  => 'before',
@@ -5370,7 +5370,7 @@ if ($btn_text) {
 	    $element->add_control(
 		    'eael_product_sold_count_bar_margin',
 		    [
-			    'label'      => esc_html__( 'Margin', 'essential-addons-for-elementor' ),
+			    'label'      => esc_html__( 'Margin', 'essential-addons-elementor' ),
 			    'type'       => \Elementor\Controls_Manager::DIMENSIONS,
 			    'size_units' => [ 'px', '%' ],
 			    'default'    => [

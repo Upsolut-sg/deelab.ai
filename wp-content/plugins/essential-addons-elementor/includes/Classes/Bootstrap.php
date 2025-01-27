@@ -87,7 +87,7 @@ class Bootstrap
         add_action('add_eael_progressbar_block', [$this, 'add_box_progress_bar_block'], 10, 3);
         add_action('add_pricing_table_settings_control', [$this, 'pricing_table_header_image_control']);
         add_action('pricing_table_currency_position', [$this, 'pricing_table_style_2_currency_position']);
-        add_action('add_pricing_table_style_block', [$this, 'add_pricing_table_pro_styles'], 10, 6);
+        add_action('add_pricing_table_style_block', [$this, 'add_pricing_table_pro_styles'], 10, 5 );
         add_action('eael_pricing_table_after_pricing_style', [$this, 'pricing_table_style_five_settings_control']);
         add_action('eael_pricing_table_control_header_extra_layout', [$this, 'pricing_table_style_header_layout_two']);
         add_action('add_admin_license_markup', [$this, 'add_admin_licnes_markup_html'], 10, 5);

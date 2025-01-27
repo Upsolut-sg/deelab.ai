@@ -1091,7 +1091,7 @@ class UniteCreatorBrowserWork extends HtmlOutputBaseUC{
 		$html .= self::TAB."<div id=\"{$id}\" class=\"uc-browser-wrapper{$addClass}\" {$addHtml} style='display:none'>".self::BR;
 		
 		if($putMode == true){
-			echo UniteProviderFunctionsUC::escCombinedHtml($html);
+			s_echo($html);
 			$html = "";
 		}
 				
@@ -1100,7 +1100,7 @@ class UniteCreatorBrowserWork extends HtmlOutputBaseUC{
 		$html .= self::TAB."</div>"; //wrapper
 		
 		if($putMode == true)
-			echo UniteProviderFunctionsUC::escCombinedHtml($html);
+			s_echo($html);
 		else
 			return($html);
 	}
@@ -1162,7 +1162,7 @@ class UniteCreatorBrowserWork extends HtmlOutputBaseUC{
 			if($getHTML == true)
 				return($html);
 			else
-				echo UniteProviderFunctionsUC::escCombinedHtml($html);
+				s_echo($html);
 			
 		}catch(Exception $e){
 			
@@ -1200,7 +1200,7 @@ class UniteCreatorBrowserWork extends HtmlOutputBaseUC{
 				
 		?>
 		
-			<div id="uc_dialog_catalog_update" title="<?php esc_html_e("Check And Update Catalog")?>" class="unite-inputs" style="display:none">
+			<div id="uc_dialog_catalog_update" title="<?php esc_html_e("Check And Update Catalog", "unlimited-elements-for-elementor")?>" class="unite-inputs" style="display:none">
 				<div class="unite-dialog-inside">
 					
 					<span id="uc_dialog_catalog_update_loader" class="loader_text">

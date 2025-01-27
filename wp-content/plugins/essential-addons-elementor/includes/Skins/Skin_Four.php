@@ -954,7 +954,7 @@ class Skin_Four extends Skin_Base
             ?>
             <div <?php $this->parent->print_render_attribute_string( 'eael-advanced-menu' ); ?>>
                 <?php echo wp_nav_menu( $args ); ?>
-                <button class="eael-advanced-menu-toggle">
+                <button class="eael-advanced-menu-toggle" aria-label="<?php esc_attr_e( 'Essential Addons Toggle Menu', 'essential-addons-elementor' ); ?>">
                     <?php Icons_Manager::render_icon( $settings['eael_advanced_menu_hamburger_icon'], [ 'aria-hidden' => 'true' ] ); ?>
                 </button>
             </div>

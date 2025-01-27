@@ -46,6 +46,10 @@ class Protected_Content extends Widget_Base {
 		];
 	}
 
+	public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
 	public function get_custom_help_url() {
 		return 'https://essential-addons.com/elementor/docs/ea-protected-content/';
 	}
@@ -980,6 +984,8 @@ class Protected_Content extends Widget_Base {
 					if ( ! is_array( $settings['eael_protected_content_message_template'] ) ) {
 						$settings['eael_protected_content_message_template'] = apply_filters( 'wpml_object_id', $settings['eael_protected_content_message_template'], 'wp_template', true );
 					}
+
+					\Essential_Addons_Elementor\Classes\Helper::eael_onpage_edit_template_markup( get_the_ID(), $settings['eael_protected_content_message_template'] );
 					echo Plugin::$instance->frontend->get_builder_content( $settings['eael_protected_content_message_template'], true ); //Nothing to escape
 				}
 			}
@@ -1004,6 +1010,8 @@ class Protected_Content extends Widget_Base {
 					if ( ! is_array( $settings['eael_protected_content_template'] ) ) {
 						$settings['eael_protected_content_template'] = apply_filters( 'wpml_object_id', $settings['eael_protected_content_template'], 'wp_template', true );
 					}
+
+					\Essential_Addons_Elementor\Classes\Helper::eael_onpage_edit_template_markup( get_the_ID(), $settings['eael_protected_content_template'] );
 					echo Plugin::$instance->frontend->get_builder_content( $settings['eael_protected_content_template'], true ); //Nothing to Escape 
 				}
 			}

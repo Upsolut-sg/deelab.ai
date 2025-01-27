@@ -55,6 +55,7 @@ trait Instagram_Feed
 
         $key = 'eael_instafeed_'.md5(str_replace('.', '_', $settings['eael_instafeed_access_token']).$settings['eael_instafeed_data_cache_limit']);
         $html = '';
+        $instagram_data = [];
 
         if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'instafeed_load_more') {
             if($instagram_data = get_transient($key)){
@@ -77,23 +78,47 @@ trait Instagram_Feed
             }
         }
 
-        if (get_transient($key) === false) {
+        if ( get_transient( $key ) === false ) {
             $request_args = array(
                 'timeout' => 60,
             );
-            $instagram_data = wp_remote_retrieve_body(wp_remote_get('https://graph.instagram.com/me/media/?fields=username,id,caption,media_type,media_url,permalink,thumbnail_url,timestamp&limit=500&access_token=' . $settings['eael_instafeed_access_token'],
-                $request_args));
-            $data_check = json_decode($instagram_data, true);
-            if (!empty($data_check['data'])) {
-                set_transient($key, $instagram_data, ($settings['eael_instafeed_data_cache_limit'] * MINUTE_IN_SECONDS));
+            $base_url      = "https://graph.instagram.com/v20.0";
+            $access_token  = $settings['eael_instafeed_access_token'];
+            $get_user      = wp_remote_retrieve_body( wp_remote_get( "{$base_url}/me?fields=user_id,username&access_token={$access_token}", $request_args ) );
+            $get_user      = json_decode( $get_user, true );
+
+            if ( isset( $get_user['id'] ) ) {
+                $user_id   = $get_user['id'];
+                $media_ids = wp_remote_retrieve_body( wp_remote_get( "{$base_url}/{$user_id}/media?access_token={$access_token}", $request_args ) );
+                $media_ids = json_decode( $media_ids, true );
+
+                if ( ! empty( $media_ids['data'] ) ) {
+                    foreach( $media_ids['data'] as $media ) {
+                        if ( empty( $media['id'] ) ) {
+                            continue;
+                        }
+                        $media_id   = $media['id'];
+                        $media_info = wp_remote_retrieve_body( wp_remote_get("{$base_url}/{$media_id}?fields=id,media_type,media_url,permalink,thumbnail_url,username,timestamp,caption&access_token={$access_token}", $request_args) );
+                        $media_info = json_decode( $media_info, true );
+
+                        if ( ! empty( $media_info ) ) {
+                            $instagram_data['data'][] = $media_info;
+                        }
+                    }
+                }
+
+                if ( ! empty( $instagram_data['data'] ) ) {
+                    $instagram_data = json_encode( $instagram_data );
+                    set_transient($key, $instagram_data, ($settings['eael_instafeed_data_cache_limit'] * MINUTE_IN_SECONDS));
+                }
             }
         } else {
             $instagram_data = get_transient($key);
         }
 
-        $instagram_data = json_decode($instagram_data, true);
+        $instagram_data = ! is_array( $instagram_data ) ? json_decode($instagram_data, true) : [];
         
-        if (empty($instagram_data['data'])) {
+        if ( empty( $instagram_data['data'] ) ) {
             return;
         }
 

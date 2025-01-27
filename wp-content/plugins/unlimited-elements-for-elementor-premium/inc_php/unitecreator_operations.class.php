@@ -226,8 +226,7 @@ class UCOperations extends UniteElementsBaseUC{
 	 * put error mesage from the module
 	 */
 	public function putModuleErrorMessage($message, $trace = ""){
-
-		echo self::getErrorMessageHtml($message, $trace);
+		s_echo(self::getErrorMessageHtml($message, $trace));
 	}
 
 	/**
@@ -255,7 +254,6 @@ class UCOperations extends UniteElementsBaseUC{
 	 * the image must be relative path to the platform base
 	 */
 	public function createThumbs($urlImage, $thumbSize = null){
-
 		if(empty($urlImage))
 			UniteFunctionsUC::throwError("empty image url");
 
@@ -269,7 +267,7 @@ class UCOperations extends UniteElementsBaseUC{
 		$pathThumbs = $info["path_thumbs"];
 
 		if(!is_dir($pathThumbs))
-			@mkdir($pathThumbs);
+			UniteFunctionsUC::mkdir($pathThumbs);
 
 		if(!is_dir($pathThumbs))
 			UniteFunctionsUC::throwError("Can't make thumb folder: {$pathThumbs}. Please check php and folder permissions");
@@ -302,12 +300,12 @@ class UCOperations extends UniteElementsBaseUC{
 		$arr = array();
 
 		$arr["type"] = "uc_textfield";
-		$arr["title"] = "Title";
+		$arr["title"] = __("Title","unlimited-elements-for-elementor");
 		$arr["name"] = "title";
 		$arr["description"] = "";
 		$arr["default_value"] = "";
 		$arr["limited_edit"] = true;
-
+		
 		return ($arr);
 	}
 
@@ -449,8 +447,8 @@ class UCOperations extends UniteElementsBaseUC{
 					$title = UniteFunctionsUC::getVal($innerItem, $titleKey);
 					$content = UniteFunctionsUC::getVal($innerItem, $contentKey);
 
-					$title = strip_tags($title);
-					$content = strip_tags($content);
+					$title = wp_strip_all_tags($title);
+					$content = wp_strip_all_tags($content);
 
 					$itemArray = array();
 					$itemArray['@type'] = 'Question';
@@ -468,17 +466,7 @@ class UCOperations extends UniteElementsBaseUC{
 		return ($arrItems);
 	}
 	
-	private function a____________RSS____________(){}
 	
-	/**
-	 * modify rss array to simplify the use
-	 */
-	public function simplifyRssDataArray($arrRss){
-		
-		
-		
-		return($arrRss);
-	}
 	
 	private function a____________DEBUG____________(){}
 		
@@ -549,7 +537,7 @@ class UCOperations extends UniteElementsBaseUC{
 		if($showCustomFields == true)
 			$fieldsTitle = "Custom";
 
-		echo "<br>{$fieldsTitle} fields for post: <b>$postTitle </b>, post id: $postID <br>";
+		s_echo("<br>{$fieldsTitle} fields for post: <b>$postTitle </b>, post id: $postID <br>");
 
 		dmp($htmlFields);
 	}
@@ -577,15 +565,14 @@ class UCOperations extends UniteElementsBaseUC{
 		}
 
 		$htmlFields = HelperHtmlUC::getHtmlArrayTable($arrCustomFields, "No Meta Fields Found");
-		
+
 		$fieldsTitle = "Meta";
 
-		echo "<br>{$fieldsTitle} fields for term: <b>$name </b>, term id: $termID <br>";
+		s_echo("<br>{$fieldsTitle} fields for term: <b>$name </b>, term id: $termID <br>");
 
 		dmp($htmlFields);
 	}
-	
-	
+
 	/**
 	 * terms custom fields debug
 	 */
@@ -663,22 +650,40 @@ class UCOperations extends UniteElementsBaseUC{
 	 * put post terms debug
 	 */
 	public function putPostTermsDebug($postID){
-		
 		$strTerms = UniteFunctionsWPUC::getPostTermsTitlesString($postID, true);
-		
-		$strTerms = "<div>Post Terms: <span style='color:green;'>".esc_html($strTerms)."</style></div>";
-		
-		echo $strTerms;
+		?>
+		<div>Post Terms: <span style='color:green;'>"<?php echo esc_html($strTerms);?>"</style></div>
+		<?php
 	}
 	
+	/**
+	 * put post object debug
+	 */
+	public function putPostObjectDebug($post){
+		
+		$post = (array)$post;
+		
+		$arrPostForShow = UniteFunctionsUC::modifyDataArrayForShow($post);
+		
+		dmp($arrPostForShow);
+	}
 	
 	/**
 	 * put posts full debug - show all info about each post
 	 */
-	public function putPostsFullDebug($arrPosts){
+	public function putPostsFullDebug($arrPosts, $includePostObject = false){
 		
 		foreach($arrPosts as $post){
 			$postID = $post->ID;
+			
+			$postTitle = $post->post_title;
+			
+			echo "<br><hr>";
+			
+			dmp("Post: <b>$postTitle</b>");
+			
+			if($includePostObject == true)
+				$this->putPostObjectDebug($post, $includePostObject);
 			
 			$this->putPostCustomFieldsDebug($postID);
 			$this->putPostTermsDebug($postID);
@@ -708,7 +713,7 @@ class UCOperations extends UniteElementsBaseUC{
 		if(empty($pathFile))
 			return (null);
 
-		$content = file_get_contents($pathFile);
+		$content = UniteFunctionsUC::fileGetContents($pathFile);
 
 		return ($content);
 	}
@@ -742,7 +747,7 @@ class UCOperations extends UniteElementsBaseUC{
 			if($debug === true)
 				dmp("file detected: $pathFile");
 
-			$content = file_get_contents($pathFile);
+			$content = UniteFunctionsUC::fileGetContents($pathFile);
 
 			return $content;
 		}
@@ -779,7 +784,7 @@ class UCOperations extends UniteElementsBaseUC{
 		//--- check same date
 
 		if($startDate["year"] . $startDate["mon"] . $startDate["mday"] == $endDate["year"] . $endDate["mon"] . $endDate["mday"]){
-			$displayDate = date('j M Y', $endTimeStamp);
+			$displayDate = s_date('j M Y', $endTimeStamp);
 
 			return ($displayDate);
 		}
@@ -787,7 +792,7 @@ class UCOperations extends UniteElementsBaseUC{
 		//--- check different years
 
 		if($startDate["year"] != $endDate["year"]){
-			$displayDate = date('j M Y', $startTimeStamp) . " - " . date('j M Y', $endTimeStamp);
+			$displayDate = s_date('j M Y', $startTimeStamp) . " - " . s_date('j M Y', $endTimeStamp);
 
 			return ($displayDate);
 		}
@@ -796,10 +801,10 @@ class UCOperations extends UniteElementsBaseUC{
 
 		// diff days in the same month
 		if($startDate["mon"] == $endDate["mon"])
-			$displayDate = date('j', $startTimeStamp) . "-" . date('j M Y', $endTimeStamp);
+			$displayDate = s_date('j', $startTimeStamp) . "-" . s_date('j M Y', $endTimeStamp);
 
 		// diff months
-		$displayDate = date('j M', $startTimeStamp) . " - " . date('j M Y', $endTimeStamp);
+		$displayDate = s_date('j M', $startTimeStamp) . " - " . s_date('j M Y', $endTimeStamp);
 
 		return $displayDate;
 	}

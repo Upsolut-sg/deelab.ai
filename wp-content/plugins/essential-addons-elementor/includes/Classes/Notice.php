@@ -41,7 +41,7 @@ class Notice
 
 		if(!empty($activation_url)){
 			$button = '<p><a href="' . $activation_url . '" class="button-primary">' . $button_text . '</a></p>';
-			printf('<div class="error"><p>%1$s</p>%2$s</div>', __($message), $button);
+			printf('<div class="error"><p>%1$s</p>%2$s</div>', $message, $button);
 		}
     }
 }

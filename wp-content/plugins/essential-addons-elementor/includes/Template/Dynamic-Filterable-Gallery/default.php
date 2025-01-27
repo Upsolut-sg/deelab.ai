@@ -114,7 +114,7 @@ if ( 'eael-hoverer' === $settings['eael_fg_grid_style'] ) {
                             if ('true' == $settings['eael_fg_show_popup']) {
                                 if ('media' == $settings['eael_fg_show_popup_styles']) {
                                     $thumb_url = wp_get_attachment_image_url( $gallery_item['thumb_id'], 'full');
-                                    echo '<a href="' . esc_url( $thumb_url ) . '" class="popup-media eael-magnific-link"></a>';
+                                    echo '<a href="' . esc_url( $thumb_url ) . '" class="popup-media eael-magnific-link" data-elementor-open-lightbox="yes"></a>';
                                 } elseif ('buttons' == $settings['eael_fg_show_popup_styles']) {
                                     echo '<div class="item-content">';
                                         $item_content = '';
@@ -134,7 +134,7 @@ if ( 'eael-hoverer' === $settings['eael_fg_grid_style'] ) {
                                                 $thumb_url = wp_get_attachment_image_url($gallery_item['thumb_id'], 'full');
                                             }
 
-                                            echo '<a href="'. esc_url( $thumb_url ) .'" class="eael-magnific-link">';
+                                            echo '<a href="'. esc_url( $thumb_url ) .'" class="eael-magnific-link" data-elementor-open-lightbox="yes">';
 
                                                 if( isset($settings['eael_section_fg_zoom_icon']['url']) ) {
                                                     echo '<img class="eael-dnmcg-svg-icon" src="'.esc_url($settings['eael_section_fg_zoom_icon']['url']).'" alt="'.esc_attr(get_post_meta($settings['eael_section_fg_zoom_icon']['id'], '_wp_attachment_image_alt', true)).'" />';
@@ -188,7 +188,7 @@ else if ( 'eael-cards' === $settings['eael_fg_grid_style'] ) {
                             $thumb_url = wp_get_attachment_image_url($gallery_item['thumb_id'], 'full');
                         }
 
-                        echo '<a href="'. esc_url( $thumb_url ) .'" class="popup-only-media eael-magnific-link"></a>';
+                        echo '<a href="'. esc_url( $thumb_url ) .'" class="popup-only-media eael-magnific-link" data-elementor-open-lightbox="yes"></a>';
                     }
 
                     if ('eael-none' !== $settings['eael_fg_grid_hover_style'] && ! $image_clickable ) {
@@ -198,20 +198,18 @@ else if ( 'eael-cards' === $settings['eael_fg_grid_style'] ) {
                             echo '<div class="caption ' . esc_attr($settings['eael_fg_grid_hover_style']) . ' ">';
                         }
                         if ('true' == $settings['eael_fg_show_popup']) {
+                            $thumb_url = $has_post_thumbnail ? wp_get_attachment_image_url( $gallery_item['thumb_id'], 'full') : \Elementor\Utils::get_placeholder_image_src();
+                                
+                            if ( ! empty( $gallery_item['is_acf_image'] ) ) {
+                                $thumb_url = wp_get_attachment_image_url($gallery_item['thumb_id'], 'full');
+                            }
+                            
                             if ('media' == $settings['eael_fg_show_popup_styles']) {
-                                $thumb_url = $has_post_thumbnail ? wp_get_attachment_image_url( $gallery_item['thumb_id'], 'full') : \Elementor\Utils::get_placeholder_image_src();
-                                
-                                if ( ! empty( $gallery_item['is_acf_image'] ) ) {
-                                    $thumb_url = wp_get_attachment_image_url($gallery_item['thumb_id'], 'full');
-                                }
-                                
-                                echo '<a href="'. esc_url( $thumb_url ) .'" class="popup-media eael-magnific-link"></a>';
+                                echo '<a href="'. esc_url( $thumb_url ) .'" class="popup-media eael-magnific-link" data-elementor-open-lightbox="yes"></a>';
                             } elseif ('buttons' == $settings['eael_fg_show_popup_styles']) {
                                 echo '<div class="buttons">';
                                     if (!empty($settings['eael_section_fg_zoom_icon'])) {
-
-                                        $thumb_url = $has_post_thumbnail ? wp_get_attachment_image_url( $gallery_item['thumb_id'], 'full') : \Elementor\Utils::get_placeholder_image_src();
-                                        echo  '<a href="'. esc_url( $thumb_url ) .'" class="eael-magnific-link">';
+                                        echo  '<a href="'. esc_url( $thumb_url ) .'" class="eael-magnific-link" data-elementor-open-lightbox="yes">';
 
                                             if( isset($settings['eael_section_fg_zoom_icon']['url']) ) {
                                                 echo '<img class="eael-dnmcg-svg-icon" src="'.esc_url($settings['eael_section_fg_zoom_icon']['url']).'" alt="'.esc_attr(get_post_meta($settings['eael_section_fg_zoom_icon']['id'], '_wp_attachment_image_alt', true)).'" />';
@@ -256,7 +254,7 @@ else if ( 'eael-cards' === $settings['eael_fg_grid_style'] ) {
                         echo '<div class="buttons entry-footer-buttons">';
                             if (!empty($settings['eael_section_fg_zoom_icon'])) {
                                 $attachment_url = wp_get_attachment_image_url( $gallery_item['thumb_id'], 'full');
-                                echo '<a href="' . esc_url( $attachment_url ) . '" class="eael-magnific-link"><i class="' . esc_attr($settings['eael_section_fg_zoom_icon']) . '"></i></a>';
+                                echo '<a href="' . esc_url( $attachment_url ) . '" class="eael-magnific-link" data-elementor-open-lightbox="yes"><i class="' . esc_attr($settings['eael_section_fg_zoom_icon']) . '"></i></a>';
                             }
                             if (!empty($settings['eael_section_fg_link_icon'])) {
                                 echo '<a href="' . esc_url(  $gallery_item['post_url'] ) . '"'. ( $settings['link_nofollow'] ? 'rel="nofollow"' : '' ) . '' . ( $settings['link_target_blank'] ? 'target="_blank"' : '' ) .'><i class="' . esc_attr($settings['eael_section_fg_link_icon']) . '"></i></a>';

@@ -9,3 +9,5 @@
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 
 require "template_engine_pro.class.php";
+require "globals_pro.class.php";
+

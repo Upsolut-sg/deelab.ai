@@ -98,7 +98,8 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 				UniteFunctionsUC::throwError("Empty table name!!!");
 			
 			$sql = "show tables like '$tableName'";
-
+			
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$table = $wpdb->get_var($sql);
 
 			if($table == $tableName)
@@ -1673,6 +1674,7 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 			$arr["parent"] = __("Parent", "unlimited-elements-for-elementor");
 			$arr["parent_children"] = __("Parent and Children", "unlimited-elements-for-elementor");
 			$arr["count"] = __("Count - (number of posts associated)", "unlimited-elements-for-elementor");
+			$arr["rand"] = __("Random", "unlimited-elements-for-elementor");
 
 			return($arr);
 		}
@@ -2769,6 +2771,8 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 		
 		UniteFunctionsUC::validateIDsList($strIDs,"post ids");
 		
+		$strIDs = trim($strIDs);
+		
 		if(empty($strIDs))
 			return (array());
 		
@@ -3039,6 +3043,26 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 		wp_delete_post($postID, true);
 	}
 
+	
+	/**
+	 *  delete duplicate posts from the array
+	 */
+	public static function deleteDuplicatePostsFromArray($arrPosts){
+		
+		$uniquePosts = array();
+
+		foreach ($arrPosts as $post) {
+			if (!isset($uniquePosts[$post->ID])) {
+				$uniquePosts[$post->ID] = $post;
+			}
+		}
+		
+		$arrPosts = array_values($uniquePosts);
+
+		return($arrPosts);
+	}
+	
+	
 	/**
 	 * cache attachment images query calls. one call instead of many
 	 * input - post array.
@@ -3535,7 +3559,10 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 	 * check if current user has some permissions
 	 */
 	public static function isCurrentUserHasPermissions(){
-
+		
+		if(function_exists("current_user_can") == false)
+			return(false);
+		
 		$canEdit = current_user_can("manage_options");
 
 		return ($canEdit);
@@ -3805,27 +3832,15 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 	}
 
 	/**
-	 * get menus list short - id / title
+	 * get all admin users
 	 */
-	public static function getMenusListShort(){
-
-		$arrShort = array();
-
-		$arrMenus = get_terms("nav_menu");
-
-		if(empty($arrMenus))
-			return (array());
-
-		foreach($arrMenus as $menu){
-			$menuID = $menu->term_id;
-			$name = $menu->name;
-
-			$arrShort[$menuID] = $name;
-		}
-
-		return ($arrShort);
+	public static function getAdminUsers(){
+		
+		$arrAdminUsers = get_users( array( 'role' => 'Administrator' ) );
+		
+		return($arrAdminUsers);
 	}
-
+	
 	/**
 	 * get users array short
 	 */
@@ -3893,6 +3908,29 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 	public static function a___________MENU__________(){
 	}
 
+	/**
+	 * get menus list short - id / title
+	 */
+	public static function getMenusListShort(){
+
+		$arrShort = array();
+
+		$arrMenus = get_terms("nav_menu");
+
+		if(empty($arrMenus))
+			return (array());
+
+		foreach($arrMenus as $menu){
+			$menuID = $menu->term_id;
+			$name = $menu->name;
+
+			$arrShort[$menuID] = $name;
+		}
+
+		return ($arrShort);
+	}
+	
+	
 	/**
 	 * get menu items
 	 */
@@ -4527,9 +4565,17 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 	 *
 	 * register widget (must be class)
 	 */
+	/*
 	public static function registerWidget($widgetName){
 
 		add_action('widgets_init', create_function('', 'return register_widget("' . $widgetName . '");'));
+	}
+	*/
+
+	public static function registerWidget($widgetName) {
+		add_action('widgets_init', function () use ($widgetName) {
+			return register_widget($widgetName);
+		});
 	}
 
 	/**
@@ -4544,24 +4590,24 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 		else
 			get_admin_page_title();
 
-		$title = esc_html(strip_tags($title));
+		$title = esc_html(wp_strip_all_tags($title));
 
 		if(is_network_admin()){
 			/* translators: Network admin screen title. 1: Network name */
-			$admin_title = sprintf(__('Network Admin: %s'), esc_html(get_network()->site_name));
+			$admin_title = sprintf(__('Network Admin: %s',"unlimited-elements-for-elementor"), esc_html(get_network()->site_name));
 		}elseif(is_user_admin()){
 			/* translators: User dashboard screen title. 1: Network name */
-			$admin_title = sprintf(__('User Dashboard: %s'), esc_html(get_network()->site_name));
+			$admin_title = sprintf(__('User Dashboard: %s',"unlimited-elements-for-elementor"), esc_html(get_network()->site_name));
 		}else{
 			$admin_title = get_bloginfo('name');
 		}
 
 		if($admin_title == $title){
 			/* translators: Admin screen title. 1: Admin screen name */
-			$admin_title = sprintf(__('%1$s &#8212; WordPress'), $title);
+			$admin_title = sprintf(__('%1$s &#8212; WordPress',"unlimited-elements-for-elementor"), $title);
 		}else{
 			/* translators: Admin screen title. 1: Admin screen name, 2: Network or site name */
-			$admin_title = sprintf(__('%1$s &lsaquo; %2$s &#8212; WordPress'), $title, $admin_title);
+			$admin_title = sprintf(__('%1$s &lsaquo; %2$s &#8212; WordPress',"unlimited-elements-for-elementor"), $title, $admin_title);
 		}
 
 		return ($admin_title);
@@ -4621,10 +4667,48 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 
 	/**
 	 * get permalist with check of https
+	 * $post - is post object or post id
 	 */
 	public static function getPermalink($post){
-
+		
+		$debugMultisite = false;
+		
 		$url = get_permalink($post);
+		
+		//fix for multisource
+		
+		$isMultisite = is_multisite();
+		
+		if($debugMultisite)
+			dmp("multisite: $isMultisite");
+		
+		if($isMultisite){
+			
+			$arrPost = (array)$post;
+			
+			$blogID = UniteFunctionsUC::getVal($arrPost, "blog_id");
+			
+			$currentBlogID = get_current_blog_id();
+			
+			if($currentBlogID != $blogID){
+				
+			   $blogDetails = get_blog_details($blogID);
+				
+			   switch_to_blog($blogID);
+        	
+        	   $url = get_permalink($post);
+      
+          	   restore_current_blog();				
+			}
+			
+			if($debugMultisite){
+				dmp("multisite");
+				dmp("current: $currentBlogID");
+				dmp("blogid: $blogID");
+				dmp("url: $url");
+			}			
+			
+		}
 		
 		if(GlobalsUC::$is_ssl == true)
 			$url = UniteFunctionsUC::urlToSsl($url);
@@ -4695,4 +4779,3 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 
 //init the static vars
 UniteFunctionsWPUC::initStaticVars();
-

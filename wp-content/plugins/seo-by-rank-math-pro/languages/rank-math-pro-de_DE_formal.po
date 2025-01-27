@@ -2,8 +2,8 @@
 # This file is distributed under the same license as the rank-math-pro package.
 msgid ""
 msgstr ""
-"Project-Id-Version: RankMath Pro v3.0.63\n"
-"POT-Creation-Date: 2024-05-30 13:09+0000\n"
+"Project-Id-Version: RankMath Pro v3.0.76\n"
+"POT-Creation-Date: 2024-11-27 03:57+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
 "Language-Team: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
@@ -1380,6 +1380,18 @@ msgstr ""
 msgid "Rank Math PRO"
 msgstr "Rank Math PRO"
 
+#. translators: placeholder is the number of modified products.
+msgid ""
+"The GTIN values from the plugin are being transferred to the built-in "
+"WooCommerce GTIN field. This process runs in the background, and you'll "
+"receive a confirmation message once all product data has been successfully "
+"migrated. You can close this page."
+msgstr ""
+"Die GTIN-Werte aus dem Plugin werden in das integrierte WooCommerce-GTIN-"
+"Feld übertragen. Dieser Vorgang läuft im Hintergrund ab und Sie erhalten "
+"eine Bestätigungsnachricht, sobald alle Produktdaten erfolgreich migriert "
+"wurden. Sie können diese Seite schließen."
+
 msgid "CSV File"
 msgstr "CSV-Datei"
 
@@ -2418,21 +2430,6 @@ msgstr "Keine gültige ID angegeben."
 msgid "%d redirections have been assigned to the category."
 msgstr "%d Umleitungen wurden der Kategorie zugeordnet."
 
-msgid "Add New"
-msgstr "Erstellen"
-
-msgid "New Category"
-msgstr "Neue Kategorie"
-
-msgid "Manage Categories"
-msgstr "Kategorien verwalten"
-
-msgid "Redirection Category"
-msgstr "Umleitungskategorie"
-
-msgid "Organize your redirections in categories."
-msgstr "Organisieren Sie Ihre Weiterleitungen in Kategorien."
-
 msgid "Category"
 msgstr "Kategorie"
 
@@ -2447,6 +2444,9 @@ msgstr "Filtern"
 
 msgid "&larr; Go Back to the Redirections"
 msgstr "&larr; Zurück zu den Umleitungen"
+
+msgid "Manage Categories"
+msgstr "Kategorien verwalten"
 
 msgid "Sync to .htaccess"
 msgstr "Mit .htaccess synchronisieren"
@@ -2471,18 +2471,6 @@ msgstr "Es wurde keine gültige Umleitung gefunden."
 
 msgid "Redirections successfully synced to the .htaccess file."
 msgstr "Umleitungen wurden erfolgreich mit der .htaccess-Datei synchronisiert."
-
-msgid "Scheduled Activation"
-msgstr "Planmäßige Aktivierung"
-
-msgid "Redirection will be activated on this date (optional)."
-msgstr "Die Weiterleitung wird an diesem Datum aktiviert (optional)."
-
-msgid "Scheduled Deactivation"
-msgstr "Planmäßige Deaktivierung"
-
-msgid "Redirection will be deactivated on this date (optional)."
-msgstr "Die Weiterleitung wird an diesem Datum deaktiviert (optional)."
 
 msgid ""
 "One or more of the selected redirections could not be changed because they "
@@ -2751,6 +2739,9 @@ msgstr "Globaler Identifikator"
 msgid "Global Identifier key to use in the Product Schema."
 msgstr "Globaler Identifier-Schlüssel zur Verwendung im Produktschema."
 
+msgid "GTIN"
+msgstr "GTIN"
+
 msgid "GTIN-8"
 msgstr "GTIN-8"
 
@@ -2795,16 +2786,41 @@ msgstr ""
 "Setzen Sie die Produktseiten auf „noindex“, wenn die Sichtbarkeit des "
 "WooCommerce-Katalogs auf ausgeblendet gesetzt ist."
 
-msgid "GTIN"
-msgstr "GTIN"
-
 #. translators: Global Identifier name.
-msgid "%s value to use in the Product schema."
-msgstr "%s-Wert, der im Produktschema verwendet werden soll."
+msgid ""
+"%s added by Rank Math SEO). This field overrides WooCommerce GTIN data used "
+"in the Product Schema."
+msgstr ""
+"%s hinzugefügt von Rank Math SEO). Dieses Feld überschreibt die im "
+"Produktschema verwendeten GTIN-Daten von WooCommerce."
 
-#. translators: Global Identifier name.
-msgid "%s value to use in Product schema."
-msgstr "%s-Wert zur Verwendung im Produktschema."
+#. translators: placeholder is the number of modified products.
+msgid ""
+"GTIN value has been successfully migrated to the WooCommerce GTIN field for "
+"%d product."
+msgid_plural ""
+"GTIN values have been successfully migrated to the WooCommerce GTIN field "
+"for %d products."
+msgstr[0] ""
+"Der GTIN-Wert wurde erfolgreich in das WooCommerce-GTIN-Feld für das %d-"
+"Produkt migriert."
+msgstr[1] ""
+"Die GTIN-Werte wurden für %d Produkte erfolgreich in das WooCommerce-GTIN-"
+"Feld migriert."
+
+msgid "GTIN Migration Tool for WooCommerce"
+msgstr "GTIN-Migrations-Tool für WooCommerce"
+
+msgid ""
+"Migrate GTIN values from the plugin into the native WooCommerce GTIN field."
+msgstr ""
+"Migrieren Sie GTIN-Werte aus dem Plugin in das native WooCommerce-GTIN-Feld."
+
+msgid "Migrate"
+msgstr "Migrieren"
+
+msgid "No products found to migrate."
+msgstr "Es wurden keine Produkte gefunden, die migriert werden können."
 
 msgid "Secondary phone"
 msgstr "Zweites Telefon"
@@ -3465,11 +3481,6 @@ msgstr "Gelöscht"
 msgid "Merged"
 msgstr "Zusammengeführt"
 
-msgid "Are you sure you want to import redirections from this CSV file?"
-msgstr ""
-"Sind Sie sicher, dass Sie Umleitungen aus dieser CSV-Datei importieren "
-"möchten?"
-
 msgid "Could not import redirection."
 msgstr "Die Umleitung konnte nicht importiert werden."
 
@@ -3517,6 +3528,9 @@ msgstr "Spezielle Abdeckung"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Creator"
+msgstr "Ersteller"
 
 msgid "Data Sets"
 msgstr "Datensätze"
@@ -3740,6 +3754,41 @@ msgstr "Schlüsselwörter insgesamt"
 
 msgid "Average Position"
 msgstr "Durchschnittliche Position"
+
+#~ msgid "%s value to use in the Product schema."
+#~ msgstr "%s-Wert, der im Produktschema verwendet werden soll."
+
+#~ msgid "%s value to use in Product schema."
+#~ msgstr "%s-Wert zur Verwendung im Produktschema."
+
+#~ msgid "Add New"
+#~ msgstr "Erstellen"
+
+#~ msgid "New Category"
+#~ msgstr "Neue Kategorie"
+
+#~ msgid "Redirection Category"
+#~ msgstr "Umleitungskategorie"
+
+#~ msgid "Organize your redirections in categories."
+#~ msgstr "Organisieren Sie Ihre Weiterleitungen in Kategorien."
+
+#~ msgid "Scheduled Activation"
+#~ msgstr "Planmäßige Aktivierung"
+
+#~ msgid "Redirection will be activated on this date (optional)."
+#~ msgstr "Die Weiterleitung wird an diesem Datum aktiviert (optional)."
+
+#~ msgid "Scheduled Deactivation"
+#~ msgstr "Planmäßige Deaktivierung"
+
+#~ msgid "Redirection will be deactivated on this date (optional)."
+#~ msgstr "Die Weiterleitung wird an diesem Datum deaktiviert (optional)."
+
+#~ msgid "Are you sure you want to import redirections from this CSV file?"
+#~ msgstr ""
+#~ "Sind Sie sicher, dass Sie Umleitungen aus dieser CSV-Datei importieren "
+#~ "möchten?"
 
 #~ msgid "URL of the item."
 #~ msgstr "URL des Artikels."

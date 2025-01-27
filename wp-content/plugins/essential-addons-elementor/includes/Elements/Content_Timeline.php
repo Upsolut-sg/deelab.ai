@@ -60,6 +60,10 @@ class Content_Timeline extends Widget_Base
 		];
 	}
 
+	public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
 	public function get_custom_help_url()
 	{
 		return 'https://essential-addons.com/elementor/docs/content-timeline/';
@@ -1990,7 +1994,7 @@ class Content_Timeline extends Widget_Base
 			[
 				'label' => esc_html__('Background Color', 'essential-addons-elementor'),
 				'type' => Controls_Manager::COLOR,
-				'default' => '#3CCD94',
+				'default' => '#037448',
 				'selectors' => [
 					'{{WRAPPER}} .eael-content-timeline-content .eael-read-more' => 'background: {{VALUE}};',
 					'{{WRAPPER}} .eael-horizontal-timeline-item .eael-read-more' => 'background: {{VALUE}};',
@@ -2430,7 +2434,13 @@ class Content_Timeline extends Widget_Base
 							$content_html = '';
 							if ( 'yes' == $settings['eael_show_title'] ) {
 								$title_tag = Helper::eael_validate_html_tag( $settings['title_tag'] );
-								$content_html .= '<' . $title_tag . ' class="eael-horizontal-timeline-item__card-title"><a href="' . esc_url( $content['permalink'] ) . '" ' . $content['nofollow'] . ' ' . $content['target_blank'] . '>' . $content['title'] . '</a></' . $title_tag . '>';
+								$has_link  = ! empty( $content['permalink'] );
+
+								$content_html .= '<' . $title_tag . ' class="eael-horizontal-timeline-item__card-title">';
+								$content_html .= $has_link ? '<a href="' . esc_url( $content['permalink'] ) . '" ' . $content['nofollow'] . ' ' . $content['target_blank'] . '>' : '';
+								$content_html .= $content['title'];
+								$content_html .= $has_link ? '</a>' : '';
+								$content_html .= '</' . $title_tag . '>';
 							}
 
 							if ( ! empty( $content['image_linkable'] ) && $content['image_linkable'] === 'yes' ) {

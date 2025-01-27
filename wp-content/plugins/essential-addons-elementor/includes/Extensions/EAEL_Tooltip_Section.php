@@ -420,7 +420,7 @@ class EAEL_Tooltip_Section
     {
         $settings = $element->get_settings_for_display();
 
-        if ($settings['eael_tooltip_section_enable'] == 'yes') {
+        if ( ! empty( $settings['eael_tooltip_section_enable'] ) && 'yes' === $settings['eael_tooltip_section_enable'] ) {
             $data         = $element->get_data();
             $content      = wp_kses_post($settings['eael_tooltip_section_content']);
             $position     = isset( $settings["eael_tooltip_section_position"] ) ? $settings["eael_tooltip_section_position"] : 'yes';

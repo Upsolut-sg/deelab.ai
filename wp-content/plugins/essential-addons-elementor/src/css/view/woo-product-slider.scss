@@ -741,7 +741,7 @@ $theme-preset4: #7139ff;
     &.swiper-container-dots-outside .swiper-pagination,
     &.swiper-container-wrap-dots-outside .swiper-pagination,
     &.swiper-container-dots-inside .swiper-pagination,
-    &.swiper-container-wrap-dots-inside .swiper-pagination, {
+    &.swiper-container-wrap-dots-inside .swiper-pagination {
 
         &.dots-preset-1 .swiper-pagination-bullet {
             border-radius: 2px;
@@ -1637,8 +1637,11 @@ $theme-preset4: #7139ff;
             }
         }
     }
-    #content .elementor-widget-container{
-        .preset-2 .eael-product-slider{
+    #content .elementor-widget-eael-woo-product-slider {
+        .preset-1 .eael-product-slider,
+        .preset-2 .eael-product-slider,
+        .preset-3 .eael-product-slider,
+        .preset-4 .eael-product-slider{
             width: 100%;
         }
         .preset-1,.preset-2{

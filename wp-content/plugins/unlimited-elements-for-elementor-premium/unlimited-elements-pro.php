@@ -5,18 +5,25 @@ Plugin Name: Unlimited Elements for Elementor (Premium)
 Plugin URI: http://unlimited-elements.com
 Description: Unlimited Elements Pro - Huge Widgets Pack for Elementor Page Builder, with html/css/js widget creator and editor
 Author: Unlimited Elements
-Version: 1.5.129
+Version: 1.5.139
 Update URI: https://api.freemius.com
 Author URI: http://unlimited-elements.com
 Text Domain: unlimited-elements-for-elementor
 Domain Path: /languages
 
-* Tested up to: 6.7
-* Elementor tested up to: 3.25.7
-* Elementor Pro tested up to: 3.25.3
+* Tested up to: 6.7.1
+* Elementor tested up to: 3.26.4
+* Elementor Pro tested up to: 3.26.3
 */
 if ( !defined( "UNLIMITED_ELEMENTS_INC" ) ) {
     define( "UNLIMITED_ELEMENTS_INC", true );
+}
+if ( !defined( "UE_ENABLE_ELEMENTOR_SUPPORT" ) ) {
+    define( "UE_ENABLE_ELEMENTOR_SUPPORT", true );
+} else {
+    if ( !defined( "UC_BOTH_VERSIONS_ACTIVE" ) ) {
+        define( "UC_BOTH_VERSIONS_ACTIVE", true );
+    }
 }
 if ( !function_exists( 'uefe_fs' ) ) {
     // Create a helper function for easy SDK access.
@@ -57,9 +64,7 @@ $mainFilepath = __FILE__;
 $currentFolder = dirname( $mainFilepath );
 $pathProvider = $currentFolder . "/provider/";
 try {
-    if ( class_exists( "GlobalsUC" ) ) {
-        define( "UC_BOTH_VERSIONS_ACTIVE", true );
-    } else {
+    if ( !class_exists( "GlobalsUC" ) ) {
         $pathAltLoader = $pathProvider . "provider_alt_loader.php";
         if ( file_exists( $pathAltLoader ) ) {
             require $pathAltLoader;

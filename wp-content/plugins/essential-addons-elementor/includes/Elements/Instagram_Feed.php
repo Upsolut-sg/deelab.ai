@@ -51,6 +51,10 @@ class Instagram_Feed extends Widget_Base {
         ];
     }
 
+    public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
     public function get_custom_help_url () {
         return 'https://essential-addons.com/elementor/docs/instagram-feed/';
     }
@@ -784,7 +788,10 @@ class Instagram_Feed extends Widget_Base {
 	    }
         ?>
         <div <?php $this->print_render_attribute_string('insta-wrap'); ?>>
-            <?php echo wp_kses( $this->instafeed_render_items(), Helper::eael_allowed_tags() ); ?>
+            <?php
+                $instafeed_content = $this->instafeed_render_items();
+                echo $instafeed_content ? wp_kses( $this->instafeed_render_items(), Helper::eael_allowed_tags() ) : '';
+            ?>
         </div>
         <div class="clearfix"></div>
 

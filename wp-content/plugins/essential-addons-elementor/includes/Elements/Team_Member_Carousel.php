@@ -89,6 +89,10 @@ class Team_Member_Carousel extends Widget_Base
         return false;
     }
 
+	public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
 	public function get_custom_help_url()
 	{
 		return 'https://essential-addons.com/elementor/docs/team-member-carousel/';
@@ -111,6 +115,7 @@ class Team_Member_Carousel extends Widget_Base
 		return [
 			'font-awesome-5-all',
 			'font-awesome-4-shim',
+            'e-swiper'
 		];
 	}
 	/**
@@ -2530,9 +2535,12 @@ class Team_Member_Carousel extends Widget_Base
 									$image_url = Group_Control_Image_Size::get_attachment_image_src( $item['team_member_image']['id'], 'image_size', $settings );
 
 									if ( $image_url ) {
-										echo '<img src="' . esc_url( $image_url ) . '"alt="' . esc_attr(get_post_meta($item['team_member_image']['id'], '_wp_attachment_image_alt', true)) . '">';
+										$alt_text = get_post_meta( $item['team_member_image']['id'], '_wp_attachment_image_alt', true );
+										$alt_text = $alt_text ? $alt_text : $item['team_member_name'];
+										echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( $alt_text ) . '">';
 									} else {
-										echo '<img src="' . esc_url( $item['team_member_image']['url'] ) .'">';
+										$alt_text = $item['team_member_name'];
+										echo '<img src="' . esc_url( $item['team_member_image']['url'] ) .'" alt="' . esc_attr( $alt_text ) . '">';
 									}
 									if ( isset( $item['team_member_image_hyperlink'] ) && $item['team_member_image_hyperlink']['url'] != '' ) {
 										echo "</a>";
@@ -2686,40 +2694,40 @@ class Team_Member_Carousel extends Widget_Base
             <ul class="eael-tm-social-links">
 				<?php
 				if ($mail_address) {
-					printf('<li><a href="%1$s"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-envelope"></span></span></a></li>', esc_attr("mailto:" . $mail_address));
+					printf('<li><a href="%1$s" aria-label="Mail"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-envelope"></span></span></a></li>', esc_attr("mailto:" . $mail_address));
 				}
 				if ($facebook_url) {
-					printf('<li><a href="%1$s" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-facebook"></span></span></a></li>', esc_url($facebook_url));
+					printf('<li><a href="%1$s" aria-label="Facebook" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-facebook"></span></span></a></li>', esc_url($facebook_url));
 				}
 				if ($twitter_url) {
-					printf('<li><a href="%1$s" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-twitter"></span></span></a></li>', esc_url($twitter_url));
+					printf('<li><a href="%1$s" aria-label="Twitter" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-twitter"></span></span></a></li>', esc_url($twitter_url));
 				}
 				if ($google_plus_url) {
-					printf('<li><a href="%1$s" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-google-plus"></span></span></a></li>', esc_url($google_plus_url));
+					printf('<li><a href="%1$s" aria-label="Google+" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-google-plus"></span></span></a></li>', esc_url($google_plus_url));
 				}
 				if ($linkedin_url) {
-					printf('<li><a href="%1$s" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-linkedin"></span></span></a></li>', esc_url($linkedin_url));
+					printf('<li><a href="%1$s" aria-label="Linked in" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-linkedin"></span></span></a></li>', esc_url($linkedin_url));
 				}
 				if ($instagram_url) {
-					printf('<li><a href="%1$s" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-instagram"></span></span></a></li>', esc_url($instagram_url));
+					printf('<li><a href="%1$s" aria-label="Instagram" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-instagram"></span></span></a></li>', esc_url($instagram_url));
 				}
 				if ($youtube_url) {
-					printf('<li><a href="%1$s" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-youtube"></span></span></a></li>', esc_url($youtube_url));
+					printf('<li><a href="%1$s" aria-label="Youtube" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-youtube"></span></span></a></li>', esc_url($youtube_url));
 				}
 				if ($pinterest_url) {
-					printf('<li><a href="%1$s" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-pinterest"></span></span></a></li>', esc_url($pinterest_url));
+					printf('<li><a href="%1$s" aria-label="Pinterest" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-pinterest"></span></span></a></li>', esc_url($pinterest_url));
 				}
 				if ($dribbble_url) {
-					printf('<li><a href="%1$s" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-dribbble"></span></span></a></li>', esc_url($dribbble_url));
+					printf('<li><a href="%1$s" aria-label="Dribbble" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-dribbble"></span></span></a></li>', esc_url($dribbble_url));
 				}
 				if ($xing_url) {
-					printf('<li><a href="%1$s" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-xing"></span></span></a></li>', esc_url($xing_url));
+					printf('<li><a href="%1$s" aria-label="Xing" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-xing"></span></span></a></li>', esc_url($xing_url));
 				}
 				if ($snapchat_url) {
-					printf('<li><a href="%1$s" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-snapchat"></span></span></a></li>', esc_url($snapchat_url));
+					printf('<li><a href="%1$s" aria-label="Snapchat" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon fa fa-snapchat"></span></span></a></li>', esc_url($snapchat_url));
 				}
 				if ( $custom_url ) {
-					printf( '<li><a href="%1$s" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon %2$s"></span></span></a></li>', esc_url( $custom_url ), esc_attr( $custom_icon ) );
+					printf( '<li><a href="%1$s" aria-label="Custom" target="_blank"><span class="eael-tm-social-icon-wrap"><span class="eael-tm-social-icon %2$s"></span></span></a></li>', esc_url( $custom_url ), esc_attr( $custom_icon ) );
 				}
 				?>
             </ul>

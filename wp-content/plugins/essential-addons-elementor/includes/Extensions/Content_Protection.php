@@ -881,7 +881,7 @@ class Content_Protection {
 		$html      = '';
 		$unlocked  = false;
 
-		if ( $settings[ 'eael_ext_content_protection' ] == 'yes' ) {
+		if ( ! empty( $settings[ 'eael_ext_content_protection' ] ) && 'yes' === $settings[ 'eael_ext_content_protection' ] ) {
 			if ( $settings[ 'eael_ext_content_protection_type' ] == 'role' ) {
 				if ( $this->current_user_privileges( $settings ) === true ) {
 					$html .= $content;

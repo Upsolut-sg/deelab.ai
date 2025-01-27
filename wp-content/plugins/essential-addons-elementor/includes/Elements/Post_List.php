@@ -66,6 +66,10 @@ class Post_List extends Widget_Base
         ];
     }
 
+    public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
     public function get_custom_help_url()
     {
         return 'https://essential-addons.com/elementor/docs/smart-post-list/';
@@ -2125,7 +2129,7 @@ class Post_List extends Widget_Base
             ]
         );
 
-        $this->start_controls_tab('post_list_category_tab_normal', ['label' => esc_html__('Normal', 'essential-addons-for-elementor')]);
+        $this->start_controls_tab('post_list_category_tab_normal', ['label' => esc_html__('Normal', 'essential-addons-elementor')]);
 
         $this->add_control(
             'post_list_category_color',
@@ -2172,7 +2176,7 @@ class Post_List extends Widget_Base
 
         $this->end_controls_tab();
 
-        $this->start_controls_tab('post_list_category_tab_hover', ['label' => esc_html__('Hover', 'essential-addons-for-elementor')]);
+        $this->start_controls_tab('post_list_category_tab_hover', ['label' => esc_html__('Hover', 'essential-addons-elementor')]);
 
         $this->add_control(
             'post_list_category_color_hover',
@@ -2567,14 +2571,14 @@ class Post_List extends Widget_Base
             $eael_post_list_pagination_next_icon = (isset($settings['__fa4_migrated']['eael_post_list_pagination_next_icon_new']) || empty($settings['eael_post_list_pagination_next_icon']) ? $settings['eael_post_list_pagination_next_icon_new']['value'] : $settings['eael_post_list_pagination_next_icon']);
 
             echo '<div '; $this->print_render_attribute_string( 'post-list-pagination-attributes' ); echo '>
-                <button class="btn btn-prev-post" id="post-nav-prev-' . esc_attr( $this->get_id() ) . '" disabled="true">';
+                <button class="btn btn-prev-post" id="post-nav-prev-' . esc_attr( $this->get_id() ) . '" disabled="true" aria-label="previous">';
                     if (isset($settings['__fa4_migrated']['eael_post_list_pagination_prev_icon_new']) || empty($settings['eael_post_list_pagination_prev_icon'])) {
                         Icons_Manager::render_icon( $settings['eael_post_list_pagination_prev_icon_new'], [ 'aria-hidden' => 'true' ] );
                     } else {
                         echo '<span class="' . esc_attr( $settings['eael_post_list_pagination_prev_icon'] ) . '"></span>';
                     }               
                 echo '</button>';
-                echo '<button class="btn btn-next-post" id="post-nav-next-' . esc_attr( $this->get_id() ) . '">';
+                echo '<button class="btn btn-next-post" id="post-nav-next-' . esc_attr( $this->get_id() ) . '" aria-label="next">';
                     if (isset($settings['__fa4_migrated']['eael_post_list_pagination_next_icon_new']) || empty
                     ($settings['eael_post_list_pagination_next_icon'])) {
                         Icons_Manager::render_icon( $settings['eael_post_list_pagination_next_icon_new'], [ 'aria-hidden' => 'true' ] );

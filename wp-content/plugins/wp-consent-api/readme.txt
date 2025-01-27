@@ -1,12 +1,12 @@
 === WP Consent API ===
-Contributors: RogierLankhorst, xkon, aurooba, mujuonly, phpgeekdk, paapst, aahulsebos, pputzer, markwolters
+Contributors: RogierLankhorst, xkon, aurooba, mujuonly, phpgeekdk, paapst, aahulsebos, pputzer, markwolters, szepeviktor
 Tags: consent, privacy, cookies, api, compliance
 Requires at least: 5.0
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tested up to: 6.5
+Tested up to: 6.7
 Requires PHP: 7.2
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 
 Simple Consent API to read and register the current consent category.
 
@@ -53,7 +53,7 @@ A plugin can use a hook to listen for changes or check the value of a given cate
 Categories and most other stuff can be extended with a filter.
 
 ## Existing integrations
-Categorized, and sorted alphabeticaly
+Categorized, and sorted alphabetically
 
 = Example plugin =
 - [Example plugin](https://github.com/rlankhorst/consent-api-example-plugin). The plugin basically consists of a shortcode, with a div that shows a tracking or not tracking message. No actual tracking is done :-)
@@ -116,7 +116,7 @@ if (wp_has_consent('marketing')){
 `
 = PHP =
 `
-//declare complianz with consent level API
+//declare compliance with consent level API
 $plugin = plugin_basename( __FILE__ );
 add_filter( "wp_consent_api_registered_{$plugin}", '__return_true' );
 
@@ -164,7 +164,7 @@ Statistics-anonymous:
 Cookies or any other form of local storage that are used exclusively for anonymous statistical purposes (Anonymous Analytics Cookies), that are placed on a first party domain, and that do not allow identification of particular individuals.
 
 Marketing:
-Cookies or any other form of local storage required to create user profiles to send advertising or to track the user on a website or across websites for simular marketing purposes.
+Cookies or any other form of local storage required to create user profiles to send advertising or to track the user on a website or across websites for similar marketing purposes.
 
 Functional:
 The cookie or any other form of local storage is used for the sole purpose of carrying out the transmission of a communication over an electronic communications network;
@@ -177,6 +177,14 @@ Preferences:
 Cookies or any other form of local storage that can not be seen as statistics, statistics-anonymous, marketing or functional, and where the technical storage or access is necessary for the legitimate purpose of storing preferences.
 
 == Changelog ==
+= 1.0.8 =
+* Updated tested up to
+* Dropped loading of translations, and loading of plugin_data, to prevent translation loading notices by WordPress 6.7, props @mujuonly
+* Dropped obsolete function wp_has_cookie_info, props @szepeviktor
+
+= 1.0.7 =
+* Tested up to
+
 = 1.0.7 =
 * Tested up to
 

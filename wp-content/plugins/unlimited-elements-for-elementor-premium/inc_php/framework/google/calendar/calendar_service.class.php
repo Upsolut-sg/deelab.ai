@@ -8,34 +8,68 @@ class UEGoogleAPICalendarService extends UEGoogleAPIClient{
 	
 	/**
 	 * convert times
-	 * function not needed for now...
 	 */
-	private function convertItemTimes($arrTime,$targetTimezone){
+	private function convertItemTimes($arrTime, $targetTimezone){
 		
 		if(empty($arrTime))
-			return($arrTime);
-			
-		$time = UniteFunctionsUC::getVal($arrTime, "dateTime");
-		
-		$sourceTimezone = UniteFunctionsUC::getVal($arrTime, "timeZone");
-		
-		if($sourceTimezone == $targetTimezone)
 			return($arrTime);
 		
 		if(class_exists("DateTimeZone") == false)
 			return($arrTime);
+			
+		$time = UniteFunctionsUC::getVal($arrTime, "dateTime");
 		
-		$objSourceTimezone = new DateTimeZone($sourceTimezone);
-		$objTargetTimezone = new DateTimeZone($targetTimezone);
+		if(empty($time))
+			return($arrTime);
 		
-		$objDate = new DateTime($time, $objSourceTimezone);
+		$sourceTimezone = UniteFunctionsUC::getVal($arrTime, "timeZone");
 		
-		$objDate->setTimezone($objTargetTimezone);
+		if(empty($sourceTimezone))
+			return($arrTime);
 		
-		$strDate = $objDate->format('Y-m-d\TH:i:s');
+		if($sourceTimezone == $targetTimezone)
+			return($arrTime);
+				
+		try{
+			
+			$objSourceTimezone = new DateTimeZone($sourceTimezone);
 		
-		$arrTime["dateTime"] = $strDate;
+		}catch(Exception $e){
+					
+			$message = $e->getMessage();
+			
+			dmp("Init source timezone error ($sourceTimezone): ".$message);
+			dmp("target timezone: $targetTimezone");
+			dmp($arrTime);
+		}
 		
+		
+		try{
+			$objTargetTimezone = new DateTimeZone($targetTimezone);
+		}catch(Exception $e){
+					
+			$message = $e->getMessage();
+			
+			dmp("Init target timezone error ($targetTimezone): ".$message);
+			dmp("source timezone: $targetTimezone");
+		}
+		
+		try{
+			
+			$objDate = new DateTime($time, $objSourceTimezone);
+			
+			$objDate->setTimezone($objTargetTimezone);
+			
+			$strDate = $objDate->format('Y-m-d\TH:i:s');
+			
+			$arrTime["dateTime"] = $strDate;
+		
+		}catch(Exception $e){
+					
+			$message = $e->getMessage();
+			
+			dmp("Convert time error: ".$message);
+		}
 		
 		return($arrTime);
 	}

@@ -66,6 +66,10 @@ class Divider extends Widget_Base
         return false;
     }
 
+	public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
 	public function get_custom_help_url()
 	{
 		return 'https://essential-addons.com/elementor/docs/divider/';
@@ -185,7 +189,7 @@ class Divider extends Widget_Base
 		$this->add_control(
 			'divider_left_width',
 			[
-				'label' => __('Left Divider Width', 'plugin-domain'),
+				'label' => __('Left Divider Width', 'essential-addons-elementor'),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => ['%'],
 				'range' => [
@@ -221,7 +225,7 @@ class Divider extends Widget_Base
 		$this->add_control(
 			'divider_right_width',
 			[
-				'label' => __('Right Divider Width', 'plugin-domain'),
+				'label' => __('Right Divider Width', 'essential-addons-elementor'),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => ['%'],
 				'range' => [

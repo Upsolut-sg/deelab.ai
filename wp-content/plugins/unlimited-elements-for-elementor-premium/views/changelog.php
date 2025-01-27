@@ -14,14 +14,15 @@ class UCChangelogView extends WP_List_Table{
 	const ACTION_EDIT = "edit";
 	const ACTION_DELETE = "delete";
 	const ACTION_EXPORT = "export";
-
+	const ACTION_EXPORT_JSON = "export-json";
+	const ACTION_IMPORT_JSON = "import-json";
 	const FILTER_ID = "id";
 	const FILTER_ADDON = "addon";
 	const FILTER_VERSION = "version";
 
 	const EDIT_FIELD_TYPE = "type";
 	const EDIT_FIELD_TEXT = "text";
-
+		
 	private $service;
 
 	/**
@@ -52,6 +53,16 @@ class UCChangelogView extends WP_List_Table{
 
 		if($action === self::ACTION_EXPORT){
 			$this->processExportAction();
+			exit;
+		}
+
+		if($action === self::ACTION_EXPORT_JSON){
+			$this->processExportJsonAction();
+			exit;
+		}
+
+		if($action === self::ACTION_IMPORT_JSON){
+			$this->processImportJsonAction();
 			exit;
 		}
 
@@ -100,11 +111,18 @@ class UCChangelogView extends WP_List_Table{
 		if(isset($_REQUEST[self::ACTION_EXPORT]))
 			return self::ACTION_EXPORT;
 
+		if(isset($_REQUEST[self::ACTION_EXPORT_JSON]))
+			return self::ACTION_EXPORT_JSON;
+
+		if(isset($_REQUEST[self::ACTION_IMPORT_JSON]))
+			return self::ACTION_IMPORT_JSON;
+
+
 		return parent::current_action();
 	}
 
 	/**
-	 * Gets a list of columns.
+	 * Gets a list of columns. 
 	 *
 	 * @return array
 	 */
@@ -158,7 +176,7 @@ class UCChangelogView extends WP_List_Table{
 	 */
 	public function no_items(){
 
-		echo __("No changelogs found.", "unlimited-elements-for-elementor");
+		esc_attr_e("No changelogs found.", "unlimited-elements-for-elementor");
 	}
 
 	/**
@@ -335,15 +353,43 @@ class UCChangelogView extends WP_List_Table{
 		$selectedAddon = $this->getFilter(self::FILTER_ADDON);
 		$selectedVersion = $this->getFilter(self::FILTER_VERSION);
 
+		$urlViewImport = HelperUC::getViewUrl(GlobalsUnlimitedElements::VIEW_CHANGELOG_IMPORT);
+		$isChangelogImportDisabled = HelperProviderUC::isAddonChangelogImportDisabled();
+
 		?>
+        <script>
+            jQuery(document).ready(function (){
+               jQuery('.migrate-button').click(function(){
+                  jQuery(this).hide();
+                  jQuery('.import-button, .export-button').show();
+               });
+            });
+        </script>
+
 		<div class="alignleft actions">
 			<?php $this->displayFilterSelect(self::FILTER_ADDON, __("Filter by Widget", "unlimited-elements-for-elementor"), __("All Widgets", "unlimited-elements-for-elementor"), $addons, $selectedAddon); ?>
 			<?php $this->displayFilterSelect(self::FILTER_VERSION, __("Filter by Version", "unlimited-elements-for-elementor"), __("All Versions", "unlimited-elements-for-elementor"), $versions, $selectedVersion); ?>
 			<?php submit_button(__("Filter", "unlimited-elements-for-elementor"), "", "", false, array("id" => "filter-submit")); ?>
 		</div>
-		<div class="alignright" style="margin-left: 8px;">
+
+        <div class="alignright migrate-button" style="margin-left: 8px;">
+            <a style="text-decoration: none; margin-top: 5px; display: block; width: 100%" href="javascript:void(0);" title="Migrate"><span class="dashicons dashicons-migrate"></span></a>
+        </div>
+
+        <?php if(!$isChangelogImportDisabled): ?>
+        <div class="alignright import-button" style="margin-left: 8px; display: none" >
+            <a class="button button-primary" href="<?php echo esc_url($urlViewImport); ?>"><?php esc_attr_e("Import Changelog", "unlimited-elements-for-elementor"); ?></a>
+        </div>
+        <?php endif; ?>
+
+        <div class="alignright export-button" style="margin-left: 8px; display: none" >
+			<?php submit_button(__("Export Changelog", "unlimited-elements-for-elementor"), "primary", self::ACTION_EXPORT_JSON, false, array("id" => "export-json-submit")); ?>
+        </div>
+
+		<div class="alignright" style="margin-left: 8px;" >
 			<?php submit_button(__("Export", "unlimited-elements-for-elementor"), "primary", self::ACTION_EXPORT, false, array("id" => "export-submit")); ?>
 		</div>
+
 		<?php
 	}
 
@@ -432,6 +478,7 @@ class UCChangelogView extends WP_List_Table{
 			ORDER BY {$this->getOrderBy()}
 		";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$ids = $wpdb->get_col($sql);
 		$items = $this->service->findChangelog($ids);
 
@@ -461,6 +508,29 @@ class UCChangelogView extends WP_List_Table{
 		UniteFunctionsUC::downloadTxt($filename, $content);
 	}
 
+
+	/**
+	 * Process the export json action.
+	 *
+	 * @return void
+	 */
+	public function processExportJsonAction(){
+        $export = new UniteCreatorImportExportChangelog();
+		$export->exportChangelog('export-file');
+	}
+
+
+	/**
+	 * Process the import json action.
+	 *
+	 * @return void
+	 */
+	private function processImportJsonAction(){
+		$import = new UniteCreatorImportExportChangelog();
+		$import->importChangelog();
+	}
+
+
 	/**
 	 * Prepares the list of items.
 	 *
@@ -480,6 +550,7 @@ class UCChangelogView extends WP_List_Table{
 			WHERE $where
 		";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$total = $wpdb->get_var($sql);
 
 		$sql = "
@@ -491,6 +562,7 @@ class UCChangelogView extends WP_List_Table{
 			OFFSET {$this->getOffset()}
 		";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$ids = $wpdb->get_col($sql);
 		$items = $this->service->findChangelog($ids);
 
@@ -518,6 +590,7 @@ class UCChangelogView extends WP_List_Table{
 			ORDER BY addon_id
 		";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results($sql);
 		$items = array();
 
@@ -541,9 +614,11 @@ class UCChangelogView extends WP_List_Table{
 			SELECT plugin_version
 			FROM {$this->service->getTable()}
 			GROUP BY plugin_version
-			ORDER BY plugin_version DESC
+			ORDER BY id DESC
+			LIMIT 10
 		";
-
+		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results($sql);
 		$items = array();
 
@@ -739,15 +814,15 @@ class UCChangelogView extends WP_List_Table{
 
 		?>
 		<span class="uc-filter-select">
-			<label class="screen-reader-text" for="<?php esc_attr_e($id); ?>"><?php esc_html_e($label); ?></label>
-			<select id="<?php esc_attr_e($id); ?>" name="<?php esc_attr_e($name); ?>">
-				<option value=""><?php esc_html_e($allLabel); ?></option>
+			<label class="screen-reader-text" for="<?php echo esc_attr($id); ?>"><?php echo esc_html($label); ?></label>
+			<select id="<?php echo esc_attr($id); ?>" name="<?php echo esc_attr($name); ?>">
+				<option value=""><?php echo esc_html($allLabel); ?></option>
 				<?php foreach($options as $value => $label): ?>
 					<option
-						value="<?php esc_attr_e($value); ?>"
-						<?php echo $value === $selectedValue ? "selected" : ""; ?>
+						value="<?php echo esc_attr($value); ?>"
+						<?php echo ($value === $selectedValue ? "selected" : ""); ?>
 					>
-						<?php esc_html_e($label); ?>
+						<?php echo esc_html($label); ?>
 					</option>
 				<?php endforeach; ?>
 			</select>
@@ -798,17 +873,17 @@ class UCChangelogView extends WP_List_Table{
 					<div class="uc-inline-edit-form-error-content"></div>
 				</div>
 				<?php $this->displayHiddenFields(); ?>
-				<input type="hidden" name="action" value="<?php esc_attr_e(self::ACTION_EDIT); ?>" />
+				<input type="hidden" name="action" value="<?php echo esc_attr(self::ACTION_EDIT); ?>" />
 				<input type="hidden" name="id" />
-				<select name="<?php esc_attr_e(self::EDIT_FIELD_TYPE); ?>">
+				<select name="<?php echo esc_attr(self::EDIT_FIELD_TYPE); ?>">
 					<option value="" selected disabled>
 						<?php esc_html_e("Select type", "unlimited-elements-for-elementor"); ?>
 					</option>
 					<?php foreach($types as $value => $label): ?>
-						<option value="<?php esc_attr_e($value); ?>"><?php esc_html_e($label); ?></option>
+						<option value="<?php echo esc_attr($value); ?>"><?php echo esc_html($label); ?></option>
 					<?php endforeach; ?>
 				</select>
-				<textarea name="<?php esc_attr_e(self::EDIT_FIELD_TEXT); ?>"
+				<textarea name="<?php echo esc_attr(self::EDIT_FIELD_TEXT); ?>"
 					placeholder="<?php esc_attr_e("Enter text", "unlimited-elements-for-elementor"); ?>"></textarea>
 				<div class="uc-inline-edit-form-actions">
 					<button class="uc-inline-edit-form-submit unite-button-primary" type="submit">

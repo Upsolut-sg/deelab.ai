@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Rank Math SEO PRO\n"
-"POT-Creation-Date: 2024-03-07 23:26-0300\n"
-"PO-Revision-Date: 2024-03-07 23:32-0300\n"
+"POT-Creation-Date: 2024-11-28 01:35-0300\n"
+"PO-Revision-Date: 2024-11-28 02:13-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: rank-math-pro.php\n"
@@ -1696,27 +1696,27 @@ msgstr "Região desconhecida"
 msgid "Special Sitemaps:"
 msgstr "Sitemaps especiais:"
 
-#: includes/admin/class-bulk-actions.php:114
-#: includes/admin/class-bulk-actions.php:267
+#: includes/admin/class-bulk-actions.php:120
+#: includes/admin/class-bulk-actions.php:273
 #, php-format
 msgid "Robots meta edited for %1$d %2$s."
 msgstr "Meta robots editados para %1$d %2$s."
 
-#: includes/admin/class-bulk-actions.php:136
-#: includes/admin/class-bulk-actions.php:293
+#: includes/admin/class-bulk-actions.php:142
+#: includes/admin/class-bulk-actions.php:299
 #, php-format
 msgid "%d redirection moved to Trash."
 msgid_plural "%d redirections moved to Trash."
 msgstr[0] "%d redirecionamento movido para a lixeira."
 msgstr[1] "%d redirecionamentos movidos para a lixeira."
 
-#: includes/admin/class-bulk-actions.php:150
-#: includes/admin/class-bulk-actions.php:164
+#: includes/admin/class-bulk-actions.php:156
+#: includes/admin/class-bulk-actions.php:170
 #, php-format
 msgid "Schema edited for %1$d %2$s."
 msgstr "Dado estruturado (schema) editado para %1$d %2$s."
 
-#: includes/admin/class-bulk-actions.php:179
+#: includes/admin/class-bulk-actions.php:185
 #, php-format
 msgid "Custom Canonical URL removed from %1$d %2$s."
 msgstr "URL canônico personalizado removido de %1$d %2$s."
@@ -1874,7 +1874,7 @@ msgid "How To"
 msgstr "Como fazer"
 
 #: includes/admin/class-post-filters.php:338
-#: includes/modules/redirections/class-categories.php:420
+#: includes/modules/redirections/class-categories.php:330
 msgid "Clear Filter"
 msgstr "Limpar filtro"
 
@@ -2055,7 +2055,6 @@ msgid "Are you sure you want to import meta data from this CSV file?"
 msgstr "Tem certeza de que deseja importar metadados deste arquivo CSV?"
 
 #: includes/admin/csv-import-export/class-csv-import-export.php:83
-#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:538
 msgid "Are you sure you want to stop the import process?"
 msgstr "Tem certeza de que deseja interromper o processo de importação?"
 
@@ -2191,7 +2190,7 @@ msgid ""
 "%1$sImport & Export panel%2$s."
 msgstr ""
 "Importação de CSV em andamento. Você pode ver seu progresso e cancelá-lo no "
-"painel %1$sImportar e exportar%2$s."
+"painel %1$sImportação e exportação%2$s."
 
 #: includes/admin/csv-import-export/class-importer.php:201
 #: includes/modules/redirections/csv-import-redirections/class-importer.php:188
@@ -2601,7 +2600,7 @@ msgstr "Incluir imagens adicionadas nos campos ACF."
 #: includes/modules/schema/class-video.php:79
 #: includes/modules/schema/class-video.php:94
 #: includes/modules/schema/class-video.php:120
-#: includes/modules/woocommerce/class-admin.php:47
+#: includes/modules/woocommerce/class-admin.php:51
 msgid "Custom"
 msgstr "Personalizado"
 
@@ -2614,20 +2613,20 @@ msgstr ""
 "A importação de dados não irá funcionar para este serviço, pois não foram "
 "fornecidas permissões suficientes."
 
-#: includes/modules/analytics/class-analytics.php:185
+#: includes/modules/analytics/class-analytics.php:221
 msgid "Post Analytics"
 msgstr "Análise dos posts"
 
-#: includes/modules/analytics/class-analytics.php:187
+#: includes/modules/analytics/class-analytics.php:223
 msgid "Analytics Report"
 msgstr "Relatório de análises"
 
-#: includes/modules/analytics/class-analytics.php:241
-#: includes/modules/analytics/class-analytics.php:260
+#: includes/modules/analytics/class-analytics.php:277
+#: includes/modules/analytics/class-analytics.php:296
 msgid "Country"
 msgstr "País"
 
-#: includes/modules/analytics/class-analytics.php:325
+#: includes/modules/analytics/class-analytics.php:361
 msgid ""
 "Enter the number of days to keep Analytics data in your database. The maximum "
 "allowed days are 180. Though, 2x data will be stored in the DB for "
@@ -2637,12 +2636,12 @@ msgstr ""
 "dados. O máximo permitido são 180 dias. No entanto, o dobro dos dados será "
 "armazenado no banco de dados para calcular a diferença corretamente."
 
-#: includes/modules/analytics/class-analytics.php:346
+#: includes/modules/analytics/class-analytics.php:382
 msgid "Monitor SEO Performance"
 msgstr "Monitorar o desempenho de SEO"
 
 #. translators: Link to kb article
-#: includes/modules/analytics/class-analytics.php:349
+#: includes/modules/analytics/class-analytics.php:385
 #, php-format
 msgid ""
 "This option allows you to monitor the SEO performance of all of your sites in "
@@ -2654,33 +2653,33 @@ msgstr ""
 "verificar os sites rapidamente. <a href=\"%1$s\" target=\"_blank\">Saiba "
 "mais</a>."
 
-#: includes/modules/analytics/class-analytics.php:361
+#: includes/modules/analytics/class-analytics.php:397
 msgid "Google Core Updates in the Graphs"
 msgstr "Atualizações principais do Google nos gráficos"
 
 #. translators: Link to kb article
-#: includes/modules/analytics/class-analytics.php:364
+#: includes/modules/analytics/class-analytics.php:400
 #, php-format
 msgid "This option allows you to show %s in the Analytics graphs."
 msgstr "Esta opção permite que você mostre %s nos gráficos de análise."
 
-#: includes/modules/analytics/class-analytics.php:365
+#: includes/modules/analytics/class-analytics.php:401
 msgid "Google Core Updates"
 msgstr "Atualizações principais do Google"
 
-#: includes/modules/analytics/class-analytics.php:474
+#: includes/modules/analytics/class-analytics.php:510
 msgid "AdSense"
 msgstr "AdSense"
 
-#: includes/modules/analytics/class-analytics.php:475
+#: includes/modules/analytics/class-analytics.php:511
 msgid "Analytics"
 msgstr "Analytics"
 
-#: includes/modules/analytics/class-analytics.php:633
+#: includes/modules/analytics/class-analytics.php:669
 msgid "Search Traffic:"
 msgstr "Tráfego de pesquisa:"
 
-#: includes/modules/analytics/class-analytics.php:634
+#: includes/modules/analytics/class-analytics.php:670
 msgid "Search Impression:"
 msgstr "Impressão de pesquisa:"
 
@@ -2920,7 +2919,7 @@ msgstr "VER ANÁLISES DETALHADAS"
 
 #: includes/modules/analytics/views/email-reports/sections/losing-keywords.php:32
 #: includes/modules/analytics/views/email-reports/sections/winning-keywords.php:32
-#: includes/modules/schema/shortcode/dataset.php:49
+#: includes/modules/schema/shortcode/dataset.php:47
 #: includes/modules/schema/shortcode/recipe.php:34
 msgid "Keywords"
 msgstr "Palavras-chave"
@@ -2995,23 +2994,23 @@ msgstr ""
 "Você usou todos os seus créditos de IA e precisa comprar mais com o seu "
 "provedor de serviços de SEO."
 
-#: includes/modules/image-seo/class-image-seo-pro.php:92
+#: includes/modules/image-seo/class-image-seo-pro.php:99
 msgid "Image Alt"
 msgstr "ALT da imagem"
 
-#: includes/modules/image-seo/class-image-seo-pro.php:93
+#: includes/modules/image-seo/class-image-seo-pro.php:100
 msgid "Alt text set for the current image."
 msgstr "Texto ALT (alternativo) definido para a imagem atual."
 
-#: includes/modules/image-seo/class-image-seo-pro.php:104
+#: includes/modules/image-seo/class-image-seo-pro.php:111
 msgid "Image Title"
 msgstr "Título da imagem"
 
-#: includes/modules/image-seo/class-image-seo-pro.php:105
+#: includes/modules/image-seo/class-image-seo-pro.php:112
 msgid "Title text set for the current image."
 msgstr "Texto do título definido para a imagem atual."
 
-#: includes/modules/image-seo/class-image-seo-pro.php:365
+#: includes/modules/image-seo/class-image-seo-pro.php:298
 #, php-format
 msgid "Avatar of %s"
 msgstr "Avatar de %s"
@@ -3175,22 +3174,252 @@ msgstr "Adicionar outro"
 msgid "Find"
 msgstr "Encontrar"
 
-#: includes/modules/image-seo/options.php:176
+#: includes/modules/image-seo/options.php:177
 msgid "Replace"
 msgstr "Substituir"
 
-#: includes/modules/image-seo/options.php:186
+#: includes/modules/image-seo/options.php:189
 msgid "Alt"
 msgstr "Alt"
 
-#: includes/modules/image-seo/options.php:187
+#: includes/modules/image-seo/options.php:190
 #: includes/modules/video-sitemap/sitemap-xsl.php:153
 msgid "Title"
 msgstr "Título"
 
-#: includes/modules/image-seo/options.php:188
+#: includes/modules/image-seo/options.php:191
 msgid "Caption"
 msgstr "Legenda"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:65
+msgid "Show Company Name"
+msgstr "Mostrar nome da empresa"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:69
+msgid "Show Company Address"
+msgstr "Mostrar endereço da empresa"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:73
+msgid "Show address on one line"
+msgstr "Mostrar endereço em uma linha"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:77
+msgid "Show State"
+msgstr "Mostrar estado"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:81
+msgid "Show Country"
+msgstr "Mostrar país"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:85
+msgid "Show Primary number"
+msgstr "Mostrar número primário"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:89
+msgid "Show Secondary number"
+msgstr "Mostrar número secundário"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:93
+msgid "Show FAX number"
+msgstr "Mostrar número do FAX"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:97
+msgid "Show Email"
+msgstr "Mostrar e-mail"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:101
+msgid "Show Business URL"
+msgstr "Mostrar URL do negócio"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:105
+msgid "Show Logo"
+msgstr "Mostrar logo"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:109
+msgid "Show VAT number"
+msgstr "Mostrar número do CNPJ"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:113
+msgid "Show TAX ID"
+msgstr "Mostrar identificação fiscal"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:117
+msgid "Show COC number"
+msgstr "Mostrar número COC (licença)"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:121
+msgid "Show Price Indication"
+msgstr "Mostrar indicação de preço"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:140
+msgid "Show Opening Hours"
+msgstr "Mostrar horário de funcionamento"
+
+#. translators: Weekdays name
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:153
+#, javascript-format
+msgid "Show %s"
+msgstr "Mostrar %s"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:171
+msgid "Hide Closed Days"
+msgstr "Ocultar dias fechados"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:178
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:187
+msgid "Show open now label after opening hour for current day"
+msgstr "Mostrar o rótulo “Aberto agora” após o horário de abertura no dia atual"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:204
+msgid "Show Map"
+msgstr "Mostrar mapa"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:216
+msgid "Map Type"
+msgstr "Tipo de mapa"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:221
+#: includes/modules/local-seo/views/titles-options.php:617
+msgid "Roadmap"
+msgstr "Mapa de estradas"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:225
+#: includes/modules/local-seo/views/titles-options.php:615
+msgid "Hybrid"
+msgstr "Híbrido"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:229
+#: includes/modules/local-seo/views/titles-options.php:616
+msgid "Satellite"
+msgstr "Satélite"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:233
+#: includes/modules/local-seo/views/titles-options.php:618
+msgid "Terrain"
+msgstr "Terreno"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:238
+msgid "Map Width"
+msgstr "Largura do mapa"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:242
+msgid "Map Height"
+msgstr "Altura do mapa"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:246
+msgid "Show Category filter"
+msgstr "Mostrar filtro de categorias"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:250
+msgid "Zoom Level"
+msgstr "Nível do zoom"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:256
+msgid "Allow Zoom"
+msgstr "Permitir zoom"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:260
+msgid "Allow Zoom by scroll"
+msgstr "Permitir zoom com rolagem"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:264
+msgid "Allow Dragging"
+msgstr "Permitir arrastar"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:268
+msgid "Show Marker Clustering"
+msgstr "Mostrar agrupamento de marcadores"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:272
+msgid "Show InfoWindow"
+msgstr "Mostrar janela de informações"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:276
+msgid "Show Route Planner"
+msgstr "Mostrar planejador de rotas"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:280
+msgid "Route Label"
+msgstr "Rótulo da rota"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:296
+msgid "Show radius"
+msgstr "Mostrar raio"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:300
+msgid "Search Locations within the radius"
+msgstr "Pesquisar localizações dentro do raio"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:306
+msgid "Add dropdown to filter results by category"
+msgstr "Adicionar menu suspenso para filtrar os resultados por categoria"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:310
+msgid "Show nearest location if none is found within radius"
+msgstr ""
+"Mostrar a localização mais próxima se não for encontrada nenhuma dentro do "
+"raio"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:324
+msgid "Address Settings"
+msgstr "Configurações de endereços"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:326
+msgid "Opening Hours Settings"
+msgstr "Configurações do horário de funcionamento"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:328
+msgid "Map Settings"
+msgstr "Configurações do mapa"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:348
+msgid "Preview Image"
+msgstr "Pré-visualizar imagem"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:384
+msgid "Settings"
+msgstr "Configurações"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:388
+#: includes/modules/schema/shortcode/recipe.php:20
+msgid "Type"
+msgstr "Tipo"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:393
+#: includes/modules/local-seo/class-local-seo.php:272
+#: includes/modules/local-seo/views/titles-options.php:381
+msgid "Address"
+msgstr "Endereço"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:397
+#: includes/modules/local-seo/views/titles-options.php:417
+msgid "Opening Hours"
+msgstr "Horário de funcionamento"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:401
+msgid "Map"
+msgstr "Mapa"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:405
+msgid "Store Locator"
+msgstr "Localizador de lojas"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:412
+msgid "Locations"
+msgstr "Localizações"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:419
+msgid "Location Categories"
+msgstr "Categorias da localização"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:428
+#: includes/modules/local-seo/views/titles-options.php:629
+msgid "Maximum number of locations to show"
+msgstr "Número máximo de localizações a serem exibidos"
+
+#: includes/modules/local-seo/blocks/local-business/src/edit.js:454
+msgid "All Locations"
+msgstr "Todas as localizações"
 
 #: includes/modules/local-seo/class-admin.php:61
 msgid "Local Sitemap"
@@ -3223,217 +3452,212 @@ msgid "Local Business"
 msgstr "Negócio local"
 
 #. translators: Post Type Plural Name
-#: includes/modules/local-seo/class-local-seo.php:143
+#: includes/modules/local-seo/class-local-seo.php:147
 #, php-format
 msgid "All %s"
 msgstr "Todos %s"
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:145
+#: includes/modules/local-seo/class-local-seo.php:149
 #, php-format
 msgid "Add New %s"
 msgstr "Adicionar novo %s"
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:147
+#: includes/modules/local-seo/class-local-seo.php:151
 #, php-format
 msgid "New %s"
 msgstr "Novo %s"
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:149
+#: includes/modules/local-seo/class-local-seo.php:153
 #, php-format
 msgid "Edit %s"
 msgstr "Editar %s"
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:151
+#: includes/modules/local-seo/class-local-seo.php:155
 #, php-format
 msgid "Update %s"
 msgstr "Atualizar %s"
 
 #. translators: Post Type Singular Name
 #. translators: Post Type Plural Name
-#: includes/modules/local-seo/class-local-seo.php:153
-#: includes/modules/local-seo/class-local-seo.php:155
+#: includes/modules/local-seo/class-local-seo.php:157
+#: includes/modules/local-seo/class-local-seo.php:159
 #, php-format
 msgid "View %s"
 msgstr "Ver %s"
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:157
+#: includes/modules/local-seo/class-local-seo.php:161
 #, php-format
 msgid "Search %s"
 msgstr "Pesquisar %s"
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:159
+#: includes/modules/local-seo/class-local-seo.php:163
 #, php-format
 msgid "No %s found."
 msgstr "Nenhum %s encontrado."
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:161
+#: includes/modules/local-seo/class-local-seo.php:165
 #, php-format
 msgid "No %s found in Trash."
 msgstr "Nenhum %s encontrado na lixeira."
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:163
+#: includes/modules/local-seo/class-local-seo.php:167
 #, php-format
 msgid "%s published."
 msgstr "%s publicado."
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:165
+#: includes/modules/local-seo/class-local-seo.php:169
 #, php-format
 msgid "%s published privately."
 msgstr "%s publicado em privado."
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:167
+#: includes/modules/local-seo/class-local-seo.php:171
 #, php-format
 msgid "%s reverted to draft."
 msgstr "%s revertido para rascunho."
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:169
+#: includes/modules/local-seo/class-local-seo.php:173
 #, php-format
 msgid "%s scheduled."
 msgstr "%s agendado."
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:171
+#: includes/modules/local-seo/class-local-seo.php:175
 #, php-format
 msgid "%s updated."
 msgstr "%s atualizado."
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:214
-#: includes/modules/local-seo/class-local-seo.php:228
+#: includes/modules/local-seo/class-local-seo.php:218
+#: includes/modules/local-seo/class-local-seo.php:232
 #, php-format
 msgid "%s categories"
 msgstr "%s categorias"
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:216
+#: includes/modules/local-seo/class-local-seo.php:220
 #, php-format
 msgid "%s category"
 msgstr "%s categoria"
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:218
+#: includes/modules/local-seo/class-local-seo.php:222
 #, php-format
 msgid "All %s categories"
 msgstr "Todas as %s categorias"
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:220
+#: includes/modules/local-seo/class-local-seo.php:224
 #, php-format
 msgid "Edit %s category"
 msgstr "Editar categoria %s"
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:222
+#: includes/modules/local-seo/class-local-seo.php:226
 #, php-format
 msgid "Update %s category"
 msgstr "Atualizar categoria %s"
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:224
+#: includes/modules/local-seo/class-local-seo.php:228
 #, php-format
 msgid "Add New %s category"
 msgstr "Adicionar nova categoria %s"
 
 #. translators: Post Type Singular Name
-#: includes/modules/local-seo/class-local-seo.php:226
+#: includes/modules/local-seo/class-local-seo.php:230
 #, php-format
 msgid "New %s category"
 msgstr "Nova categoria %s"
 
-#: includes/modules/local-seo/class-local-seo.php:229
+#: includes/modules/local-seo/class-local-seo.php:233
 msgid "Search categories"
 msgstr "Pesquisar categorias"
 
-#: includes/modules/local-seo/class-local-seo.php:230
-#: includes/modules/redirections/class-categories.php:84
+#: includes/modules/local-seo/class-local-seo.php:234
+#: includes/modules/redirections/class-categories.php:77
 msgid "Parent Category"
 msgstr "Categoria principal (ascendente)"
 
-#: includes/modules/local-seo/class-local-seo.php:231
-#: includes/modules/redirections/class-categories.php:85
+#: includes/modules/local-seo/class-local-seo.php:235
+#: includes/modules/redirections/class-categories.php:78
 msgid "Parent Category:"
 msgstr "Categoria principal (ascendente):"
 
-#: includes/modules/local-seo/class-local-seo.php:268
-#: includes/modules/local-seo/views/titles-options.php:381
-msgid "Address"
-msgstr "Endereço"
-
-#: includes/modules/local-seo/class-local-seo.php:269
-#: includes/modules/local-seo/shortcodes/class-address.php:38
+#: includes/modules/local-seo/class-local-seo.php:273
+#: includes/modules/local-seo/shortcodes/class-address.php:42
 #: includes/modules/local-seo/views/titles-options.php:371
 msgid "Phone"
 msgstr "Telefone"
 
-#: includes/modules/local-seo/class-location-shortcode.php:143
+#: includes/modules/local-seo/class-location-shortcode.php:131
 #, php-format
 msgid "This page can't load Google Maps correctly. Please add %s."
 msgstr "Esta página não pode carregar o Google Maps corretamente. Adicione %s."
 
-#: includes/modules/local-seo/class-location-shortcode.php:144
+#: includes/modules/local-seo/class-location-shortcode.php:132
 msgid "API Key"
 msgstr "Chave de API"
 
-#: includes/modules/local-seo/class-location-shortcode.php:320
-#: includes/modules/local-seo/shortcodes/class-store-locator.php:169
+#: includes/modules/local-seo/class-location-shortcode.php:308
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:170
 msgid "Sorry, no locations were found."
 msgstr "Nenhuma localização foi encontrada."
 
-#: includes/modules/local-seo/shortcodes/class-address.php:42
+#: includes/modules/local-seo/shortcodes/class-address.php:46
 msgid "Secondary phone"
 msgstr "Telefone secundário"
 
-#: includes/modules/local-seo/shortcodes/class-address.php:46
+#: includes/modules/local-seo/shortcodes/class-address.php:50
 msgid "Fax"
 msgstr "Fax"
 
-#: includes/modules/local-seo/shortcodes/class-address.php:50
+#: includes/modules/local-seo/shortcodes/class-address.php:54
 #: includes/modules/local-seo/views/titles-options.php:362
 msgid "Email"
 msgstr "E-mail"
 
-#: includes/modules/local-seo/shortcodes/class-address.php:54
+#: includes/modules/local-seo/shortcodes/class-address.php:58
 #: includes/modules/local-seo/views/titles-options.php:337
 #: includes/modules/schema/shortcode/claimreview.php:19
 #: includes/modules/schema/shortcode/dataset.php:21
-#: includes/modules/schema/shortcode/dataset.php:106
+#: includes/modules/schema/shortcode/dataset.php:118
 msgid "URL"
 msgstr "URL"
 
-#: includes/modules/local-seo/shortcodes/class-address.php:58
+#: includes/modules/local-seo/shortcodes/class-address.php:62
 msgid "VAT ID"
 msgstr "ID do CNPJ"
 
-#: includes/modules/local-seo/shortcodes/class-address.php:62
+#: includes/modules/local-seo/shortcodes/class-address.php:66
 msgid "Tax ID"
 msgstr "ID do CPF"
 
-#: includes/modules/local-seo/shortcodes/class-address.php:66
+#: includes/modules/local-seo/shortcodes/class-address.php:70
 msgid "Chamber of Commerce ID"
 msgstr "ID da Câmara de Comércio"
 
-#: includes/modules/local-seo/shortcodes/class-address.php:70
+#: includes/modules/local-seo/shortcodes/class-address.php:74
 msgid "Price indication"
 msgstr "Indicação de preço"
 
-#: includes/modules/local-seo/shortcodes/class-address.php:120
+#: includes/modules/local-seo/shortcodes/class-address.php:136
 msgid "Address:"
 msgstr "Endereço:"
 
 #: includes/modules/local-seo/shortcodes/class-map.php:94
-#: includes/modules/local-seo/shortcodes/class-store-locator.php:66
-#: includes/modules/redirections/class-categories.php:402
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:67
+#: includes/modules/redirections/class-categories.php:312
 msgid "Select Category"
 msgstr "Selecionar categoria"
 
@@ -3453,31 +3677,31 @@ msgstr "Fechado"
 msgid "Open now"
 msgstr "Aberto agora"
 
-#: includes/modules/local-seo/shortcodes/class-store-locator.php:75
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:76
 msgid "Address, Suburb, Region, Zip or Landmark"
 msgstr "Endereço, bairro, região, CEP ou ponto de referência"
 
-#: includes/modules/local-seo/shortcodes/class-store-locator.php:81
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:82
 msgid "Search"
 msgstr "Pesquisar"
 
-#: includes/modules/local-seo/shortcodes/class-store-locator.php:100
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:101
 msgid "Detect Location"
 msgstr "Detectar localização"
 
-#: includes/modules/local-seo/shortcodes/class-store-locator.php:208
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:209
 msgid "Hide route"
 msgstr "Ocultar rota"
 
-#: includes/modules/local-seo/shortcodes/class-store-locator.php:213
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:214
 msgid "Route"
 msgstr "Rota"
 
-#: includes/modules/local-seo/shortcodes/class-store-locator.php:217
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:218
 msgid "Your location:"
 msgstr "Sua localização:"
 
-#: includes/modules/local-seo/shortcodes/class-store-locator.php:219
+#: includes/modules/local-seo/shortcodes/class-store-locator.php:220
 msgid "Show route"
 msgstr "Mostrar rota"
 
@@ -3621,7 +3845,7 @@ msgstr ""
 "Google (Google's Knowledge)."
 
 #: includes/modules/local-seo/views/titles-options.php:317
-#: includes/modules/schema/shortcode/dataset.php:87
+#: includes/modules/schema/shortcode/dataset.php:85
 #: includes/modules/video-sitemap/sitemap-xsl.php:154
 msgid "Description"
 msgstr "Descrição"
@@ -3689,10 +3913,6 @@ msgstr ""
 #: includes/modules/local-seo/views/titles-options.php:406
 msgid "Business Type"
 msgstr "Tipo de negócio"
-
-#: includes/modules/local-seo/views/titles-options.php:417
-msgid "Opening Hours"
-msgstr "Horário de funcionamento"
 
 #: includes/modules/local-seo/views/titles-options.php:418
 msgid ""
@@ -3844,26 +4064,6 @@ msgstr "Estilo do mapa"
 #: includes/modules/local-seo/views/titles-options.php:613
 msgid "Select the map style you wish to use on the frontend of your website."
 msgstr "Selecione o estilo de mapa que deseja usar na interface do seu site."
-
-#: includes/modules/local-seo/views/titles-options.php:615
-msgid "Hybrid"
-msgstr "Híbrido"
-
-#: includes/modules/local-seo/views/titles-options.php:616
-msgid "Satellite"
-msgstr "Satélite"
-
-#: includes/modules/local-seo/views/titles-options.php:617
-msgid "Roadmap"
-msgstr "Mapa de estradas"
-
-#: includes/modules/local-seo/views/titles-options.php:618
-msgid "Terrain"
-msgstr "Terreno"
-
-#: includes/modules/local-seo/views/titles-options.php:629
-msgid "Maximum number of locations to show"
-msgstr "Número máximo de localizações a serem exibidos"
 
 #: includes/modules/local-seo/views/titles-options.php:630
 msgid ""
@@ -4078,13 +4278,13 @@ msgstr "Este sitemap XML contém <strong>%s</strong> URLs."
 
 #. translators: xsl value count
 #. translators: Sitemap index link.
-#: includes/modules/news-sitemap/sitemap-xsl.php:148
+#: includes/modules/news-sitemap/sitemap-xsl.php:149
 #: includes/modules/video-sitemap/sitemap-xsl.php:144
 #, php-format
 msgid "<a href=\"%s\">&#8592; Sitemap Index</a>"
 msgstr "<a href=\"%s\">&#8592; Índice do Sitemap</a>"
 
-#: includes/modules/news-sitemap/sitemap-xsl.php:157
+#: includes/modules/news-sitemap/sitemap-xsl.php:160
 msgid "Publication Date"
 msgstr "Data de publicação"
 
@@ -4259,93 +4459,76 @@ msgstr ""
 "Adicione os detalhes de direitos autorais (copyright) se seu programa tiver "
 "direitos autorais."
 
-#: includes/modules/redirections/class-categories.php:80
+#: includes/modules/redirections/class-categories.php:73
 msgctxt "taxonomy general name"
 msgid "Redirection Categories"
 msgstr "Categorias do redirecionamento"
 
-#: includes/modules/redirections/class-categories.php:81
+#: includes/modules/redirections/class-categories.php:74
 msgctxt "taxonomy singular name"
 msgid "Redirection Category"
 msgstr "Categoria do redirecionamento"
 
-#: includes/modules/redirections/class-categories.php:82
+#: includes/modules/redirections/class-categories.php:75
 msgid "Search Redirection Categories"
 msgstr "Pesquisar categorias de redirecionamento"
 
-#: includes/modules/redirections/class-categories.php:83
+#: includes/modules/redirections/class-categories.php:76
 msgid "All Redirection Categories"
 msgstr "Todas as categorias de redirecionamento"
 
-#: includes/modules/redirections/class-categories.php:86
+#: includes/modules/redirections/class-categories.php:79
 msgid "Edit Category"
 msgstr "Editar categoria"
 
-#: includes/modules/redirections/class-categories.php:87
+#: includes/modules/redirections/class-categories.php:80
 msgid "Update Category"
 msgstr "Atualizar categoria"
 
-#: includes/modules/redirections/class-categories.php:88
+#: includes/modules/redirections/class-categories.php:81
 msgid "Add New Category"
 msgstr "Adicionar nova categoria"
 
-#: includes/modules/redirections/class-categories.php:89
+#: includes/modules/redirections/class-categories.php:82
 msgid "New Category Name"
 msgstr "Nome da nova categoria"
 
-#: includes/modules/redirections/class-categories.php:90
+#: includes/modules/redirections/class-categories.php:83
 msgid "Redirection Categories"
 msgstr "Categorias de redirecionamento"
 
-#: includes/modules/redirections/class-categories.php:123
+#: includes/modules/redirections/class-categories.php:118
 msgid "Add to Category"
 msgstr "Adicionar à categoria"
 
-#: includes/modules/redirections/class-categories.php:150
+#: includes/modules/redirections/class-categories.php:145
 msgid "No valid ID provided."
 msgstr "Nenhum ID válido fornecido."
 
-#: includes/modules/redirections/class-categories.php:159
+#: includes/modules/redirections/class-categories.php:154
 #, php-format
 msgid "%d redirections have been assigned to the category."
 msgstr "%d redirecionamentos foram atribuídos à categoria."
 
-#: includes/modules/redirections/class-categories.php:179
-msgid "Add New"
-msgstr "Adicionar novo"
-
-#: includes/modules/redirections/class-categories.php:180
-msgid "New Category"
-msgstr "Nova categoria"
-
-#: includes/modules/redirections/class-categories.php:181
-#: includes/modules/redirections/class-categories.php:554
-msgid "Manage Categories"
-msgstr "Gerenciar categorias"
-
-#: includes/modules/redirections/class-categories.php:204
-msgid "Redirection Category"
-msgstr "Categoria do redirecionamento"
-
-#: includes/modules/redirections/class-categories.php:205
-msgid "Organize your redirections in categories."
-msgstr "Organize seus redirecionamentos em categorias."
-
-#: includes/modules/redirections/class-categories.php:265
+#: includes/modules/redirections/class-categories.php:197
 msgid "Category"
 msgstr "Categoria"
 
-#: includes/modules/redirections/class-categories.php:295
+#: includes/modules/redirections/class-categories.php:227
 msgid "Uncategorized"
 msgstr "Sem categoria"
 
-#: includes/modules/redirections/class-categories.php:414
+#: includes/modules/redirections/class-categories.php:324
 msgid "Filter"
 msgstr "Filtro"
 
-#: includes/modules/redirections/class-categories.php:511
+#: includes/modules/redirections/class-categories.php:421
 msgid "&larr; Go Back to the Redirections"
 msgstr "&larr; Voltar para os redirecionamentos"
+
+#: includes/modules/redirections/class-categories.php:464
+msgid "Manage Categories"
+msgstr "Gerenciar categorias"
 
 #: includes/modules/redirections/class-redirections.php:63
 #: includes/modules/redirections/class-redirections.php:69
@@ -4377,23 +4560,7 @@ msgstr "Nenhum redirecionamento válido foi encontrado."
 msgid "Redirections successfully synced to the .htaccess file."
 msgstr "Redirecionamentos sincronizados com o arquivo .htaccess."
 
-#: includes/modules/redirections/class-schedule.php:70
-msgid "Scheduled Activation"
-msgstr "Ativação agendada"
-
-#: includes/modules/redirections/class-schedule.php:71
-msgid "Redirection will be activated on this date (optional)."
-msgstr "O redirecionamento será ativado nesta data (opcional)."
-
-#: includes/modules/redirections/class-schedule.php:87
-msgid "Scheduled Deactivation"
-msgstr "Desativação agendada"
-
-#: includes/modules/redirections/class-schedule.php:88
-msgid "Redirection will be deactivated on this date (optional)."
-msgstr "O redirecionamento será desativado nesta data (opcional)."
-
-#: includes/modules/redirections/class-schedule.php:374
+#: includes/modules/redirections/class-schedule.php:305
 msgid ""
 "One or more of the selected redirections could not be changed because they "
 "are scheduled for future activation/deactivation."
@@ -4521,31 +4688,27 @@ msgstr "Incluir redirecionamentos desativados"
 
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:176
 msgid "Import & Export"
-msgstr "Importar e exportar"
+msgstr "Importação e exportação"
 
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:241
 msgid "Sorry, you are not allowed to import redirections on this site."
 msgstr "Você não tem permissão para importar redirecionamentos neste site."
 
-#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:513
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:510
 msgid "Created"
 msgstr "Criado"
 
-#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:514
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:511
 msgid "Updated"
 msgstr "Atualizado"
 
-#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:515
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:512
 msgid "Deleted"
 msgstr "Excluído"
 
-#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:516
+#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:513
 msgid "Merged"
 msgstr "Mesclado"
-
-#: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:537
-msgid "Are you sure you want to import redirections from this CSV file?"
-msgstr "Tem certeza de que deseja importar redirecionamentos deste arquivo CSV?"
 
 #: includes/modules/redirections/csv-import-redirections/class-import-row.php:256
 msgid "Could not import redirection."
@@ -4599,7 +4762,7 @@ msgstr "Usar na marcação de dados estruturados (schema)"
 msgid "Link Title"
 msgstr "Título do link"
 
-#: includes/modules/schema/class-admin.php:441
+#: includes/modules/schema/class-admin.php:442
 msgid "All Taxonomies"
 msgstr "Todas as taxonomias"
 
@@ -4696,19 +4859,19 @@ msgstr "ID único do objeto"
 msgid "Video URL."
 msgstr "URL do vídeo."
 
-#: includes/modules/schema/class-schema.php:125
+#: includes/modules/schema/class-schema.php:184
 msgid "Estimated Cost:"
 msgstr "Custo estimado:"
 
-#: includes/modules/schema/class-schema.php:149
+#: includes/modules/schema/class-schema.php:208
 msgid "Supply:"
 msgstr "Fornecedor:"
 
-#: includes/modules/schema/class-schema.php:174
+#: includes/modules/schema/class-schema.php:233
 msgid "Tools:"
 msgstr "Ferramentas:"
 
-#: includes/modules/schema/class-schema.php:198
+#: includes/modules/schema/class-schema.php:252
 msgid "Materials:"
 msgstr "Materiais:"
 
@@ -4817,40 +4980,44 @@ msgstr "Nome alternativo"
 msgid "Reference Web page "
 msgstr "Página da web de referência "
 
-#: includes/modules/schema/shortcode/dataset.php:38
+#: includes/modules/schema/shortcode/dataset.php:37
 msgid "Identifier"
 msgstr "Identificador"
 
-#: includes/modules/schema/shortcode/dataset.php:57
-#: includes/modules/schema/shortcode/dataset.php:88
+#: includes/modules/schema/shortcode/dataset.php:55
+#: includes/modules/schema/shortcode/dataset.php:86
 msgid "License"
 msgstr "Licença"
 
-#: includes/modules/schema/shortcode/dataset.php:64
+#: includes/modules/schema/shortcode/dataset.php:62
 msgid "Catalog"
 msgstr "Catálogo"
 
-#: includes/modules/schema/shortcode/dataset.php:71
+#: includes/modules/schema/shortcode/dataset.php:69
 msgid "Temporal Coverage"
 msgstr "Cobertura temporal"
 
-#: includes/modules/schema/shortcode/dataset.php:78
+#: includes/modules/schema/shortcode/dataset.php:76
 msgid "Special Coverage"
 msgstr "Cobertura especial"
 
-#: includes/modules/schema/shortcode/dataset.php:86
+#: includes/modules/schema/shortcode/dataset.php:84
 msgid "Name"
 msgstr "Nome"
 
-#: includes/modules/schema/shortcode/dataset.php:91
+#: includes/modules/schema/shortcode/dataset.php:87
+msgid "Creator"
+msgstr "Criador"
+
+#: includes/modules/schema/shortcode/dataset.php:90
 msgid "Data Sets"
 msgstr "Conjuntos de dados"
 
-#: includes/modules/schema/shortcode/dataset.php:105
+#: includes/modules/schema/shortcode/dataset.php:117
 msgid "Format"
 msgstr "Formato"
 
-#: includes/modules/schema/shortcode/dataset.php:109
+#: includes/modules/schema/shortcode/dataset.php:121
 msgid "Distribution"
 msgstr "Distribuição"
 
@@ -4941,15 +5108,15 @@ msgstr "%d Min"
 msgid "%d Sec"
 msgstr "%d Seg"
 
-#: includes/modules/schema/shortcode/podcastepisode.php:79
+#: includes/modules/schema/shortcode/podcastepisode.php:80
 msgid "Season"
 msgstr "Temporada"
 
-#: includes/modules/schema/shortcode/podcastepisode.php:90
+#: includes/modules/schema/shortcode/podcastepisode.php:91
 msgid "Episode"
 msgstr "Episódio"
 
-#: includes/modules/schema/shortcode/podcastepisode.php:113
+#: includes/modules/schema/shortcode/podcastepisode.php:114
 msgid "By"
 msgstr "Por"
 
@@ -4977,10 +5144,6 @@ msgstr "Preço válido até"
 #: includes/modules/schema/shortcode/product.php:80
 msgid "Product In-Stock"
 msgstr "Produto em estoque"
-
-#: includes/modules/schema/shortcode/recipe.php:20
-msgid "Type"
-msgstr "Tipo"
 
 #: includes/modules/schema/shortcode/recipe.php:27
 msgid "Cuisine"
@@ -5029,11 +5192,11 @@ msgstr "Ingredientes da receita"
 msgid "Recipe Instructions"
 msgstr "Instruções da receita"
 
-#: includes/modules/schema/video/class-parser.php:309
+#: includes/modules/schema/video/class-parser.php:344
 msgid "Video Thumbnail"
 msgstr "Miniatura do vídeo"
 
-#: includes/modules/schema/video/class-parser.php:337
+#: includes/modules/schema/video/class-parser.php:372
 #, php-format
 msgid "Video Thumbnail: %s"
 msgstr "Miniatura do vídeo: %s"
@@ -5142,67 +5305,73 @@ msgstr "Tags"
 msgid "Last Mod."
 msgstr "Última modificação."
 
-#: includes/modules/woocommerce/class-admin.php:53
+#: includes/modules/woocommerce/class-admin.php:57
 msgid "Select Brand"
 msgstr "Selecionar marca"
 
-#: includes/modules/woocommerce/class-admin.php:54
+#: includes/modules/woocommerce/class-admin.php:58
 msgid "Select Product Brand Taxonomy to use in Schema.org & OpenGraph markup."
 msgstr ""
 "Selecione a taxonomia da marca do produto a ser usada na marcação do Schema."
 "org e OpenGraph."
 
-#: includes/modules/woocommerce/class-admin.php:63
+#: includes/modules/woocommerce/class-admin.php:67
 msgid "Brand"
 msgstr "Marca"
 
-#: includes/modules/woocommerce/class-admin.php:64
+#: includes/modules/woocommerce/class-admin.php:68
 msgid "Brand value to use in Schema.org & OpenGraph markup."
 msgstr "Valor da marca a ser usado na marcação do Schema.org e OpenGraph."
 
-#: includes/modules/woocommerce/class-admin.php:73
+#: includes/modules/woocommerce/class-admin.php:77
 msgid "Global Identifier"
 msgstr "Identificador global"
 
-#: includes/modules/woocommerce/class-admin.php:74
+#: includes/modules/woocommerce/class-admin.php:78
 msgid "Global Identifier key to use in the Product Schema."
 msgstr ""
 "Chave do identificador global a ser usada no dado estruturado (schema) do "
 "produto."
 
-#: includes/modules/woocommerce/class-admin.php:76
+#: includes/modules/woocommerce/class-admin.php:80
+#: includes/modules/woocommerce/class-admin.php:180
+#: includes/modules/woocommerce/class-admin.php:206
+msgid "GTIN"
+msgstr "GTIN"
+
+#: includes/modules/woocommerce/class-admin.php:81
 msgid "GTIN-8"
 msgstr "GTIN-8"
 
-#: includes/modules/woocommerce/class-admin.php:77
+#: includes/modules/woocommerce/class-admin.php:82
 msgid "GTIN-12"
 msgstr "GTIN-12"
 
-#: includes/modules/woocommerce/class-admin.php:78
+#: includes/modules/woocommerce/class-admin.php:83
 msgid "GTIN-13"
 msgstr "GTIN-13"
 
-#: includes/modules/woocommerce/class-admin.php:79
+#: includes/modules/woocommerce/class-admin.php:84
 msgid "GTIN-14"
 msgstr "GTIN-14"
 
-#: includes/modules/woocommerce/class-admin.php:80
-#: includes/modules/woocommerce/class-admin.php:124
-#: includes/modules/woocommerce/class-admin.php:151
+#: includes/modules/woocommerce/class-admin.php:85
+#: includes/modules/woocommerce/class-admin.php:180
+#: includes/modules/woocommerce/class-admin.php:206
 msgid "ISBN"
 msgstr "ISBN"
 
-#: includes/modules/woocommerce/class-admin.php:81
-#: includes/modules/woocommerce/class-admin.php:124
-#: includes/modules/woocommerce/class-admin.php:151
+#: includes/modules/woocommerce/class-admin.php:86
+#: includes/modules/woocommerce/class-admin.php:180
+#: includes/modules/woocommerce/class-admin.php:206
 msgid "MPN"
 msgstr "MPN"
 
-#: includes/modules/woocommerce/class-admin.php:91
+#: includes/modules/woocommerce/class-admin.php:96
 msgid "Show Global Identifier"
 msgstr "Mostrar identificador global"
 
-#: includes/modules/woocommerce/class-admin.php:92
+#: includes/modules/woocommerce/class-admin.php:97
 msgid ""
 "Display the Global Identified on Product Page along with other product "
 "details."
@@ -5210,19 +5379,19 @@ msgstr ""
 "Exibe o Identificador global na página do produto, juntamente com outros "
 "detalhes do produto."
 
-#: includes/modules/woocommerce/class-admin.php:101
+#: includes/modules/woocommerce/class-admin.php:106
 msgid "Global Identifier label"
 msgstr "Rótulo do identificador global"
 
-#: includes/modules/woocommerce/class-admin.php:102
+#: includes/modules/woocommerce/class-admin.php:107
 msgid "Global Identifier label to show on Product Page."
 msgstr "Rótulo do identificador global a ser mostrado na página do produto."
 
-#: includes/modules/woocommerce/class-admin.php:112
+#: includes/modules/woocommerce/class-admin.php:117
 msgid "Noindex Hidden Products"
 msgstr "Não indexar (noindex) produtos ocultos"
 
-#: includes/modules/woocommerce/class-admin.php:113
+#: includes/modules/woocommerce/class-admin.php:118
 msgid ""
 "Set Product Pages to noindex when WooCommerce Catalog visibility is set to "
 "hidden."
@@ -5230,20 +5399,60 @@ msgstr ""
 "Defina as páginas de produtos como noindex (não indexar) quando a "
 "visibilidade do catálogo do WooCommerce estiver definida como oculta."
 
-#: includes/modules/woocommerce/class-admin.php:124
-#: includes/modules/woocommerce/class-admin.php:151
-msgid "GTIN"
-msgstr "GTIN"
-
-#: includes/modules/woocommerce/class-admin.php:134
+#: includes/modules/woocommerce/class-admin.php:189
+#: includes/modules/woocommerce/class-admin.php:217
 #, php-format
-msgid "%s value to use in the Product schema."
-msgstr "Valor %s a ser usado no dado estruturado (schema) de produto."
+msgid ""
+"%s added by Rank Math SEO). This field overrides WooCommerce GTIN data used "
+"in the Product Schema."
+msgstr ""
+"%s adicionado pelo Rank Math SEO). Este campo substitui os dados GTIN do "
+"WooCommerce usados nos dados estruturados (Schema) do produto."
 
-#: includes/modules/woocommerce/class-admin.php:163
+#: includes/modules/woocommerce/class-migrate-gtin.php:136
 #, php-format
-msgid "%s value to use in Product schema."
-msgstr "Valor %s a ser usado em dado estruturado (schema) de produto."
+msgid ""
+"GTIN value has been successfully migrated to the WooCommerce GTIN field for "
+"%d product."
+msgid_plural ""
+"GTIN values have been successfully migrated to the WooCommerce GTIN field for "
+"%d products."
+msgstr[0] ""
+"O valor GTIN foi migrado para o campo GTIN do WooCommerce para %d produto."
+msgstr[1] ""
+"Os valores de GTIN foram migrados para o campo GTIN do WooCommerce para %d "
+"produtos."
+
+#: includes/modules/woocommerce/class-woocommerce-pro.php:346
+msgid "GTIN Migration Tool for WooCommerce"
+msgstr "Ferramenta de migração GTIN para WooCommerce"
+
+#: includes/modules/woocommerce/class-woocommerce-pro.php:347
+msgid ""
+"Migrate GTIN values from the plugin into the native WooCommerce GTIN field."
+msgstr ""
+"Migre os valores GTIN do plugin para o campo GTIN nativo do WooCommerce."
+
+#: includes/modules/woocommerce/class-woocommerce-pro.php:348
+msgid "Migrate"
+msgstr "Migrar"
+
+#: includes/modules/woocommerce/class-woocommerce-pro.php:362
+msgid "No products found to migrate."
+msgstr "Não foram encontrados produtos para migrar."
+
+#: includes/modules/woocommerce/class-woocommerce-pro.php:368
+#: includes/updates/update-3.0.72.php:33
+msgid ""
+"The GTIN values from the plugin are being transferred to the built-in "
+"WooCommerce GTIN field. This process runs in the background, and you'll "
+"receive a confirmation message once all product data has been successfully "
+"migrated. You can close this page."
+msgstr ""
+"Os valores GTIN do plugin estão sendo transferidos para o campo GTIN "
+"integrado do WooCommerce. Este processo é executado em segundo plano e você "
+"receberá uma mensagem de confirmação quando todos os dados do produto tiverem "
+"sido migrados corretamente. Você pode fechar esta página."
 
 #: includes/plugin-update/class-plugin-update.php:156
 msgid ""
@@ -5455,8 +5664,8 @@ msgstr ""
 "personalizados, sitemaps para notícias/vídeos, etc."
 
 #. Author of the plugin/theme
-msgid "Rank Math"
-msgstr "Rank Math"
+msgid "Rank Math SEO"
+msgstr "Rank Math SEO"
 
 #. Author URI of the plugin/theme
 msgid ""
@@ -5465,6 +5674,45 @@ msgid ""
 msgstr ""
 "https://rankmath.com/?"
 "utm_source=Plugin&utm_medium=Readme%20Author%20URI&utm_campaign=WP"
+
+#~ msgid "Rank Math"
+#~ msgstr "Rank Math"
+
+#, php-format
+#~ msgid "%s value to use in the Product schema."
+#~ msgstr "Valor %s a ser usado no dado estruturado (schema) de produto."
+
+#, php-format
+#~ msgid "%s value to use in Product schema."
+#~ msgstr "Valor %s a ser usado em dado estruturado (schema) de produto."
+
+#~ msgid "Add New"
+#~ msgstr "Adicionar novo"
+
+#~ msgid "New Category"
+#~ msgstr "Nova categoria"
+
+#~ msgid "Redirection Category"
+#~ msgstr "Categoria do redirecionamento"
+
+#~ msgid "Organize your redirections in categories."
+#~ msgstr "Organize seus redirecionamentos em categorias."
+
+#~ msgid "Scheduled Activation"
+#~ msgstr "Ativação agendada"
+
+#~ msgid "Redirection will be activated on this date (optional)."
+#~ msgstr "O redirecionamento será ativado nesta data (opcional)."
+
+#~ msgid "Scheduled Deactivation"
+#~ msgstr "Desativação agendada"
+
+#~ msgid "Redirection will be deactivated on this date (optional)."
+#~ msgstr "O redirecionamento será desativado nesta data (opcional)."
+
+#~ msgid "Are you sure you want to import redirections from this CSV file?"
+#~ msgstr ""
+#~ "Tem certeza de que deseja importar redirecionamentos deste arquivo CSV?"
 
 #~ msgid "URL of the item."
 #~ msgstr "URL do item."

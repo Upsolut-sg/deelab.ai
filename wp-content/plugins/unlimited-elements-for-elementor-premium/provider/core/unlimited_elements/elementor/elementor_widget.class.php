@@ -6,6 +6,7 @@ use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Scheme_Color;
 use Elementor\Group_Control_Typography;
+use Elementor\Group_Control_Text_Stroke;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Text_Shadow;
@@ -46,8 +47,8 @@ class UniteCreatorElementorWidget extends Widget_Base {
      * set the addon
      */
     public function __construct($data = array(), $args = null) {
-				
-        $className = get_class($this);
+		 
+		$className = get_class($this);
 
         if(strpos($className, "UCAddon_uccat_") === 0)
         	$this->initByCategory($className);
@@ -118,7 +119,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
      * init by addon
      */
     private function initByAddon($className){
-
+		
     	$addonName = str_replace("UCAddon_", "", $className);
         $addonName = trim($addonName);
 
@@ -685,7 +686,8 @@ class UniteCreatorElementorWidget extends Widget_Base {
 	          		}//not emtpy tabName
 
 
-         	$arrControl = $this->getControlArrayUC($param, true);
+         	 $arrControl = $this->getControlArrayUC($param, true);
+
 
 			//add control (responsive or not)
 			if(isset($arrControl["uc_responsive"])){
@@ -880,6 +882,21 @@ class UniteCreatorElementorWidget extends Widget_Base {
     		$this->isAddSapBefore = false;
     	}
 
+    	//protect pro options in control
+    	
+    	$isProControl = false;
+    	
+    	if(GlobalsUnlimitedElements::$enableLimitProFunctionality == true && GlobalsUC::$isProVersion == false){
+		    
+    		$isProControl = UniteFunctionsUC::getVal($param, "is_pro");
+	    	
+			if($isProControl === true){
+				$arrControl['classes'] = 'uc-has-pro-option';
+			}
+    		
+    	}
+		
+    	
     	switch($type){
     		case "uc_post":
     		case UniteCreatorDialogParam::PARAM_TEXTFIELD:
@@ -923,7 +940,11 @@ class UniteCreatorElementorWidget extends Widget_Base {
 
     				$arrControl["return_value"] = "true";
     			}
-
+				
+    			if($isProControl == true){
+					$title .= __(" - Pro Feature","unlimited-elements-for-elementor");    				
+    			}
+    			
     		break;
     		case UniteCreatorDialogParam::PARAM_TEXTAREA:
     			$controlType = Controls_Manager::TEXTAREA;
@@ -1020,6 +1041,9 @@ class UniteCreatorElementorWidget extends Widget_Base {
     		case UniteCreatorDialogParam::PARAM_TEXTSHADOW:
     			$controlType = Group_Control_Text_Shadow::get_type();
     		break;
+		    case UniteCreatorDialogParam::PARAM_TEXTSTROKE:
+			    $controlType = Group_Control_Text_Stroke::get_type();
+			break;
     		case UniteCreatorDialogParam::PARAM_BOXSHADOW:
     			$controlType = Group_Control_Box_Shadow::get_type();
     		break;
@@ -1149,8 +1173,10 @@ class UniteCreatorElementorWidget extends Widget_Base {
 
     			$options = UniteFunctionsUC::getVal($param, "options", array());
 
+
     			$options = array_flip($options);
     			$arrControl["options"] = $options;
+
 
     			if($isMultiple == true){
     				$arrControl["multiple"] = true;
@@ -1181,6 +1207,17 @@ class UniteCreatorElementorWidget extends Widget_Base {
     				$arrControl["mobile_default"] = $defaultValueMobile;
     			}
 
+    			
+				// get pro options from dropdown
+				
+    			if(GlobalsUnlimitedElements::$enableLimitProFunctionality == true && GlobalsUC::$isProVersion == false){
+    				
+			        $proOptions = UniteFunctionsUC::getVal( $param, "pro_options", array() );
+		            
+			        if(!empty($proOptions))
+			            $arrControl = $this->disableDropdownControlProOptions($proOptions, $arrControl);
+    			}
+    			
 
     		break;
     		case UniteCreatorDialogParam::PARAM_PADDING:
@@ -1399,8 +1436,8 @@ class UniteCreatorElementorWidget extends Widget_Base {
     			if(!isset($arrDefaults["image"]))
     				$arrDefaults["image"] = array();
 
-    			$arrDefaults["color"]["label"] = $title. " ".__("Color", "unlimited-elements-of-elementor");
-    			$arrDefaults["image"]["label"] = $title." ".__("Image", "unlimited-elements-of-elementor");
+    			$arrDefaults["color"]["label"] = $title. " ".__("Color", "unlimited-elements-for-elementor");
+    			$arrDefaults["image"]["label"] = $title." ".__("Image", "unlimited-elements-for-elementor");
 
     			if(!empty($arrDefaults)){
 
@@ -1627,6 +1664,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
 
 				$arrControl["fields_options"] = $arrDefaults;
 
+
     		break;
     		case UniteCreatorDialogParam::PARAM_BOXSHADOW:
     			$arrControl["name"] = $name;
@@ -1757,6 +1795,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	switch($type){		//single selector
     		case UniteCreatorDialogParam::PARAM_AUDIO:
     		case UniteCreatorDialogParam::PARAM_TEXTSHADOW:
+		    case UniteCreatorDialogParam::PARAM_TEXTSTROKE:
     		case UniteCreatorDialogParam::PARAM_BOXSHADOW:
     		case UniteCreatorDialogParam::PARAM_BORDER:
     		case UniteCreatorDialogParam::PARAM_BACKGROUND:
@@ -1842,12 +1881,12 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	if($labelBlock === true)
     		$arrControl["label_block"] = true;
 
-    	/*
-    	if($name == "another"){//dmp($arrControl);exit();}
-    	*/
+
 
     	return($arrControl);
     }
+
+
 
 
     /**
@@ -2046,6 +2085,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     				case UniteCreatorDialogParam::PARAM_BACKGROUND:
     				case UniteCreatorDialogParam::PARAM_BORDER:
     				case UniteCreatorDialogParam::PARAM_TEXTSHADOW:
+				    case UniteCreatorDialogParam::PARAM_TEXTSTROKE:
     				case UniteCreatorDialogParam::PARAM_BOXSHADOW:
     				case UniteCreatorDialogParam::PARAM_CSS_FILTERS:
 
@@ -2064,8 +2104,8 @@ class UniteCreatorElementorWidget extends Widget_Base {
     						$objControls->add_responsive_control($name, $arrControl);
 
     					}else{
+							$objControls->add_control( $name, $arrControl );
 
-    						$objControls->add_control($name, $arrControl);
     					}
 
     				break;
@@ -2084,8 +2124,9 @@ class UniteCreatorElementorWidget extends Widget_Base {
      */
     private function addImageSizesControl($paramImage, $objControls){
 
+
     	$param = HelperProviderUC::getImageSizesParamFromPostListParam($paramImage);
-		
+
     	$this->addElementorParamUC($param, $objControls);
     }
 
@@ -2248,6 +2289,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
 	    		case UniteCreatorDialogParam::PARAM_EDITOR:
 	    		case UniteCreatorDialogParam::PARAM_IMAGE:
 	    		case UniteCreatorDialogParam::PARAM_GALLERY:
+	    		case UniteCreatorDialogParam::PARAM_DATETIME:
 	    		break;
 	    		default:
 	    			continue(2);
@@ -2432,11 +2474,11 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	if(GlobalsUnlimitedElements::$enableInsideNotification == false)
     		return(false);
 
+		$modal = GlobalsUnlimitedElements::$insideNotificationModal;
+
     	$urlBuy = GlobalsUnlimitedElements::$insideNotificationUrl;
 
     	$text = GlobalsUnlimitedElements::$insideNotificationText;
-
-    	$text = str_replace("[url_buy]", $urlBuy ,$text);
 
     	$isDarkMode = UniteCreatorElementorIntegrate::isElementorPanelDarkMode();
 
@@ -2444,7 +2486,27 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	if($isDarkMode == true)
     		$addClass = " uc-dark-mode";
 
-    	$html = "<div class='uc-notification-control {$addClass}'>$text</div>";
+	    $ctaVersionNotificationClass = "";
+	    $htmlModal = "";
+	    if($modal == true) {
+		    $htmlModal = "<div class='uc-cta-version-modal-overlay' id='uc-cta-version-modal-overlay'></div>
+					  <div class='uc-cta-version-modal-window' id='uc-cta-version-modal-window'>
+						 <button  id='uc-cta-version-modal-close' class='uc-cta-version-modal-close'> 
+						 	<i class='eicon-close' aria-hidden='true'></i>
+						 </button>
+						
+						 <h2>Title</h2>
+						 <p>Content</p>
+					  </div>
+			";
+
+		    $text = str_replace( "[url_buy]", 'javascript:void(0);', $text );
+		    $ctaVersionNotificationClass = " uc-cta-version-notification";
+	    } else {
+		    $text = str_replace( "[url_buy]", $urlBuy, $text );
+	    }
+
+    	$html = "<div class='uc-notification-control {$ctaVersionNotificationClass} {$addClass}'>$text</div>{$htmlModal}";
 
 		$this->objControls->add_control(
 			'uc_pro_notification',
@@ -2654,11 +2716,29 @@ class UniteCreatorElementorWidget extends Widget_Base {
           		$labelPosts = esc_html__("Products Query", "unlimited-elements-for-elementor");
 			else
           		$labelPosts = esc_html__("Posts Query", "unlimited-elements-for-elementor");
-
-	        $this->start_controls_section(
-	                'section_query', array(
+			
+          	          	
+			$arrSection = array(
 	                'label' => $labelPosts,
-	              )
+	        );
+			
+	        
+	        //add condition to section from the field if available
+	        
+	    	$enableCondition = UniteFunctionsUC::getVal($postListParam, "enable_condition");
+	    	$enableCondition = UniteFunctionsUC::strToBool($enableCondition);
+	        
+	    	if($enableCondition == true){
+	    		
+	    		$elementorCondition = $this->getControlArrayUC_getCondition($postListParam);
+	    		
+	    		if(!empty($elementorCondition))
+	    			$arrSection["condition"] = $elementorCondition;
+	    	}
+	        
+	        $this->start_controls_section(
+	                'section_query', 
+	        		$arrSection
 	        );
 
           	  $this->addElementorParamUC($postListParam);
@@ -2746,6 +2826,73 @@ class UniteCreatorElementorWidget extends Widget_Base {
 
    }
 
+   private function a_______PRO_SETTINGS_______(){}
+   
+	/**
+	 * disable dropdown pro options for elementor controls
+	 */
+	protected function disableDropdownControlProOptions($proOptions, $arrControl) {
+		
+		// check if it no Pro Version and dropdown contains pro options
+		
+		if(empty($proOptions))
+			return($arrControl);
+		
+		$proOptions = UniteFunctionsUC::arrayToAssoc($proOptions);
+			
+		$arrNewOptions = array();
+		$arrAvailableOptions = array();
+		$arrDisabledOptions = array();
+		
+		$arrControl['classes'] = 'uc-has-pro-dropdown-options';
+		
+		$arrOptions = UniteFunctionsUC::getVal($arrControl, "options",array());
+		
+		//set variables
+				
+		foreach($arrOptions as $key => $value) {
+			
+			if(isset($proOptions[$key])){
+				
+				// set disabled key for pro option
+				$arrNewOptions[ 'is-pro-' . $key] = $value.__(" - Pro","unlimited-elements-for-elementor");
+			}
+			else {
+				$arrNewOptions[$key] = $value;
+				$arrAvailableOptions[$key] = $key;
+			}
+		}
+		
+		$arrControl["options"] = $arrNewOptions;
+		
+		//set new default
+		
+		$defaultValue = UniteFunctionsUC::getVal($arrControl, "default");
+		
+		if(is_string($defaultValue) == false)
+			return($arrControl);
+		
+		$isDefaultExists = isset($arrAvailableOptions[$defaultValue]);
+		
+		if($isDefaultExists == true)
+			return($arrControl);
+			
+		$newDefault = reset($arrAvailableOptions);
+			
+		$defaultKeys = array("default", "desktop_default", "mobile_default", "tablet_default");
+				
+		foreach($defaultKeys as $key) {					
+			
+			if(isset($arrControl[$key]))
+				$arrControl[$key] = $newDefault;
+		}
+		
+		$arrControl['label'].= __(" - Pro Feature","unlimited-elements-for-elementor");
+		
+		return($arrControl);
+	}
+   
+   
    private function a__________DYNAMIC_SECTIONS_________(){}
 
 
@@ -3723,7 +3870,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
 
     	$addonName = $this->get_name();
 
-    	echo "<span style='color:red'>$addonName widget not exists</span>";
+    	s_echo("<span style='color:red'> $addonName widget not exists</span>");
     }
 
 
@@ -3846,7 +3993,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
 	        $addonTitle = $objAddon->getTitle();
 
 	        if(GlobalsProviderUC::$isUnderNoWidgetsToDisplay == true){
-	        	echo "<!-- skip widget output: {$addonTitle} -->\n";
+	        	s_echo("<!-- skip widget output: {$addonTitle} -->\n");
 	        	return(false);
 	        }
 
@@ -3981,12 +4128,12 @@ class UniteCreatorElementorWidget extends Widget_Base {
 
 	        $htmlOutput = $output->getHtmlBody($scriptsHardCoded, $putCssIncludesInBody,true,$params);
 			
-        	echo UniteProviderFunctionsUC::escCombinedHtml($htmlOutput);
+			s_echo($htmlOutput);
 
 	        $htmlExtra = $this->getExtraWidgetHTML($arrValues, $objAddon);
 
 	        if(!empty($htmlExtra))
-	        	echo $htmlExtra;
+				s_echo($htmlExtra);
 
     	}catch(Exception $e){
 
@@ -4007,13 +4154,13 @@ class UniteCreatorElementorWidget extends Widget_Base {
 
     	if(UniteCreatorElementorIntegrate::$isSaveBuilderMode == true){
 
-    		echo "skip render: ".$this->get_name();
+    		s_echo("skip render: ".$this->get_name());
     		return(false);
     	}
 
 
     	if($this->isNoMemory == true){
-    		echo "no memory to render ".$this->isNoMemory_addonName." widget. <br> Please increase memory_limit in php.ini";
+    		s_echo( "no memory to render ".$this->isNoMemory_addonName." widget. <br> Please increase memory_limit in php.ini");
     		return(false);
     	}
 
@@ -4032,7 +4179,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     			$this->ucRenderByAddon($objAddon);
 
     		}catch(Exception $e){
-    			echo "error render widget: $addonName";
+    			s_echo( "error render widget: $addonName");
     			HelperHtmlUC::outputException($e);
     		}
 

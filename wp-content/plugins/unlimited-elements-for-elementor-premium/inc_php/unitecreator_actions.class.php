@@ -44,11 +44,11 @@ class UniteCreatorActions{
 			$data = $_REQUEST;
 
 		if(is_string($data)){
-			$arrData = (array)json_decode($data);
+			$arrData = json_decode($data,true);
 
 			if(empty($arrData)){
 				$arrData = stripslashes(trim($data));
-				$arrData = (array)json_decode($arrData);
+				$arrData = json_decode($arrData, true);
 			}
 
 			$data = $arrData;
@@ -98,7 +98,6 @@ class UniteCreatorActions{
 		$data = $this->getDataFromRequest();
 		$addonType = $addons->getAddonTypeFromData($data);
 
-		$data = UniteFunctionsUC::convertStdClassToArray($data);
 		$data = UniteProviderFunctionsUC::normalizeAjaxInputData($data);
 
 		try{
@@ -400,7 +399,7 @@ class UniteCreatorActions{
 					HelperProviderUC::verifyAdminPermission();
 					
 					$response = $addons->getTestAddonData($data);
-
+					
 					HelperUC::ajaxResponseData($response);
 				break;
 				case "delete_test_addon_data":

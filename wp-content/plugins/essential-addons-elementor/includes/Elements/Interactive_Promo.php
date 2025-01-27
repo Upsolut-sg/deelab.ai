@@ -55,6 +55,10 @@ class Interactive_Promo extends Widget_Base
         return false;
     }
 
+    public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
     public function get_custom_help_url()
     {
         return 'https://essential-addons.com/elementor/docs/interactive-promo/';
@@ -130,31 +134,17 @@ class Interactive_Promo extends Widget_Base
         );
 
         $this->add_control(
-            'promo_link_url',
-            [
+			'promo_link_url',
+			[
                 'label' => __('Link URL', 'essential-addons-elementor'),
-                'type' => Controls_Manager::TEXT,
-                'dynamic' => ['active' => true],
-                'label_block' => true,
-                'default' => '#',
-                'placeholder' => __('Enter link URL for the promo', 'essential-addons-elementor'),
-                'title' => __('Enter URL for the promo', 'essential-addons-elementor'),
-                'ai' => [
-					'active' => false,
+				'type'    => Controls_Manager::URL,
+				'options' => [ 'url', 'is_external', 'nofollow' ],
+				'default' => [
+					'url' => '#',
 				],
-            ]
-        );
-
-        $this->add_control(
-            'promo_link_target',
-            [
-                'label' => esc_html__('Open in new window?', 'essential-addons-elementor'),
-                'type' => Controls_Manager::SWITCHER,
-                'label_on' => __('_blank', 'essential-addons-elementor'),
-                'label_off' => __('_self', 'essential-addons-elementor'),
-                'default' => '_self',
-            ]
-        );
+				'label_block' => true,
+			]
+		);
 
         $this->end_controls_section();
 
@@ -338,14 +328,23 @@ class Interactive_Promo extends Widget_Base
 				<?php echo '<img alt="' . esc_attr( $settings['promo_image_alt'] ) . '" src="' . esc_url( $promo_image['url'] ) . '">'; ?>
 				<figcaption>
 					<div>
-						<?php if ( ! empty( $settings['promo_heading'] ) ) : ?>
+						<?php if ( ! empty( $settings['promo_heading'] ) ) : 
+                            $this->add_render_attribute( 'promo_link', 'aria-label', strip_tags( $settings['promo_heading'] ) );
+                            ?>
 							<h2><?php echo esc_html( $settings['promo_heading'] ); ?></h2>
 						<?php endif; ?>
 
 						<p><?php echo wp_kses( $settings['promo_content'], Helper::eael_allowed_tags() ); ?></p>
 					</div>
-					<?php if ( isset( $settings['promo_link_url'] ) && ! empty( $settings['promo_link_url'] ) ) : ?>
-						<a href="<?php echo esc_url( $settings['promo_link_url'] ); ?>" target="<?php echo esc_attr( $settings['promo_link_target'] ); ?>"></a>
+					<?php if ( !empty( $settings['promo_link_url']['url'] ) ) : 
+                        if ( ! empty( $settings['promo_link_url']['url'] ) ) {
+                            $this->add_link_attributes( 'promo_link', $settings['promo_link_url'] );
+                        }
+                        if ( ! empty( $settings['promo_link_target'] ) && 'yes' === $settings['promo_link_target'] ) {
+                            $this->add_render_attribute( 'promo_link', 'target', '_blank' );
+                        }
+                        ?>
+                        <a <?php $this->print_render_attribute_string( 'promo_link' ); ?>></a>
 					<?php endif; ?>
 				</figcaption>
 			</figure>

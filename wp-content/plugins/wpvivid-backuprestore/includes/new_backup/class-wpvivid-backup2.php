@@ -243,6 +243,7 @@ class WPvivid_Backup_2
         $settings['zip_method']=isset($common_setting['zip_method'])?$common_setting['zip_method']:6;
         $settings['is_merge']=isset($common_setting['ismerge'])?$common_setting['ismerge']:true;
         $settings['save_local']=isset($common_setting['retain_local'])?$common_setting['retain_local']:false;
+        $settings['backup_symlink_folder']=isset($common_setting['backup_symlink_folder'])?$common_setting['backup_symlink_folder']:false;
 
         if(isset($common_setting['zip_method']))
         {

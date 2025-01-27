@@ -15,6 +15,7 @@ use Elementor\Plugin;
 use Elementor\Repeater;
 use \Elementor\Widget_Base;
 use Essential_Addons_Elementor\Traits\Helper;
+use Essential_Addons_Elementor\Classes\Helper as Helper_Class;
 
 class Woo_Account_Dashboard extends Widget_Base {
 	use Helper;
@@ -66,6 +67,10 @@ class Woo_Account_Dashboard extends Widget_Base {
             'essential addons',
 		];
 	}
+
+	public function has_widget_inner_wrapper(): bool {
+        return ! Helper_Class::eael_e_optimized_markup();
+    }
 
 	public function get_custom_help_url() {
 		return 'https://essential-addons.com/elementor/docs/ea-woo-account-dashboard/';
@@ -1176,7 +1181,7 @@ class Woo_Account_Dashboard extends Widget_Base {
 			[
 				'label'     => esc_html__( 'Color', 'essential-addons-elementor' ),
 				'type'      => Controls_Manager::COLOR,
-				'default'	=> '#787c8a',
+				'default'	=> '#574664',
 				'selectors' => [
 					'{{WRAPPER}} .eael-account-dashboard-wrapper .eael-account-dashboard-content .woocommerce-MyAccount-content p:not(.order-again) a' => 'color: {{VALUE}};',
 				],
