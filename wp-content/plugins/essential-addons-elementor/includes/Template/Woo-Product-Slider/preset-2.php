@@ -111,7 +111,7 @@ if ( true === wc_get_loop_product_visibility( $product->get_id() ) || $product->
                         </a>
                     </li>
 		        <?php } ?>
-                <li class="view-details" title="Details"><?php echo '<a href="' . esc_url( $product->get_permalink() ) . '"><i class="fas fa-link"></i></a>'; ?></li>
+                <li class="view-details" title="Details"><?php echo '<a aria-label="view_details_' . $product->get_id() . '" href="' . esc_url( $product->get_permalink() ) . '"><i class="fas fa-link"></i></a>'; ?></li>
             </ul>
         </div>
     </li>

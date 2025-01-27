@@ -144,7 +144,7 @@ class LicenseManager {
 			return;
 		}
 
-		$message = sprintf( __( '%1$sActivate your %3$s License Key%2$s to receive regular updates and secure your WordPress website.' ), '<a style="text-decoration: underline; font-weight: bold;" href="' . admin_url( 'admin.php?page=' . $this->page_slug ) . '">', '</a>', $this->item_name );
+		$message = sprintf( __( '%1$sActivate your %3$s License Key%2$s to receive regular updates and secure your WordPress website.', 'essential-addons-elementor' ), '<a style="text-decoration: underline; font-weight: bold;" href="' . admin_url( 'admin.php?page=' . $this->page_slug ) . '">', '</a>', $this->item_name );
 
 		if ( isset( $this->args['activation_notice'] ) ) {
 			$message = $this->args['activation_notice'];
@@ -390,7 +390,7 @@ class LicenseManager {
 					break;
 
 				case 'revalidate_license':
-					$message = sprintf( __( '%1$sAttention:%2$s Please %3$sVerify your %5$s License Key%4$s to get regular updates & secure your WordPress website.' ), '<strong>', '</strong>', '<a style="text-decoration: underline; font-weight: bold;" href="' . admin_url( 'admin.php?page=' . $this->page_slug ) . '">', '</a>', $this->item_name );
+					$message = sprintf( __( '%1$sAttention:%2$s Please %3$sVerify your %5$s License Key%4$s to get regular updates & secure your WordPress website.', 'essential-addons-elementor' ), '<strong>', '</strong>', '<a style="text-decoration: underline; font-weight: bold;" href="' . admin_url( 'admin.php?page=' . $this->page_slug ) . '">', '</a>', $this->item_name );
 					break;
 
 				case 'disabled':

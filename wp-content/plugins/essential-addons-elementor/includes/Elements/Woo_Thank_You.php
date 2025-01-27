@@ -15,6 +15,7 @@ use \Elementor\Group_Control_Text_Shadow;
 use Essential_Addons_Elementor\Controls\EAEL_Background;
 
 use Essential_Addons_Elementor\Traits\Helper;
+use Essential_Addons_Elementor\Classes\Helper as Helper_Class;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -85,6 +86,10 @@ class Woo_Thank_You extends Widget_Base {
 			'ea woo thankyou',
 		];
 	}
+
+	public function has_widget_inner_wrapper(): bool {
+        return ! Helper_Class::eael_e_optimized_markup();
+    }
 
 	public function get_custom_help_url() {
 		return 'https://essential-addons.com/elementor/docs/ea-woo-thank-you';
@@ -1774,6 +1779,7 @@ class Woo_Thank_You extends Widget_Base {
 			[
 				'label'     => esc_html__( 'Color', 'essential-addons-elementor' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
+				'default'   => '#6B6B6B',
 				'selectors' => [
 					'{{WRAPPER}} .eael-thankyou-order-overview .woocommerce-order-overview-label' => 'color: {{VALUE}}',
 				],
@@ -2919,6 +2925,7 @@ class Woo_Thank_You extends Widget_Base {
 			[
 				'label'     => esc_html__( 'Color', 'essential-addons-elementor' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
+				'default'   => '#6B6B6B',
 				'selectors' => [
 					'{{WRAPPER}} .eael-thankyou-billing-shipping .eael-thankyou-billing .eael-thankyou-billing-address'           => 'color: {{VALUE}};',
 					'{{WRAPPER}} .eael-thankyou-billing-shipping .eael-thankyou-billing .eael-thankyou-phone'                     => 'color: {{VALUE}};',
@@ -3097,6 +3104,7 @@ class Woo_Thank_You extends Widget_Base {
 			[
 				'label'     => esc_html__( 'Color', 'essential-addons-elementor' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
+				'default'   => '#6B6B6B',
 				'selectors' => [
 					'{{WRAPPER}} .eael-thankyou-billing-shipping .eael-thankyou-shipping .eael-thankyou-shipping-address'          => 'color: {{VALUE}};',
 					'{{WRAPPER}} .eael-thankyou-billing-shipping .eael-thankyou-shipping .eael-thankyou-phone'                     => 'color: {{VALUE}};',
@@ -3224,6 +3232,7 @@ class Woo_Thank_You extends Widget_Base {
 			[
 				'label'     => esc_html__( 'Color', 'essential-addons-elementor' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
+				'default'   => '#6B6B6B',
 				'selectors' => [
 					'{{WRAPPER}} .eael-thankyou-wrapper .eael-thankyou-order-summary-table tr th' => 'color: {{VALUE}}',
 				],
@@ -3252,6 +3261,7 @@ class Woo_Thank_You extends Widget_Base {
 			[
 				'label'     => esc_html__( 'Color', 'essential-addons-elementor' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
+				'default'   => '#6B6B6B',
 				'selectors' => [
 					'{{WRAPPER}} .eael-thankyou-wrapper .eael-thankyou-order-summary-table tr td' => 'color: {{VALUE}}',
 				],

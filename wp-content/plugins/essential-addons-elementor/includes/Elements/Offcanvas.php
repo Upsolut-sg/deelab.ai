@@ -104,6 +104,10 @@ class Offcanvas extends Widget_Base
         return $is_dynamic_content;
     }
 
+    public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
     public function get_custom_help_url()
     {
         return 'https://essential-addons.com/elementor/docs/essential-addons-elementor-offcanvas/';
@@ -1521,12 +1525,16 @@ class Offcanvas extends Widget_Base
 		                if ( ! is_array( $settings['saved_section'] ) ) {
 			                $settings['saved_section'] = apply_filters( 'wpml_object_id', $settings['saved_section'], 'wp_template', true );
 		                }
+
+		                \Essential_Addons_Elementor\Classes\Helper::eael_onpage_edit_template_markup( get_the_ID(), $settings['saved_section'] );
 		                echo \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $settings['saved_section'] );
 	                } elseif ( 'template' == $settings['content_type'] && ! empty( $settings['templates'] ) ) {
 		                // WPML Compatibility
 		                if ( ! is_array( $settings['templates'] ) ) {
 			                $settings['templates'] = apply_filters( 'wpml_object_id', $settings['templates'], 'wp_template', true );
 		                }
+
+		                \Essential_Addons_Elementor\Classes\Helper::eael_onpage_edit_template_markup( get_the_ID(), $settings['templates'] );
 		                echo \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $settings['templates'] );
 	                } elseif ( 'widget' == $settings['content_type'] && ! empty( $settings['saved_widget'] ) ) {
 		                // WPML Compatibility

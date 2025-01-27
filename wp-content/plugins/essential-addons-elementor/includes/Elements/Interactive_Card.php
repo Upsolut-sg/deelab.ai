@@ -65,6 +65,10 @@ class Interactive_Card extends Widget_Base
         return $is_dynamic_content;
     }
 
+	public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
 	public function get_custom_help_url()
 	{
 		return 'https://essential-addons.com/elementor/docs/interactive-cards/';
@@ -241,11 +245,13 @@ class Interactive_Card extends Widget_Base
 		$this->add_control(
 			'eael_primary_templates',
 			[
-				'label'                 => __('Choose Template', 'essential-addons-elementor'),
-				'type'                  => Controls_Manager::SELECT,
-				'options'               => Helper::get_elementor_templates(),
-				'condition'             => [
-					'eael_interactive_card_text_type'      => 'template',
+				'label'       => __( 'Choose Template', 'essential-addons-elementor' ),
+				'type'        => 'eael-select2',
+				'source_name' => 'post_type',
+				'source_type' => 'elementor_library',
+				'label_block' => true,
+				'condition'   => [
+					'eael_interactive_card_text_type' => 'template',
 				],
 			]
 		);
@@ -471,14 +477,17 @@ class Interactive_Card extends Widget_Base
 		$this->add_control(
 			'eael_primary_rear_templates',
 			[
-				'label'                 => __('Choose Template', 'essential-addons-elementor'),
-				'type'                  => Controls_Manager::SELECT,
-				'options'               => Helper::get_elementor_templates(),
-				'condition'             => [
-					'eael_interactive_card_rear_text_type'      => 'template',
+				'label'       => __( 'Choose Template', 'essential-addons-elementor' ),
+				'type'        => 'eael-select2',
+				'source_name' => 'post_type',
+				'source_type' => 'elementor_library',
+				'label_block' => true,
+				'condition'   => [
+					'eael_interactive_card_rear_text_type' => 'template',
 				],
 			]
 		);
+
 		$this->add_control(
 			'eael_interactive_card_rear_content',
 			[
@@ -2176,6 +2185,7 @@ class Interactive_Card extends Widget_Base
 									if ( ! is_array( $settings['eael_primary_templates'] ) ) {
 										$settings['eael_primary_templates'] = apply_filters( 'wpml_object_id', $settings['eael_primary_templates'], 'wp_template', true );
 									}
+
 									echo Plugin::$instance->frontend->get_builder_content( $settings['eael_primary_templates'], true );
 								}
 								?>
@@ -2234,6 +2244,7 @@ class Interactive_Card extends Widget_Base
 										if ( ! is_array( $settings['eael_primary_rear_templates'] ) ) {
 											$settings['eael_primary_rear_templates'] = apply_filters( 'wpml_object_id', $settings['eael_primary_rear_templates'], 'wp_template', true );
 										}
+
 										echo Plugin::$instance->frontend->get_builder_content( $settings['eael_primary_rear_templates'], true );
 									}
 									?>
@@ -2276,6 +2287,7 @@ class Interactive_Card extends Widget_Base
 									if ( ! is_array( $settings['eael_primary_rear_templates'] ) ) {
 										$settings['eael_primary_rear_templates'] = apply_filters( 'wpml_object_id', $settings['eael_primary_rear_templates'], 'wp_template', true );
 									}
+
 									echo Plugin::$instance->frontend->get_builder_content( $settings['eael_primary_rear_templates'], true );
 								}
 								?>

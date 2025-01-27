@@ -68,6 +68,10 @@ class One_Page_Navigation extends Widget_Base
         return false;
     }
 
+    public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
     public function get_custom_help_url()
     {
         return 'https://essential-addons.com/elementor/docs/one-page-navigation/';
@@ -487,7 +491,7 @@ class One_Page_Navigation extends Widget_Base
             [
                 'label'                 => __('Color', 'essential-addons-elementor'),
                 'type'                  => Controls_Manager::COLOR,
-                'default'               => '',
+                'default'               => '#00A095',
                 'selectors'             => [
                     '{{WRAPPER}} .eael-nav-dot' => 'color: {{VALUE}}',
                     '{{WRAPPER}} svg.eael-nav-dot' => 'fill: {{VALUE}}',
@@ -759,7 +763,7 @@ class One_Page_Navigation extends Widget_Base
                     }
 
                     if ($dot_icon_is_new || $dot_icon_migrated) {
-                        echo '<li class="eael-one-page-nav-item">'. wp_kses( $eael_dot_tooltip, Helper::eael_allowed_tags() ) .'<a href="#" data-row-id="'. esc_attr( $eael_section_id ) .'"><span class="eael-nav-dot-wrap">';
+                        echo '<li class="eael-one-page-nav-item">'. wp_kses( $eael_dot_tooltip, Helper::eael_allowed_tags() ) .'<a href="#" aria-label="' . esc_attr( strip_tags( $dot['section_title'] ) ) . '" data-row-id="'. esc_attr( $eael_section_id ) .'"><span class="eael-nav-dot-wrap">';
                         Icons_Manager::render_icon( $dot['dot_icon_new'], ['class'=>'eael-nav-dot'] );
                         echo '</span></a></li>';
                     } else {

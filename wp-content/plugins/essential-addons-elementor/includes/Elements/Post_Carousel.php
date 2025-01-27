@@ -56,6 +56,10 @@ class Post_Carousel extends Widget_Base
 		];
 	}
 
+	public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
 	public function get_custom_help_url()
 	{
 		return 'https://essential-addons.com/elementor/docs/post-carousel/';
@@ -66,6 +70,7 @@ class Post_Carousel extends Widget_Base
 		return [
 			'font-awesome-5-all',
 			'font-awesome-4-shim',
+            'e-swiper'
 		];
 	}
 
@@ -1793,7 +1798,11 @@ class Post_Carousel extends Widget_Base
 						$content = strip_shortcodes( get_the_excerpt() ? get_the_excerpt() : get_the_content() );
 						echo '<p>' . wp_kses( $content, Helper::eael_allowed_tags() ) . '</p>';
 					} else {
-						$content = wp_trim_words( strip_shortcodes( get_the_excerpt() ? get_the_excerpt() : get_the_content() ), $settings['eael_excerpt_length'], $settings['expanison_indicator'] );
+						$read_more = $settings['expanison_indicator'] . '<a href="' . esc_url( get_the_permalink() ) . '" class="eael-post-elements-readmore-btn"' . ( $settings['read_more_link_nofollow'] ? 'rel="nofollow"' : '' ) . ( $settings['read_more_link_target_blank'] ? 'target="_blank"' : '' ) . '>' . esc_attr( $settings['read_more_button_text'] ) . '</a>';
+						if ( class_exists( 'WooCommerce' ) && $settings['post_type'] == 'product' ) {
+							$read_more = $settings['expanison_indicator'];
+						}
+						$content = wp_trim_words( strip_shortcodes( get_the_excerpt() ? get_the_excerpt() : get_the_content() ), $settings['eael_excerpt_length'], $read_more );
 						echo '<p>' . wp_kses( $content, Helper::eael_allowed_tags() ) . '</p>';
 					}
 				}
@@ -1802,8 +1811,6 @@ class Post_Carousel extends Widget_Base
 					echo '<p class="eael-entry-content-btn">';
 					woocommerce_template_loop_add_to_cart();
 					echo '</p>';
-				} else {
-					echo '<div class="eael-post-elements-readmore-wrap"><a href="' . get_the_permalink() . '" class="eael-post-elements-readmore-btn"' . $settings['read_more_link_nofollow'] . '' . $settings['read_more_link_target_blank'] . '>' . esc_attr( $settings['read_more_button_text'] ) . '</a></div>';
 				}
 				echo '</div>
 			</div>';
@@ -1813,8 +1820,10 @@ class Post_Carousel extends Widget_Base
 				
 				$entry_footer = '<div class="eael-entry-footer">';
 				if ( $settings['eael_show_avatar'] === 'yes' ) {
+					$author_id = get_the_author_meta('ID');
+					$author_name = get_the_author_meta( 'nicename', $author_id  );
 					$entry_footer .= '<div class="eael-author-avatar">
-						<a href="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '">' . get_avatar( get_the_author_meta( 'ID' ), 96 ) . '</a>
+						<a href="' . get_author_posts_url( $author_id ) . '" aria-label="' . esc_attr( $author_name ) . '">' . get_avatar( $author_id, 96 ) . '</a>
 					</div>';
 				}
 				$entry_footer .= '<div class="eael-entry-meta">';
@@ -1826,7 +1835,7 @@ class Post_Carousel extends Widget_Base
 				}
 				$entry_footer .= '</div>';
 				$entry_footer .= '</div>';
-				echo wp_kses( $entry_footer, Helper::eael_allowed_tags() );
+				echo wp_kses( $entry_footer, Helper::eael_allowed_tags( [ 'a' => [ 'aria-label' => [] ] ] ) );
 			}
 		endif;
 	}
@@ -1910,7 +1919,11 @@ class Post_Carousel extends Widget_Base
 					$content = strip_shortcodes( get_the_excerpt() ? get_the_excerpt() : get_the_content() );
 					echo '<p>' . wp_kses( $content, Helper::eael_allowed_tags() ) . '</p>';
 				} else {
-					$content = wp_trim_words( strip_shortcodes( get_the_excerpt() ? get_the_excerpt() : get_the_content() ), $settings['eael_excerpt_length'], $settings['expanison_indicator'] );
+					$read_more = $settings['expanison_indicator'] . '<a href="' . esc_url( get_the_permalink() ) . '" class="eael-post-elements-readmore-btn"' . ( $settings['read_more_link_nofollow'] ? 'rel="nofollow"' : '' ) . ( $settings['read_more_link_target_blank'] ? 'target="_blank"' : '' ) . '>' . esc_attr( $settings['read_more_button_text'] ) . '</a>';
+					if ( class_exists( 'WooCommerce' ) && $settings['post_type'] == 'product' ) {
+						$read_more = $settings['expanison_indicator'];
+					}
+					$content = wp_trim_words( strip_shortcodes( get_the_excerpt() ? get_the_excerpt() : get_the_content() ), $settings['eael_excerpt_length'], $read_more );
 					echo '<p>' . wp_kses( $content, Helper::eael_allowed_tags() ) . '</p>';
 				}
 			}
@@ -1918,8 +1931,6 @@ class Post_Carousel extends Widget_Base
 				echo '<p class="eael-entry-content-btn">';
 				woocommerce_template_loop_add_to_cart();
 				echo '</p>';
-			} else {
-				echo '<div class="eael-post-elements-readmore-wrap"><a href="' . esc_url( get_the_permalink() ) . '" class="eael-post-elements-readmore-btn"' . ( $settings['read_more_link_nofollow'] ? 'rel="nofollow"' : '' ) . ( $settings['read_more_link_target_blank'] ? 'target="_blank"' : '' ) . '>' . esc_attr( $settings['read_more_button_text'] ) . '</a></div>';
 			}
 			echo '</div>
 				</div>';
@@ -2008,7 +2019,11 @@ class Post_Carousel extends Widget_Base
 						$content = strip_shortcodes( get_the_excerpt() ? get_the_excerpt() : get_the_content() );
 						echo '<p>' . wp_kses( $content, Helper::eael_allowed_tags() ) . '</p>';
 					} else {
-						$content = wp_trim_words( strip_shortcodes( get_the_excerpt() ? get_the_excerpt() : get_the_content() ), $settings['eael_excerpt_length'], $settings['expanison_indicator'] );
+						$read_more = $settings['expanison_indicator'] . '<a href="' . esc_url( get_the_permalink() ) . '" class="eael-post-elements-readmore-btn"' . ( $settings['read_more_link_nofollow'] ? 'rel="nofollow"' : '' ) . ( $settings['read_more_link_target_blank'] ? 'target="_blank"' : '' ) . '>' . esc_attr( $settings['read_more_button_text'] ) . '</a>';
+						if ( class_exists( 'WooCommerce' ) && $settings['post_type'] == 'product' ) {
+							$read_more = $settings['expanison_indicator'];
+						}
+						$content = wp_trim_words( strip_shortcodes( get_the_excerpt() ? get_the_excerpt() : get_the_content() ), $settings['eael_excerpt_length'], $read_more );
 						echo '<p>' . wp_kses( $content, Helper::eael_allowed_tags() ) . '</p>';
 					}
 				}
@@ -2017,8 +2032,6 @@ class Post_Carousel extends Widget_Base
 					echo '<p class="eael-entry-content-btn">';
 					woocommerce_template_loop_add_to_cart();
 					echo '</p>';
-				} else {
-					echo '<div class="eael-post-elements-readmore-wrap"><a href="' . get_the_permalink() . '" class="eael-post-elements-readmore-btn"' . $settings['read_more_link_nofollow'] . '' . $settings['read_more_link_target_blank'] . '>' . esc_attr( $settings['read_more_button_text'] ) . '</a></div>';
 				}
 				echo '</div>
 			</div>';

@@ -114,13 +114,13 @@
   width: 100%;
 }
 .eael-account-dashboard-wrapper .eael-account-dashboard-content .woocommerce-MyAccount-content p {
-  color: #787c8a;
+  color: #0E0808;
   font-size: 18px;
   font-weight: 400;
   line-height: 1.5;
 }
 .eael-account-dashboard-wrapper .eael-account-dashboard-content .woocommerce-MyAccount-content p strong {
-  color: #1a1a21;
+  color: #0E0808;
   font-weight: 500;
 }
 .eael-account-dashboard-wrapper .eael-account-dashboard-content .woocommerce-MyAccount-content p a {
@@ -791,12 +791,12 @@
   background: #fff7f4;
 }
 .eael-account-dashboard-wrapper.preset-1 .eael-account-dashboard-navbar .woocommerce-MyAccount-navigation ul li.is-active a {
-  color: #f88258;
+  color: #BE451A;
 }
 .eael-account-dashboard-wrapper.preset-1 .eael-account-dashboard-navbar .woocommerce-MyAccount-navigation ul li a:before {
   font-family: "eaicon";
   line-height: 1;
-  color: #f88258;
+  color: #BE451A;
 }
 .eael-account-dashboard-wrapper.preset-1 .eael-account-dashboard-navbar .eael-account-profile {
   margin-left: auto;

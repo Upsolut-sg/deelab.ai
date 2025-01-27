@@ -74,6 +74,10 @@ class Image_Hot_Spots extends Widget_Base
         return false;
     }
 
+    public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
     public function get_custom_help_url()
     {
         return 'https://essential-addons.com/elementor/docs/image-hotspots/';
@@ -181,9 +185,6 @@ class Image_Hot_Spots extends Widget_Base
                     ],
                     'label_block'     => true,
                     'default'         => 'Go',
-                    'condition'       => [
-                        'hotspot_type'   => 'text',
-                    ],
                     'ai' => [
                         'active' => false,
                     ],
@@ -971,14 +972,14 @@ class Image_Hot_Spots extends Widget_Base
 	                }
 
                     $this->add_render_attribute('hotspot' . $i, 'data-tooltip-position-global', $settings['tooltip_position']);
-                    if ( isset( $item['hotspot_link']['url'] ) && $item['hotspot_link']['url'] != '' ) {
+                    if ( isset( $item['hotspot_link']['url'] ) && $item['hotspot_link']['url'] !== '' ) {
                         $eael_wp_allowed_tags = $this->eael_wp_allowed_tags( array( 'viber' ) );
 		                $this->add_render_attribute( 'hotspot' . $i, 'data-link', esc_url( $item['hotspot_link']['url'], $eael_wp_allowed_tags ) );
 
-		                $this->add_render_attribute( 'hotspot' . $i, 'href', esc_url( $item['hotspot_link']['url'] ) );
+		                $this->add_link_attributes( 'hotspot' . $i, $item['hotspot_link'] );
 	                }
 
-                    if ($item['hotspot_link_target'] || ($item['hotspot_link']['is_external'] == 'on')) {
+                    if ( isset( $item['hotspot_link_target'] ) && 'yes' === $item['hotspot_link_target'] ) {
                         $this->add_render_attribute('hotspot' . $i, 'target', '_blank');
                     }
 
@@ -1026,6 +1027,10 @@ class Image_Hot_Spots extends Widget_Base
 
                     if ($settings['hotspot_pulse'] == 'yes') {
                         $this->add_render_attribute('hotspot_inner_' . $i, 'class', 'hotspot-animation');
+                    }
+
+                    if ( ! empty( $item['hotspot_text'] ) ) {
+                        $this->add_render_attribute('hotspot' . $i, 'aria-label', esc_attr( $item['hotspot_text'] ) );
                     }
                 ?>
                     <a <?php $this->print_render_attribute_string('hotspot' . $i); ?>>

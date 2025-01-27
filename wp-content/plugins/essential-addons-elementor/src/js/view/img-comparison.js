@@ -23,7 +23,13 @@ var ImageComparisonHandler = function ($scope, $) {
 			$img_comp.imagesLoaded().done(function () {
 				$img_comp.find('div').remove();
 				$img_comp.find('img').removeClass('twentytwenty-before twentytwenty-after').removeAttr('style');
-				$img_comp.closest('.elementor-widget-container').html($img_comp);
+				
+				var container = $img_comp.closest('.elementor-widget-container');
+				if ( container.length < 1 ) {
+					container = $img_comp.closest('.elementor-widget-eael-image-comparison');
+				} 
+				container.html($img_comp);
+
 				$img_comp.eatwentytwenty($options);
 			});
 		}
@@ -33,7 +39,12 @@ var ImageComparisonHandler = function ($scope, $) {
 	$img_comp.imagesLoaded().done(function () {
 		$img_comp.find('div').remove();
 		$img_comp.find('img').removeClass('twentytwenty-before twentytwenty-after').removeAttr('style');
-		$img_comp.closest('.elementor-widget-container').html($img_comp);
+
+		var container = $img_comp.closest('.elementor-widget-container');
+		if ( container.length < 1 ) {
+			container = $img_comp.closest('.elementor-widget-eael-image-comparison');
+		} 
+		container.html($img_comp);
 		$img_comp.eatwentytwenty($options);
 	});
 };

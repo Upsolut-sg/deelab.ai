@@ -11,6 +11,7 @@ use \Elementor\Group_Control_Box_Shadow;
 use \Elementor\Group_Control_Typography;
 use \Elementor\Utils;
 use \Elementor\Widget_Base;
+use Essential_Addons_Elementor\Classes\Helper;
 
 if (!defined('ABSPATH')) exit; // If this file is called directly, abort.
 
@@ -24,7 +25,7 @@ class Google_Map extends Widget_Base
 
 	public function get_title()
 	{
-		return esc_html__('Google Map', 'essential-addons-elementor');
+		return esc_html__('Advanced Google Map', 'essential-addons-elementor');
 	}
 
 	public function get_icon()
@@ -57,6 +58,10 @@ class Google_Map extends Widget_Base
 
 	protected function is_dynamic_content():bool {
         return false;
+    }
+
+	public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
     }
 
 	public function get_custom_help_url()

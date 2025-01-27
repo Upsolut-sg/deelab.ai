@@ -64,7 +64,12 @@ class Twitter_Feed_Carousel extends Widget_Base
         return [
             'font-awesome-5-all',
             'font-awesome-4-shim',
+            'e-swiper'
         ];
+    }
+
+    public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
     }
 
     public function get_custom_help_url()

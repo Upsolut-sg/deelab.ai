@@ -2,7 +2,7 @@
 Contributors: wpdevteam, re_enter_rupok, Asif2BD, priyomukul
 Tags: elementor, elements, widgets, page builder, builder, visual editor, wordpress page builder
 Tested up to: 6.7
-Stable tag: 6.0.9
+Stable tag: 6.0.13
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -88,6 +88,30 @@ List of Extensions :
 * Conditional Display
 
 == Changelog ==
+
+= 6.0.13 - 21/01/2025 =
+- Improved: Added Edit Template support right inside the page itself for the widgets which got Saved Template option
+- Fixed: EA Lightbox & Modal | Doesn't work when Custom JavaScript is used inside the modal
+- Fixed: EA Lightbox & Modal | Custom HTML not working properly
+- Fixed: EA Event Calendar | Event start time, end time not visible in the event details
+- Fixed: EA Dynamic Gallery | ACF Gallery doesn't show inside the popup
+- Fixed: EA Content Timeline | - a hyperlink is added in the heading
+- Few minor bug fixes & improvements
+
+= 6.0.12 - 29/12/2024 =
+- Improved: EA Image Hotspots | Add option for custom attribute to work
+- Improved: Accessibility
+- Few minor bug fixes & improvements
+
+= 6.0.11 - 24/12/2024 =
+- Improved: Added Optimized Markup Support
+- Few minor bug fixes & improvements
+
+= 6.0.10 - 11/12/2024 =
+- Fixed: EA Tooltip | Undefined array key warning
+- Fixed: EA Particles | Custom JS speed movement setup doesn't work
+- Fixed: EA Instagram Feed | Updated API
+- Few minor bug fixes & improvements
 
 = 6.0.9 - 14/11/2024 =
 - Fixed: EA Content Timeline | Scroll Bar Background color & height not functioning properly 

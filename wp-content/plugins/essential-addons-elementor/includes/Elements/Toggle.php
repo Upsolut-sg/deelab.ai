@@ -83,6 +83,10 @@ class Toggle extends Widget_Base {
 
         return $is_dynamic_content;
     }
+
+    public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
     
     public function get_custom_help_url()
     {
@@ -791,6 +795,8 @@ class Toggle extends Widget_Base {
 		                    if ( ! is_array( $settings['primary_templates'] ) ) {
 			                    $settings['primary_templates'] = apply_filters( 'wpml_object_id', $settings['primary_templates'], 'wp_template', true );
 		                    }
+
+		                    Helper::eael_onpage_edit_template_markup( get_the_ID(), $settings['primary_templates'] );
                             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		                    echo Plugin::$instance->frontend->get_builder_content( $settings['primary_templates'], true );
 	                    }
@@ -814,6 +820,8 @@ class Toggle extends Widget_Base {
 		                    if ( ! is_array( $settings['secondary_templates'] ) ) {
 			                    $settings['secondary_templates'] = apply_filters( 'wpml_object_id', $settings['secondary_templates'], 'wp_template', true );
 		                    }
+
+		                    Helper::eael_onpage_edit_template_markup( get_the_ID(), $settings['secondary_templates'] );
                             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		                    echo Plugin::$instance->frontend->get_builder_content( $settings['secondary_templates'], true );
 	                    }

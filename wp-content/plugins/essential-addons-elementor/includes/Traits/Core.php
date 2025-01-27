@@ -102,7 +102,7 @@ trait Core
     public function insert_plugin_links($links)
     {
         // settings
-        $links[] = sprintf('<a href="admin.php?page=eael-settings">' . __('Settings') . '</a>');
+        $links[] = sprintf('<a href="admin.php?page=eael-settings">' . __('Settings', 'essential-addons-elementor') . '</a>');
 
         return $links;
     }

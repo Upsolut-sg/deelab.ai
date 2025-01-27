@@ -23,8 +23,15 @@ echo wp_kses( $content['image'], Helper::eael_allowed_icon_tags() );
 echo '</div>';
 
 $eael_ct_content = '<div class="eael-content-timeline-content">';
-if ( 'yes' == $settings['eael_show_title'] ) {
-	$eael_ct_content .= '<' . Helper::eael_validate_html_tag( $settings['title_tag'] ) . ' class="eael-timeline-title"><a href="' . esc_url( $content['permalink'] ) . '" ' . $content['nofollow'] . ' ' . $content['target_blank'] . '>' . $content['title'] . '</a></' . \Essential_Addons_Elementor\Classes\Helper::eael_validate_html_tag( $settings['title_tag'] ) . '>';
+if ( 'yes' === $settings['eael_show_title'] ) {
+	$title_tag = Helper::eael_validate_html_tag( $settings['title_tag'] );
+	$has_link  = ! empty( $content['permalink'] );
+	$eael_ct_content .= '<' . $title_tag . ' class="eael-timeline-title">';
+	
+	$eael_ct_content .= $has_link ? '<a href="' . esc_url( $content['permalink'] ) . '" ' . $content['nofollow'] . ' ' . $content['target_blank'] . '>' : '';
+	$eael_ct_content .= $content['title'];
+	$eael_ct_content .= $has_link ? '</a>' : '';
+	$eael_ct_content .= '</' . $title_tag . '>';
 }
 
 if ( ! empty( $content['image_linkable'] ) && $content['image_linkable'] === 'yes' ) {

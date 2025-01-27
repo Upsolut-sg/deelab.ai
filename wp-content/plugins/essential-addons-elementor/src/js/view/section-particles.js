@@ -75,6 +75,9 @@ var EaelParticlesHandler = function ($scope, $) {
 
             if(source == 'presets') {
                 themes = JSON.parse(localize.ParticleThemesData[preset_theme]);
+
+                themes.particles.opacity.value = particle_opacity;
+                themes.particles.move.speed = particle_speed;
             }else {
                 themes = (custom_style != '' ? custom_style : undefined);
             }
@@ -85,8 +88,6 @@ var EaelParticlesHandler = function ($scope, $) {
                 id = $(this).attr('id');
             }
 
-            themes.particles.opacity.value = particle_opacity;
-            themes.particles.move.speed = particle_speed;
             particlesJS(id, themes);
         });
     }
@@ -100,8 +101,10 @@ var EaelParticlesHandler = function ($scope, $) {
             if (typeof particlesJS !== 'undefined' && $.isFunction(particlesJS)) {
                 $scope.attr('id', 'eael-section-particles-' + sectionId);
                 let selected_theme = JSON.parse(settings.selected_theme);
-                selected_theme.particles.opacity.value = global_data.opacity;
-                selected_theme.particles.move.speed = global_data.speed;
+                if ( settings.themeSource !== 'custom' ) {
+                    selected_theme.particles.opacity.value = global_data.opacity;
+                    selected_theme.particles.move.speed = global_data.speed;
+                }
                 particlesJS('eael-section-particles-' + sectionId, selected_theme);
                 $scope.children('canvas.particles-js-canvas-el').css({
                     position: 'absolute',

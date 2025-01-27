@@ -60,6 +60,10 @@ class Testimonial_Slider extends Widget_Base
         return false;
     }
 
+	public function has_widget_inner_wrapper(): bool {
+        return ! HelperClass::eael_e_optimized_markup();
+    }
+
 	public function get_custom_help_url()
 	{
 		return 'https://essential-addons.com/elementor/docs/testimonial-slider/';
@@ -70,6 +74,7 @@ class Testimonial_Slider extends Widget_Base
 		return [
 			'font-awesome-5-all',
 			'font-awesome-4-shim',
+            'e-swiper'
 		];
 	}
 
@@ -328,8 +333,8 @@ class Testimonial_Slider extends Widget_Base
 				'type'      => Controls_Manager::SELECT2,
 				'default'   => 'default',
 				'options'   => [
-					'default'            => __( 'Default', 'plugin-domain' ),
-					'outside-of-the-box' => __( 'Outside of the box', 'plugin-domain' ),
+					'default'            => __( 'Default', 'essential-addons-elementor' ),
+					'outside-of-the-box' => __( 'Outside of the box', 'essential-addons-elementor' ),
 				],
 				'condition' => [
 					'arrows' => 'yes'
@@ -1051,7 +1056,7 @@ class Testimonial_Slider extends Widget_Base
 			[
 				'label' => esc_html__('Testimonial Text Color', 'essential-addons-elementor'),
 				'type' => Controls_Manager::COLOR,
-				'default' => '#7a7a7a',
+				'default' => '#383737',
 				'selectors' => [
 					'{{WRAPPER}} .eael-testimonial-content .eael-testimonial-text' => 'color: {{VALUE}};',
 				],

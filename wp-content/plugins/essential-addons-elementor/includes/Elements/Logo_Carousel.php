@@ -79,6 +79,10 @@ class Logo_Carousel extends Widget_Base {
         return false;
     }
 
+	public function has_widget_inner_wrapper(): bool {
+        return ! Helper::eael_e_optimized_markup();
+    }
+
 	public function get_custom_help_url() {
 		return 'https://essential-addons.com/elementor/docs/logo-carousel/';
 	}
@@ -92,6 +96,17 @@ class Logo_Carousel extends Widget_Base {
 	 */
 	public function get_icon() {
 		return 'eaicon-logo-carousel';
+	}
+
+	/**
+	 * Get style dependencies.
+	 *
+	 * Retrieve the list of style dependencies the widget requires.
+	 *
+	 * @return array Widget style dependencies.
+	 */
+	public function get_style_depends(): array {
+		return [ 'e-swiper' ];
 	}
 
 	/**

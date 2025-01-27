@@ -325,7 +325,7 @@ trait Helper
     {
 	    $data     = $_POST['data'];
 	    $validate = [
-		    'message' => __( 'Billing Postcode is not a valid postcode / ZIP', '' ),
+		    'message' => __( 'Billing Postcode is not a valid postcode / ZIP', 'essential-addons-elementor' ),
 		    'valid'   => true
 	    ];
 	    if ( isset( $data['postcode'] ) ) {
